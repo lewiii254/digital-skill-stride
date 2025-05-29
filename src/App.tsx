@@ -12,6 +12,7 @@ import Courses from "./pages/Courses";
 import Course from "./pages/Course";
 import Mentorship from "./pages/Mentorship";
 import MentorProfile from "./pages/MentorProfile";
+import Community from "./pages/Community";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
