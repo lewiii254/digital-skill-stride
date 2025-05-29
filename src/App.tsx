@@ -8,6 +8,8 @@ import { useState } from "react";
 import Index from "./pages/Index";
 import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
+import Courses from "./pages/Courses";
+import Course from "./pages/Course";
 import Mentorship from "./pages/Mentorship";
 import MentorProfile from "./pages/MentorProfile";
 import NotFound from "./pages/NotFound";
@@ -33,6 +35,8 @@ const App = () => {
             <Route path="/" element={<Index />} />
             <Route path="/onboarding" element={<Onboarding />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/:id" element={<Course />} />
             <Route path="/mentorship" element={<Mentorship />} />
             <Route path="/mentorship/:id" element={<MentorProfile />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
