@@ -5,19 +5,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
   MessageSquare, 
   ThumbsUp, 
   Clock, 
   Users, 
-  Star, 
   Search,
   Plus,
   TrendingUp,
   Award,
-  Heart
+  Heart,
+  Briefcase,
+  ExternalLink,
+  Star,
+  MapPin,
+  DollarSign
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -122,17 +125,77 @@ const Community = () => {
       comments: 15,
       timeAgo: "5 days ago",
       category: "E-commerce"
+    }
+  ];
+
+  const jobListings = [
+    {
+      id: 1,
+      title: "Virtual Assistant - Data Entry",
+      platform: "Upwork",
+      budget: "$5-10/hour",
+      difficulty: "Beginner",
+      description: "Looking for someone to help with basic data entry tasks...",
+      skills: ["Excel", "Data Entry", "Attention to Detail"],
+      posted: "2 hours ago",
+      applicants: 12
+    },
+    {
+      id: 2,
+      title: "Social Media Content Creator",
+      platform: "Fiverr",
+      budget: "$25-50/project",
+      difficulty: "Intermediate",
+      description: "Need creative content for Instagram and Facebook...",
+      skills: ["Social Media", "Canva", "Content Writing"],
+      posted: "5 hours ago",
+      applicants: 8
     },
     {
       id: 3,
-      title: "How I became a top-rated Fiverr graphic designer",
-      author: "David L.",
-      avatar: "/placeholder.svg",
-      excerpt: "The journey from amateur to professional designer on Fiverr...",
-      likes: 54,
-      comments: 12,
-      timeAgo: "1 week ago",
-      category: "Design"
+      title: "Product Listing Specialist",
+      platform: "Jumia",
+      budget: "$15-20/hour",
+      difficulty: "Beginner",
+      description: "Help optimize product listings and descriptions...",
+      skills: ["E-commerce", "SEO", "Product Research"],
+      posted: "1 day ago",
+      applicants: 15
+    }
+  ];
+
+  const platformGuides = [
+    {
+      platform: "Upwork",
+      icon: "💼",
+      title: "Complete Upwork Guide",
+      description: "Master freelancing on the world's largest platform",
+      steps: ["Profile Setup", "Proposal Writing", "Client Communication", "Success Tips"],
+      difficulty: "Beginner to Advanced"
+    },
+    {
+      platform: "Fiverr",
+      icon: "🎯",
+      title: "Fiverr Success Blueprint",
+      description: "Build a profitable service business on Fiverr",
+      steps: ["Gig Creation", "SEO Optimization", "Order Management", "Scaling Up"],
+      difficulty: "Beginner to Intermediate"
+    },
+    {
+      platform: "Jumia",
+      icon: "🛒",
+      title: "Jumia Seller Masterclass",
+      description: "Start and grow your e-commerce business",
+      steps: ["Account Setup", "Product Listing", "Inventory Management", "Marketing"],
+      difficulty: "Beginner"
+    },
+    {
+      platform: "Bolt",
+      icon: "🚗",
+      title: "Bolt Driver Guide",
+      description: "Maximize earnings as a Bolt driver",
+      steps: ["Registration", "Vehicle Requirements", "Route Optimization", "Customer Service"],
+      difficulty: "Beginner"
     }
   ];
 
@@ -145,7 +208,7 @@ const Community = () => {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-4">Community Hub</h1>
           <p className="text-xl text-gray-600 mb-6">
-            Connect, learn, and grow with fellow digital entrepreneurs
+            Connect, learn, and find opportunities with fellow digital entrepreneurs
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
@@ -183,27 +246,28 @@ const Community = () => {
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
-              <Award className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold">1,200+</div>
-              <div className="text-sm text-gray-600">Success Stories</div>
+              <Briefcase className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+              <div className="text-2xl font-bold">450+</div>
+              <div className="text-sm text-gray-600">Job Opportunities</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4 text-center">
               <TrendingUp className="h-8 w-8 text-orange-600 mx-auto mb-2" />
               <div className="text-2xl font-bold">95%</div>
-              <div className="text-sm text-gray-600">Questions Answered</div>
+              <div className="text-sm text-gray-600">Success Rate</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="forums" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="forums">Discussion Forums</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="forums">Forums</TabsTrigger>
             <TabsTrigger value="qa">Q&A</TabsTrigger>
+            <TabsTrigger value="jobs">Job Board</TabsTrigger>
+            <TabsTrigger value="platforms">Platform Guides</TabsTrigger>
             <TabsTrigger value="stories">Success Stories</TabsTrigger>
-            <TabsTrigger value="resources">Resources</TabsTrigger>
           </TabsList>
 
           {/* Forums Tab */}
@@ -307,6 +371,108 @@ const Community = () => {
             </div>
           </TabsContent>
 
+          {/* Job Board Tab */}
+          <TabsContent value="jobs">
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h2 className="text-2xl font-bold">Beginner-Friendly Jobs</h2>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm">Filter by Platform</Button>
+                  <Button variant="outline" size="sm">Filter by Skill Level</Button>
+                </div>
+              </div>
+              
+              {jobListings.map((job) => (
+                <Card key={job.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <h3 className="font-semibold text-lg">{job.title}</h3>
+                          <Badge variant="outline">{job.platform}</Badge>
+                          <Badge variant="secondary" className={
+                            job.difficulty === 'Beginner' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
+                          }>
+                            {job.difficulty}
+                          </Badge>
+                        </div>
+                        <p className="text-gray-600 mb-3">{job.description}</p>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {job.skills.map((skill) => (
+                            <Badge key={skill} variant="outline" className="text-xs">
+                              {skill}
+                            </Badge>
+                          ))}
+                        </div>
+                        <div className="flex items-center gap-4 text-sm text-gray-500">
+                          <div className="flex items-center gap-1">
+                            <DollarSign className="h-4 w-4" />
+                            {job.budget}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-4 w-4" />
+                            {job.posted}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Users className="h-4 w-4" />
+                            {job.applicants} applicants
+                          </div>
+                        </div>
+                      </div>
+                      <Button size="sm" className="ml-4">
+                        Apply Now
+                        <ExternalLink className="ml-2 h-4 w-4" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          {/* Platform Guides Tab */}
+          <TabsContent value="platforms">
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold">Platform Integration Guides</h2>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                {platformGuides.map((guide) => (
+                  <Card key={guide.platform} className="hover:shadow-md transition-shadow">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-3">
+                        <span className="text-2xl">{guide.icon}</span>
+                        {guide.title}
+                      </CardTitle>
+                      <CardDescription>{guide.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <Badge variant="outline">{guide.difficulty}</Badge>
+                          <span className="text-sm text-gray-500">{guide.steps.length} Steps</span>
+                        </div>
+                        <div className="space-y-2">
+                          {guide.steps.map((step, index) => (
+                            <div key={index} className="flex items-center gap-2 text-sm">
+                              <div className="w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-xs font-medium">
+                                {index + 1}
+                              </div>
+                              {step}
+                            </div>
+                          ))}
+                        </div>
+                        <Button className="w-full">
+                          Start Guide
+                          <ExternalLink className="ml-2 h-4 w-4" />
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
           {/* Success Stories Tab */}
           <TabsContent value="stories">
             <div className="space-y-4">
@@ -355,63 +521,6 @@ const Community = () => {
                   </CardContent>
                 </Card>
               ))}
-            </div>
-          </TabsContent>
-
-          {/* Resources Tab */}
-          <TabsContent value="resources">
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Community Resources</h2>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Award className="h-5 w-5 text-purple-600" />
-                      Featured Content
-                    </CardTitle>
-                    <CardDescription>
-                      Top-rated tips and guides from community members
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="p-3 bg-purple-50 rounded-lg">
-                        <h4 className="font-medium">Ultimate Upwork Profile Guide</h4>
-                        <p className="text-sm text-gray-600">By Sarah M. • 4.9★ rating</p>
-                      </div>
-                      <div className="p-3 bg-purple-50 rounded-lg">
-                        <h4 className="font-medium">Fiverr Gig Optimization Checklist</h4>
-                        <p className="text-sm text-gray-600">By James K. • 4.8★ rating</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Users className="h-5 w-5 text-blue-600" />
-                      Study Groups
-                    </CardTitle>
-                    <CardDescription>
-                      Join or create study groups with other learners
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      <div className="p-3 bg-blue-50 rounded-lg">
-                        <h4 className="font-medium">Digital Marketing Beginners</h4>
-                        <p className="text-sm text-gray-600">23 members • Meets weekly</p>
-                      </div>
-                      <div className="p-3 bg-blue-50 rounded-lg">
-                        <h4 className="font-medium">Freelancer Accountability Group</h4>
-                        <p className="text-sm text-gray-600">45 members • Daily check-ins</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
             </div>
           </TabsContent>
         </Tabs>
