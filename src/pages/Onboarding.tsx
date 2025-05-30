@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -10,13 +9,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowRight, ArrowLeft, User, Target, BookOpen } from "lucide-react";
 import { Header } from "@/components/Header";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 
 const Onboarding = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     role: "",
     experience: "",
     interests: [],
@@ -24,6 +24,8 @@ const Onboarding = () => {
     preferredPlatforms: []
   });
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const skillAreas = [
     { id: "digital-marketing", label: "Digital Marketing", color: "bg-blue-100 text-blue-800" },
@@ -56,6 +58,16 @@ const Onboarding = () => {
     { id: "remote-work", label: "Find remote work opportunities" }
   ];
 
+  // Load user's existing profile data
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: user.user_metadata?.full_name || user.email || ""
+      }));
+    }
+  }, [user]);
+
   const handleArraySelection = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -65,13 +77,47 @@ const Onboarding = () => {
     }));
   };
 
-  const handleComplete = () => {
-    console.log("Onboarding completed with data:", formData);
-    toast({
-      title: "Welcome to DigitalStride!",
-      description: "Your personalized learning journey is ready. Let's get started!",
-    });
-    // Here you would typically save the data and redirect to dashboard
+  const handleComplete = async () => {
+    if (!user) return;
+
+    try {
+      // Update user profile in Supabase
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          full_name: formData.name,
+          role: formData.role,
+          experience_level: formData.experience,
+          interests: formData.interests,
+          goals: formData.goals,
+          preferred_platforms: formData.preferredPlatforms,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id);
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to save your profile. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log("Onboarding completed with data:", formData);
+      toast({
+        title: "Welcome to DigitalStride!",
+        description: "Your personalized learning journey is ready. Let's get started!",
+      });
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      toast({
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const nextStep = () => {
@@ -112,9 +158,9 @@ const Onboarding = () => {
           <Card className="border-0 shadow-lg">
             <CardHeader className="text-center">
               <User className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-              <CardTitle className="text-2xl">Welcome! Let's get to know you</CardTitle>
+              <CardTitle className="text-2xl">Complete Your Profile</CardTitle>
               <CardDescription>
-                Tell us a bit about yourself to personalize your learning experience.
+                Let's personalize your learning experience with a few details.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -128,17 +174,6 @@ const Onboarding = () => {
                 />
               </div>
               
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your.email@example.com"
-                  value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                />
-              </div>
-
               <div className="space-y-2">
                 <Label htmlFor="role">I am a...</Label>
                 <Select value={formData.role} onValueChange={(value) => setFormData(prev => ({ ...prev, role: value }))}>
@@ -270,16 +305,14 @@ const Onboarding = () => {
               </div>
 
               <div className="text-center">
-                <Link to="/dashboard">
-                  <Button 
-                    size="lg" 
-                    className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8"
-                    onClick={handleComplete}
-                  >
-                    Complete Setup & Start Learning
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </Link>
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8"
+                  onClick={handleComplete}
+                >
+                  Complete Setup & Start Learning
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
               </div>
             </CardContent>
           </Card>
