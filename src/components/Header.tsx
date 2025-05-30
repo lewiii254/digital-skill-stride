@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { User, Menu, LogOut } from "lucide-react";
+import { User, Menu, LogOut, Bot, FileText } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -38,15 +38,18 @@ export const Header = () => {
           <Link to="/community" className="text-gray-600 hover:text-blue-600 transition-colors">
             Community
           </Link>
+          <Link to="/ai-coach" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center">
+            <Bot className="mr-1 h-4 w-4" />
+            AI Coach
+          </Link>
+          <Link to="/resume-builder" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center">
+            <FileText className="mr-1 h-4 w-4" />
+            Resume Builder
+          </Link>
           {user && (
-            <>
-              <Link to="/dashboard" className="text-gray-600 hover:text-blue-600 transition-colors">
-                Dashboard
-              </Link>
-              <Link to="/admin" className="text-gray-600 hover:text-blue-600 transition-colors">
-                Admin
-              </Link>
-            </>
+            <Link to="/dashboard" className="text-gray-600 hover:text-blue-600 transition-colors">
+              Dashboard
+            </Link>
           )}
         </nav>
 
@@ -101,15 +104,18 @@ export const Header = () => {
             <Link to="/community" className="block text-gray-600 hover:text-blue-600 transition-colors">
               Community
             </Link>
+            <Link to="/ai-coach" className="block text-gray-600 hover:text-blue-600 transition-colors flex items-center">
+              <Bot className="mr-1 h-4 w-4" />
+              AI Coach
+            </Link>
+            <Link to="/resume-builder" className="block text-gray-600 hover:text-blue-600 transition-colors flex items-center">
+              <FileText className="mr-1 h-4 w-4" />
+              Resume Builder
+            </Link>
             {user && (
-              <>
-                <Link to="/dashboard" className="block text-gray-600 hover:text-blue-600 transition-colors">
-                  Dashboard
-                </Link>
-                <Link to="/admin" className="block text-gray-600 hover:text-blue-600 transition-colors">
-                  Admin
-                </Link>
-              </>
+              <Link to="/dashboard" className="block text-gray-600 hover:text-blue-600 transition-colors">
+                Dashboard
+              </Link>
             )}
             <div className="flex flex-col space-y-2 pt-4 border-t">
               {user ? (

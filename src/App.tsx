@@ -57,16 +57,8 @@ const App = () => {
                   <Admin />
                 </ProtectedRoute>
               } />
-              <Route path="/ai-coach" element={
-                <ProtectedRoute>
-                  <AICoach />
-                </ProtectedRoute>
-              } />
-              <Route path="/resume-builder" element={
-                <ProtectedRoute>
-                  <ResumeBuilder />
-                </ProtectedRoute>
-              } />
+              <Route path="/ai-coach" element={<AICoach />} />
+              <Route path="/resume-builder" element={<ResumeBuilder />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="/courses/:id" element={<Course />} />
               <Route path="/mentorship" element={<Mentorship />} />
