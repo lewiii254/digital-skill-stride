@@ -40,6 +40,7 @@ const App = () => {
             <Route path="/courses/:id" element={<Course />} />
             <Route path="/mentorship" element={<Mentorship />} />
             <Route path="/mentorship/:id" element={<MentorProfile />} />
+            <Route path="/community" element={<Community />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
