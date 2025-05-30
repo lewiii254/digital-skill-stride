@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 
 export const Footer = () => {
@@ -9,12 +8,12 @@ export const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">DS</span>
+                <span className="text-white font-bold text-sm">KS</span>
               </div>
-              <span className="font-bold text-xl">DigitalStride</span>
+              <span className="font-bold text-xl">KuzaSkills</span>
             </div>
             <p className="text-gray-400 text-sm">
-              Empowering people with digital skills for platform economy success.
+              Grow your digital skills and future.
             </p>
           </div>
 
@@ -50,7 +49,7 @@ export const Footer = () => {
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; 2024 DigitalStride. All rights reserved.</p>
+          <p>&copy; 2024 KuzaSkills. All rights reserved.</p>
         </div>
       </div>
     </footer>

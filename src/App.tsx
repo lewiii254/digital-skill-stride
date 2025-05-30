@@ -15,6 +15,9 @@ import Course from "./pages/Course";
 import Mentorship from "./pages/Mentorship";
 import MentorProfile from "./pages/MentorProfile";
 import Community from "./pages/Community";
+import Admin from "./pages/Admin";
+import AICoach from "./pages/AICoach";
+import ResumeBuilder from "./pages/ResumeBuilder";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -47,6 +50,21 @@ const App = () => {
               <Route path="/dashboard" element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              } />
+              <Route path="/admin" element={
+                <ProtectedRoute>
+                  <Admin />
+                </ProtectedRoute>
+              } />
+              <Route path="/ai-coach" element={
+                <ProtectedRoute>
+                  <AICoach />
+                </ProtectedRoute>
+              } />
+              <Route path="/resume-builder" element={
+                <ProtectedRoute>
+                  <ResumeBuilder />
                 </ProtectedRoute>
               } />
               <Route path="/courses" element={<Courses />} />
