@@ -9,6 +9,152 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      comments: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          parent_id: string
+          parent_type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          parent_id: string
+          parent_type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          parent_id?: string
+          parent_type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      forum_posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          topic_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          topic_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          topic_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "forum_posts_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "forum_topics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      forum_topics: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          is_popular: boolean | null
+          post_count: number | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_popular?: boolean | null
+          post_count?: number | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_popular?: boolean | null
+          post_count?: number | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      job_listings: {
+        Row: {
+          applicants_count: number | null
+          budget: string
+          created_at: string
+          description: string
+          difficulty: string
+          id: string
+          is_active: boolean | null
+          platform: string
+          skills: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          applicants_count?: number | null
+          budget: string
+          created_at?: string
+          description: string
+          difficulty: string
+          id?: string
+          is_active?: boolean | null
+          platform: string
+          skills?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          applicants_count?: number | null
+          budget?: string
+          created_at?: string
+          description?: string
+          difficulty?: string
+          id?: string
+          is_active?: boolean | null
+          platform?: string
+          skills?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -45,6 +191,152 @@ export type Database = {
           preferred_platforms?: string[] | null
           role?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      qa_answers: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_accepted: boolean | null
+          question_id: string
+          updated_at: string
+          user_id: string
+          votes: number | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_accepted?: boolean | null
+          question_id: string
+          updated_at?: string
+          user_id: string
+          votes?: number | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_accepted?: boolean | null
+          question_id?: string
+          updated_at?: string
+          user_id?: string
+          votes?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "qa_answers_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "qa_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      qa_questions: {
+        Row: {
+          content: string | null
+          created_at: string
+          id: string
+          is_answered: boolean | null
+          tags: string[] | null
+          title: string
+          updated_at: string
+          user_id: string
+          views: number | null
+          votes: number | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          is_answered?: boolean | null
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          user_id: string
+          views?: number | null
+          votes?: number | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          id?: string
+          is_answered?: boolean | null
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          views?: number | null
+          votes?: number | null
+        }
+        Relationships: []
+      }
+      success_stories: {
+        Row: {
+          category: string
+          comments_count: number | null
+          content: string
+          created_at: string
+          excerpt: string | null
+          id: string
+          likes: number | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: string
+          comments_count?: number | null
+          content: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          likes?: number | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          category?: string
+          comments_count?: number | null
+          content?: string
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          likes?: number | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      votes: {
+        Row: {
+          created_at: string
+          id: string
+          target_id: string
+          target_type: string
+          user_id: string
+          vote_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          target_id: string
+          target_type: string
+          user_id: string
+          vote_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          target_id?: string
+          target_type?: string
+          user_id?: string
+          vote_type?: string
         }
         Relationships: []
       }
