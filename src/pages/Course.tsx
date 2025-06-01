@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -163,7 +162,9 @@ const Course = () => {
     // Add more course data as needed...
   };
 
-  const course = coursesData[id as keyof typeof coursesData] || coursesData[1];
+  // Fix the type conversion issue
+  const courseId = Number(id) || 1;
+  const course = coursesData[courseId as keyof typeof coursesData] || coursesData[1];
   const isEnrolled = enrolledCourses.includes(course.id);
   
   const completedLessons = course.modules.flatMap(module => module.lessons).filter(lesson => lesson.completed).length;
