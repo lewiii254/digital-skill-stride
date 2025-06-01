@@ -7,15 +7,43 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Header } from "@/components/Header";
 import { BookOpen, Users, Trophy, Clock, ArrowRight, Star, Play } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const Dashboard = () => {
-  const user = {
-    name: "Sarah Johnson",
-    avatar: "/placeholder.svg",
-    level: "Intermediate",
+  const { user } = useAuth();
+
+  // Fetch user profile data
+  const { data: profile } = useQuery({
+    queryKey: ['profile', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return null;
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      if (error) {
+        console.log('Profile fetch error:', error);
+        return null;
+      }
+      return data;
+    },
+    enabled: !!user?.id,
+  });
+
+  // Use profile data or fallback to user data
+  const displayName = profile?.full_name || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User';
+  const userLevel = profile?.experience_level || "Beginner";
+  const userRole = profile?.role || "student";
+
+  const userStats = {
     points: 2450,
     completedCourses: 8,
-    activeMentorships: 2
+    activeMentorships: 2,
+    learningTime: "42h"
   };
 
   const recentCourses = [
@@ -87,18 +115,29 @@ const Dashboard = () => {
         {/* Welcome Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user.name}! 👋</h1>
-              <p className="text-gray-600 mt-2">Continue your digital skills journey</p>
-            </div>
             <div className="flex items-center space-x-4">
-              <Badge variant="secondary" className="px-3 py-1">
-                {user.level} Learner
-              </Badge>
-              <div className="text-right">
-                <div className="text-sm text-gray-600">Points</div>
-                <div className="text-2xl font-bold text-blue-600">{user.points}</div>
+              <Avatar className="h-16 w-16">
+                <AvatarImage src={profile?.avatar_url || "/placeholder.svg"} alt={displayName} />
+                <AvatarFallback className="text-lg font-bold bg-gradient-to-r from-blue-600 to-green-600 text-white">
+                  {displayName.split(' ').map(n => n[0]).join('').toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">Welcome back, {displayName}! 👋</h1>
+                <p className="text-gray-600 mt-1">Continue your digital skills journey</p>
+                <div className="flex items-center space-x-4 mt-2">
+                  <Badge variant="outline" className="capitalize">
+                    {userLevel} Level
+                  </Badge>
+                  <Badge variant="secondary" className="capitalize">
+                    {userRole}
+                  </Badge>
+                </div>
               </div>
+            </div>
+            <div className="text-right">
+              <div className="text-sm text-gray-600">Total Points</div>
+              <div className="text-3xl font-bold text-blue-600">{userStats.points}</div>
             </div>
           </div>
         </div>
@@ -108,7 +147,7 @@ const Dashboard = () => {
           <Card className="border-0 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
             <CardContent className="p-6 text-center">
               <BookOpen className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-blue-600">{user.completedCourses}</div>
+              <div className="text-2xl font-bold text-blue-600">{userStats.completedCourses}</div>
               <div className="text-sm text-gray-600">Courses Completed</div>
             </CardContent>
           </Card>
@@ -116,7 +155,7 @@ const Dashboard = () => {
           <Card className="border-0 shadow-lg bg-gradient-to-br from-green-50 to-green-100">
             <CardContent className="p-6 text-center">
               <Users className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-green-600">{user.activeMentorships}</div>
+              <div className="text-2xl font-bold text-green-600">{userStats.activeMentorships}</div>
               <div className="text-sm text-gray-600">Active Mentorships</div>
             </CardContent>
           </Card>
@@ -132,7 +171,7 @@ const Dashboard = () => {
           <Card className="border-0 shadow-lg bg-gradient-to-br from-orange-50 to-orange-100">
             <CardContent className="p-6 text-center">
               <Clock className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-orange-600">42h</div>
+              <div className="text-2xl font-bold text-orange-600">{userStats.learningTime}</div>
               <div className="text-sm text-gray-600">Learning Time</div>
             </CardContent>
           </Card>
@@ -212,6 +251,29 @@ const Dashboard = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* User Profile Summary */}
+            <Card className="border-0 shadow-lg">
+              <CardHeader>
+                <CardTitle>Profile Summary</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Experience Level</span>
+                  <Badge variant="outline" className="capitalize">{userLevel}</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Role</span>
+                  <Badge variant="secondary" className="capitalize">{userRole}</Badge>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-600">Member Since</span>
+                  <span className="text-sm font-medium">
+                    {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'Recently'}
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+
             {/* Upcoming Mentorships */}
             <Card className="border-0 shadow-lg">
               <CardHeader>
