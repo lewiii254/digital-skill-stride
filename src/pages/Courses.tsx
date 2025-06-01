@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Header } from "@/components/Header";
-import { BookOpen, Clock, Users, Star, Search, Filter, Award, PlayCircle } from "lucide-react";
+import { BookOpen, Clock, Users, Star, Search, Award, PlayCircle, Code, Database, TestTube, Video, Palette, Brain, Smartphone, Shield, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Courses = () => {
@@ -17,17 +17,225 @@ const Courses = () => {
   const [selectedLevel, setSelectedLevel] = useState("all");
 
   const categories = [
+    "Web Development",
+    "Mobile Development", 
+    "Database Management",
     "Digital Marketing",
-    "Copywriting", 
+    "Copywriting",
     "Virtual Assistant",
     "Platform Training",
     "Freelancing",
-    "E-commerce"
+    "E-commerce",
+    "Video Editing",
+    "Graphics Design",
+    "Software Testing",
+    "Artificial Intelligence",
+    "Cybersecurity",
+    "Data Science"
   ];
 
   const courses = [
+    // Web Development Courses
     {
       id: 1,
+      title: "Complete Web Development Bootcamp",
+      description: "Learn HTML, CSS, JavaScript, and build responsive websites from scratch",
+      category: "Web Development",
+      level: "Beginner",
+      duration: "40 hours",
+      lessons: 120,
+      students: 15420,
+      rating: 4.9,
+      price: "Free",
+      progress: 0,
+      instructor: "John Smith",
+      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400",
+      skills: ["HTML5", "CSS3", "JavaScript", "Responsive Design", "Git"],
+      platform: "General",
+      icon: <Code className="h-5 w-5" />
+    },
+    {
+      id: 2,
+      title: "MERN Stack Full-Stack Development",
+      description: "Master MongoDB, Express.js, React, and Node.js to build modern web applications",
+      category: "Web Development",
+      level: "Advanced",
+      duration: "60 hours",
+      lessons: 180,
+      students: 8934,
+      rating: 4.8,
+      price: "Free",
+      progress: 0,
+      instructor: "Sarah Chen",
+      thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400",
+      skills: ["MongoDB", "Express.js", "React", "Node.js", "RESTful APIs"],
+      platform: "General",
+      icon: <Code className="h-5 w-5" />
+    },
+    
+    // Database Courses
+    {
+      id: 3,
+      title: "Database Design and SQL Mastery",
+      description: "Learn database fundamentals, SQL queries, and database optimization techniques",
+      category: "Database Management",
+      level: "Intermediate",
+      duration: "25 hours",
+      lessons: 75,
+      students: 5678,
+      rating: 4.7,
+      price: "Free",
+      progress: 0,
+      instructor: "Michael Rodriguez",
+      thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400",
+      skills: ["SQL", "MySQL", "PostgreSQL", "Database Design", "Query Optimization"],
+      platform: "General",
+      icon: <Database className="h-5 w-5" />
+    },
+    
+    // Software Testing
+    {
+      id: 4,
+      title: "Software Testing Fundamentals",
+      description: "Learn manual and automated testing techniques for web and mobile applications",
+      category: "Software Testing",
+      level: "Beginner",
+      duration: "30 hours",
+      lessons: 90,
+      students: 3421,
+      rating: 4.6,
+      price: "Free",
+      progress: 0,
+      instructor: "Lisa Wang",
+      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400",
+      skills: ["Manual Testing", "Selenium", "Test Cases", "Bug Reporting", "API Testing"],
+      platform: "General",
+      icon: <TestTube className="h-5 w-5" />
+    },
+    
+    // Video Editing
+    {
+      id: 5,
+      title: "Professional Video Editing Masterclass",
+      description: "Master Adobe Premiere Pro, DaVinci Resolve, and create stunning video content",
+      category: "Video Editing",
+      level: "Intermediate",
+      duration: "35 hours",
+      lessons: 105,
+      students: 7892,
+      rating: 4.8,
+      price: "Free",
+      progress: 0,
+      instructor: "Carlos Martinez",
+      thumbnail: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400",
+      skills: ["Adobe Premiere", "DaVinci Resolve", "Color Grading", "Audio Editing", "Motion Graphics"],
+      platform: "General",
+      icon: <Video className="h-5 w-5" />
+    },
+    
+    // Graphics Design
+    {
+      id: 6,
+      title: "Complete Graphics Design Course",
+      description: "Learn Adobe Photoshop, Illustrator, and design principles for digital media",
+      category: "Graphics Design",
+      level: "Beginner",
+      duration: "45 hours",
+      lessons: 135,
+      students: 12340,
+      rating: 4.9,
+      price: "Free",
+      progress: 0,
+      instructor: "Emma Thompson",
+      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400",
+      skills: ["Adobe Photoshop", "Illustrator", "Logo Design", "Branding", "Typography"],
+      platform: "General",
+      icon: <Palette className="h-5 w-5" />
+    },
+    
+    // AI & Machine Learning
+    {
+      id: 7,
+      title: "Introduction to Artificial Intelligence",
+      description: "Explore AI fundamentals, machine learning basics, and practical AI applications",
+      category: "Artificial Intelligence",
+      level: "Intermediate",
+      duration: "50 hours",
+      lessons: 150,
+      students: 6789,
+      rating: 4.7,
+      price: "Free",
+      progress: 0,
+      instructor: "Dr. Ahmed Hassan",
+      thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400",
+      skills: ["Machine Learning", "Python", "TensorFlow", "Neural Networks", "Data Analysis"],
+      platform: "General",
+      icon: <Brain className="h-5 w-5" />
+    },
+    
+    // Mobile Development
+    {
+      id: 8,
+      title: "React Native Mobile Development",
+      description: "Build cross-platform mobile apps for iOS and Android using React Native",
+      category: "Mobile Development",
+      level: "Intermediate",
+      duration: "55 hours",
+      lessons: 165,
+      students: 4567,
+      rating: 4.6,
+      price: "Free",
+      progress: 0,
+      instructor: "Kevin Park",
+      thumbnail: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400",
+      skills: ["React Native", "JavaScript", "Mobile UI", "API Integration", "App Store Deployment"],
+      platform: "General",
+      icon: <Smartphone className="h-5 w-5" />
+    },
+    
+    // Cybersecurity
+    {
+      id: 9,
+      title: "Cybersecurity Fundamentals",
+      description: "Learn ethical hacking, network security, and cybersecurity best practices",
+      category: "Cybersecurity",
+      level: "Intermediate",
+      duration: "40 hours",
+      lessons: 120,
+      students: 3456,
+      rating: 4.8,
+      price: "Free",
+      progress: 0,
+      instructor: "Jessica Brown",
+      thumbnail: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400",
+      skills: ["Ethical Hacking", "Network Security", "Penetration Testing", "Security Auditing", "Risk Assessment"],
+      platform: "General",
+      icon: <Shield className="h-5 w-5" />
+    },
+    
+    // Data Science
+    {
+      id: 10,
+      title: "Data Science with Python",
+      description: "Master data analysis, visualization, and statistical modeling with Python",
+      category: "Data Science",
+      level: "Advanced",
+      duration: "65 hours",
+      lessons: 195,
+      students: 5432,
+      rating: 4.9,
+      price: "Free",
+      progress: 0,
+      instructor: "Dr. Maria Santos",
+      thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400",
+      skills: ["Python", "Pandas", "NumPy", "Matplotlib", "Machine Learning", "Statistics"],
+      platform: "General",
+      icon: <TrendingUp className="h-5 w-5" />
+    },
+    
+    // Digital Marketing
+    {
+      id: 11,
       title: "Digital Marketing Fundamentals",
       description: "Master the basics of digital marketing including SEO, social media, and email marketing",
       category: "Digital Marketing",
@@ -39,12 +247,15 @@ const Courses = () => {
       price: "Free",
       progress: 65,
       instructor: "Sarah Johnson",
-      thumbnail: "/placeholder.svg",
+      thumbnail: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400",
       skills: ["SEO", "Social Media", "Email Marketing", "Analytics"],
-      platform: "General"
+      platform: "General",
+      icon: <TrendingUp className="h-5 w-5" />
     },
+    
+    // Platform Training
     {
-      id: 2,
+      id: 12,
       title: "Upwork Success Masterclass",
       description: "Complete guide to building a successful freelance career on Upwork",
       category: "Platform Training",
@@ -56,77 +267,10 @@ const Courses = () => {
       price: "Free",
       progress: 0,
       instructor: "John Davis",
-      thumbnail: "/placeholder.svg",
+      thumbnail: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400",
       skills: ["Profile Optimization", "Proposal Writing", "Client Relations"],
-      platform: "Upwork"
-    },
-    {
-      id: 3,
-      title: "Professional Copywriting Course",
-      description: "Learn to write compelling copy that converts for websites, ads, and emails",
-      category: "Copywriting",
-      level: "Beginner",
-      duration: "8 hours",
-      lessons: 32,
-      students: 2156,
-      rating: 4.7,
-      price: "Free",
-      progress: 25,
-      instructor: "Maria Santos",
-      thumbnail: "/placeholder.svg",
-      skills: ["Sales Copy", "Email Copy", "Web Copy", "Ad Copy"],
-      platform: "General"
-    },
-    {
-      id: 4,
-      title: "Virtual Assistant Essentials",
-      description: "Everything you need to know to become a successful virtual assistant",
-      category: "Virtual Assistant",
-      level: "Beginner",
-      duration: "5 hours",
-      lessons: 20,
-      students: 1567,
-      rating: 4.6,
-      price: "Free",
-      progress: 90,
-      instructor: "David Kim",
-      thumbnail: "/placeholder.svg",
-      skills: ["Admin Tasks", "Communication", "Time Management", "Tools"],
-      platform: "General"
-    },
-    {
-      id: 5,
-      title: "Jumia Seller Success Guide",
-      description: "Step-by-step guide to selling successfully on Jumia marketplace",
-      category: "Platform Training",
-      level: "Beginner",
-      duration: "3 hours",
-      lessons: 12,
-      students: 634,
-      rating: 4.5,
-      price: "Free",
-      progress: 0,
-      instructor: "Grace Ochieng",
-      thumbnail: "/placeholder.svg",
-      skills: ["Product Listing", "Inventory Management", "Customer Service"],
-      platform: "Jumia"
-    },
-    {
-      id: 6,
-      title: "Advanced Freelance Strategies",
-      description: "Scale your freelance business with advanced marketing and pricing strategies",
-      category: "Freelancing",
-      level: "Advanced",
-      duration: "7 hours",
-      lessons: 28,
-      students: 445,
-      rating: 4.9,
-      price: "Free",
-      progress: 0,
-      instructor: "Michael Brown",
-      thumbnail: "/placeholder.svg",
-      skills: ["Business Strategy", "Pricing", "Client Acquisition", "Scaling"],
-      platform: "General"
+      platform: "Upwork",
+      icon: <Users className="h-5 w-5" />
     }
   ];
 
@@ -151,7 +295,7 @@ const Courses = () => {
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Digital Skills Training</h1>
           <p className="text-xl text-gray-600 mb-6">
-            Master in-demand digital skills with our comprehensive courses designed for platform workers
+            Master in-demand digital skills with our comprehensive courses designed for platform workers and tech professionals
           </p>
           
           {/* Search and Filters */}
@@ -245,6 +389,12 @@ const CourseCard = ({ course }: { course: any }) => {
           <Badge variant="outline" className="bg-white">
             {course.platform}
           </Badge>
+        </div>
+        <div className="absolute bottom-4 left-4">
+          <div className="flex items-center space-x-2 text-white">
+            {course.icon}
+            <span className="text-sm font-medium">{course.category}</span>
+          </div>
         </div>
       </div>
       
