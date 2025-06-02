@@ -205,7 +205,7 @@ const Community = () => {
                               {formatDistanceToNow(new Date(topic.created_at), { addSuffix: true })}
                             </div>
                             <Badge variant="outline">{topic.category}</Badge>
-                            <span>by {topic.profiles?.full_name || 'Anonymous'}</span>
+                            <span>by {(topic as any).profiles?.full_name || 'Anonymous'}</span>
                           </div>
                         </div>
                       </div>
@@ -259,7 +259,7 @@ const Community = () => {
                               ? 'bg-green-100 text-green-800' 
                               : 'bg-gray-100 text-gray-600'
                           }`}>
-                            {question.qa_answers?.length || 0} answers
+                            {(question as any).qa_answers?.length || 0} answers
                           </div>
                           <div className="text-center">
                             <div className="text-sm font-medium">{question.views || 0}</div>
@@ -281,7 +281,7 @@ const Community = () => {
                             </div>
                           )}
                           <div className="flex items-center justify-between text-sm text-gray-500">
-                            <span>Asked by {question.profiles?.full_name || 'Anonymous'}</span>
+                            <span>Asked by {(question as any).profiles?.full_name || 'Anonymous'}</span>
                             <span>{formatDistanceToNow(new Date(question.created_at), { addSuffix: true })}</span>
                           </div>
                         </div>
@@ -393,7 +393,7 @@ const Community = () => {
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4">
                         <Avatar>
-                          <AvatarFallback>{story.profiles?.full_name?.[0] || 'A'}</AvatarFallback>
+                          <AvatarFallback>{(story as any).profiles?.full_name?.[0] || 'A'}</AvatarFallback>
                         </Avatar>
                         
                         <div className="flex-1">
@@ -403,7 +403,7 @@ const Community = () => {
                             </h3>
                             <Badge variant="outline">{story.category}</Badge>
                           </div>
-                          <p className="text-sm text-gray-600 mb-2">by {story.profiles?.full_name || 'Anonymous'}</p>
+                          <p className="text-sm text-gray-600 mb-2">by {(story as any).profiles?.full_name || 'Anonymous'}</p>
                           <p className="text-gray-700 mb-4">{story.excerpt}</p>
                           
                           <div className="flex items-center justify-between">

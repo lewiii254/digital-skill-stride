@@ -18,7 +18,7 @@ export const useCommunity = () => {
         .from('forum_topics')
         .select(`
           *,
-          profiles:user_id (full_name)
+          profiles!forum_topics_user_id_fkey (full_name)
         `)
         .order('created_at', { ascending: false });
       
@@ -35,7 +35,7 @@ export const useCommunity = () => {
         .from('qa_questions')
         .select(`
           *,
-          profiles:user_id (full_name),
+          profiles!qa_questions_user_id_fkey (full_name),
           qa_answers (id)
         `)
         .order('created_at', { ascending: false });
@@ -53,7 +53,7 @@ export const useCommunity = () => {
         .from('success_stories')
         .select(`
           *,
-          profiles:user_id (full_name)
+          profiles!success_stories_user_id_fkey (full_name)
         `)
         .order('created_at', { ascending: false });
       
@@ -70,9 +70,9 @@ export const useCommunity = () => {
         .from('job_listings')
         .select(`
           *,
-          profiles:user_id (full_name)
+          profiles!job_listings_user_id_fkey (full_name)
         `)
-        .where('is_active', 'eq', true)
+        .eq('is_active', true)
         .order('created_at', { ascending: false });
       
       if (error) throw error;
