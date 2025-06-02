@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,13 +18,16 @@ import {
   ExternalLink,
   MapPin,
   DollarSign,
-  Eye
+  Eye,
+  Smartphone,
+  Signal
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CreateTopicModal } from "@/components/community/CreateTopicModal";
 import { CreateQuestionModal } from "@/components/community/CreateQuestionModal";
 import { CreateStoryModal } from "@/components/community/CreateStoryModal";
+import { USSDJobBoard } from "@/components/community/USSDJobBoard";
 import { useCommunity } from "@/hooks/useCommunity";
 import { useAuth } from "@/contexts/AuthContext";
 import { formatDistanceToNow } from "date-fns";
@@ -124,7 +126,7 @@ const Community = () => {
         </div>
 
         {/* Community Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
           <Card>
             <CardContent className="p-4 text-center">
               <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
@@ -153,16 +155,32 @@ const Community = () => {
               <div className="text-sm text-gray-600">Success Stories</div>
             </CardContent>
           </Card>
+          <Card className="border-green-200 bg-green-50">
+            <CardContent className="p-4 text-center">
+              <Smartphone className="h-8 w-8 text-green-600 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-green-700">📱</div>
+              <div className="text-sm text-green-700 font-medium">USSD Jobs</div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Main Content Tabs */}
-        <Tabs defaultValue="forums" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+        <Tabs defaultValue="ussd-jobs" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="ussd-jobs" className="flex items-center gap-1">
+              <Smartphone className="h-4 w-4" />
+              📱 USSD Jobs
+            </TabsTrigger>
             <TabsTrigger value="forums">Forums</TabsTrigger>
             <TabsTrigger value="qa">Q&A</TabsTrigger>
             <TabsTrigger value="jobs">Job Board</TabsTrigger>
             <TabsTrigger value="stories">Success Stories</TabsTrigger>
           </TabsList>
+
+          {/* USSD Job Board Tab - NEW KEY FEATURE */}
+          <TabsContent value="ussd-jobs">
+            <USSDJobBoard />
+          </TabsContent>
 
           {/* Forums Tab */}
           <TabsContent value="forums">
