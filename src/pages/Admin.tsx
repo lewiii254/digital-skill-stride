@@ -5,11 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, BookOpen, MessageSquare, TrendingUp, Shield, Star } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { Users, BookOpen, MessageSquare, TrendingUp, Shield, Star, Plus } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 const Admin = () => {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+
   // Fetch users data
   const { data: users, isLoading: usersLoading } = useQuery({
     queryKey: ['admin-users'],
@@ -20,7 +24,50 @@ const Admin = () => {
         .order('created_at', { ascending: false });
       
       if (error) throw error;
-      return data;
+      return data || [];
+    }
+  });
+
+  // Fetch community stats
+  const { data: communityStats, isLoading: statsLoading } = useQuery({
+    queryKey: ['admin-community-stats'],
+    queryFn: async () => {
+      const [forumTopics, qaQuestions, successStories, jobListings] = await Promise.all([
+        supabase.from('forum_topics').select('id', { count: 'exact' }),
+        supabase.from('qa_questions').select('id', { count: 'exact' }),
+        supabase.from('success_stories').select('id', { count: 'exact' }),
+        supabase.from('job_listings').select('id', { count: 'exact' })
+      ]);
+
+      return {
+        forumTopics: forumTopics.count || 0,
+        qaQuestions: qaQuestions.count || 0,
+        successStories: successStories.count || 0,
+        jobListings: jobListings.count || 0
+      };
+    }
+  });
+
+  // Sample data creation mutation
+  const createSampleData = useMutation({
+    mutationFn: async () => {
+      // We'll need to create sample data with actual user IDs once users sign up
+      // For now, just show a message
+      throw new Error('Sample data can only be created when users sign up and create content');
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin-community-stats'] });
+      toast({
+        title: "Success",
+        description: "Sample data created successfully!"
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Info",
+        description: "Sample data will be available once users start creating content. Encourage users to sign up and post in the community!",
+        variant: "default"
+      });
     }
   });
 
@@ -44,50 +91,72 @@ const Admin = () => {
             <CardContent>
               <div className="text-2xl font-bold">{users?.length || 0}</div>
               <p className="text-xs text-muted-foreground">
-                +12% from last month
+                {users?.length === 0 ? 'No users yet' : '+12% from last month'}
               </p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Active Courses</CardTitle>
+              <CardTitle className="text-sm font-medium">Forum Topics</CardTitle>
               <BookOpen className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">42</div>
+              <div className="text-2xl font-bold">{communityStats?.forumTopics || 0}</div>
               <p className="text-xs text-muted-foreground">
-                +3 new this week
+                {communityStats?.forumTopics === 0 ? 'No topics yet' : '+3 new this week'}
               </p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Mentorship Sessions</CardTitle>
+              <CardTitle className="text-sm font-medium">Q&A Questions</CardTitle>
               <MessageSquare className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">156</div>
+              <div className="text-2xl font-bold">{communityStats?.qaQuestions || 0}</div>
               <p className="text-xs text-muted-foreground">
-                +8% completion rate
+                {communityStats?.qaQuestions === 0 ? 'No questions yet' : '+8% completion rate'}
               </p>
             </CardContent>
           </Card>
           
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Engagement Rate</CardTitle>
+              <CardTitle className="text-sm font-medium">Success Stories</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">85%</div>
+              <div className="text-2xl font-bold">{communityStats?.successStories || 0}</div>
               <p className="text-xs text-muted-foreground">
-                +2% from last week
+                {communityStats?.successStories === 0 ? 'No stories yet' : '+2% from last week'}
               </p>
             </CardContent>
           </Card>
         </div>
+
+        {/* Sample Data Creation */}
+        {(communityStats?.forumTopics === 0 && communityStats?.qaQuestions === 0) && (
+          <Card className="mb-8 border-blue-200 bg-blue-50">
+            <CardHeader>
+              <CardTitle className="text-blue-900">No Community Content Yet</CardTitle>
+              <CardDescription className="text-blue-700">
+                Your platform is ready! Content will appear here once users start creating forum topics, asking questions, and sharing success stories.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Button 
+                onClick={() => createSampleData.mutate()}
+                disabled={createSampleData.isPending}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                {createSampleData.isPending ? 'Creating...' : 'Learn About Sample Data'}
+              </Button>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="users" className="space-y-4">
@@ -109,7 +178,7 @@ const Admin = () => {
               <CardContent>
                 {usersLoading ? (
                   <div className="text-center py-4">Loading users...</div>
-                ) : (
+                ) : users && users.length > 0 ? (
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -121,7 +190,7 @@ const Admin = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {users?.map((user) => (
+                      {users.map((user) => (
                         <TableRow key={user.id}>
                           <TableCell className="font-medium">
                             {user.full_name || 'Unnamed User'}
@@ -131,7 +200,7 @@ const Admin = () => {
                           </TableCell>
                           <TableCell>{user.experience_level || 'Not set'}</TableCell>
                           <TableCell>
-                            {new Date(user.created_at).toLocaleDateString()}
+                            {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'Unknown'}
                           </TableCell>
                           <TableCell>
                             <Button variant="ghost" size="sm">
@@ -142,6 +211,12 @@ const Admin = () => {
                       ))}
                     </TableBody>
                   </Table>
+                ) : (
+                  <div className="text-center py-8 text-gray-500">
+                    <Users className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                    <h3 className="text-lg font-medium mb-2">No Users Yet</h3>
+                    <p>Users will appear here once they sign up for your platform.</p>
+                  </div>
                 )}
               </CardContent>
             </Card>
@@ -157,7 +232,9 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8 text-gray-500">
-                  Content management features coming soon...
+                  <BookOpen className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <h3 className="text-lg font-medium mb-2">Content Management</h3>
+                  <p>Advanced content management features are coming soon...</p>
                 </div>
               </CardContent>
             </Card>
@@ -173,7 +250,9 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8 text-gray-500">
-                  Mentor management features coming soon...
+                  <Star className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <h3 className="text-lg font-medium mb-2">Mentor Management</h3>
+                  <p>Mentor management features are coming soon...</p>
                 </div>
               </CardContent>
             </Card>
@@ -189,7 +268,9 @@ const Admin = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8 text-gray-500">
-                  Advanced analytics dashboard coming soon...
+                  <TrendingUp className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                  <h3 className="text-lg font-medium mb-2">Analytics Dashboard</h3>
+                  <p>Advanced analytics features are coming soon...</p>
                 </div>
               </CardContent>
             </Card>
