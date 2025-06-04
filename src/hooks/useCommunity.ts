@@ -1,9 +1,59 @@
+
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
 import { useSampleCommunityData } from './useSampleCommunityData';
+
+interface ForumTopic {
+  id: string;
+  title: string;
+  description?: string;
+  category: string;
+  post_count?: number;
+  is_popular?: boolean;
+  created_at: string;
+  profiles?: { full_name?: string };
+}
+
+interface QAQuestion {
+  id: string;
+  title: string;
+  content?: string;
+  tags?: string[];
+  votes?: number;
+  views?: number;
+  is_answered?: boolean;
+  created_at: string;
+  profiles?: { full_name?: string };
+  qa_answers?: any[];
+}
+
+interface SuccessStory {
+  id: string;
+  title: string;
+  excerpt?: string;
+  content: string;
+  category: string;
+  likes?: number;
+  comments_count?: number;
+  created_at: string;
+  profiles?: { full_name?: string };
+}
+
+interface JobListing {
+  id: string;
+  title: string;
+  description: string;
+  platform: string;
+  difficulty: string;
+  budget: string;
+  skills?: string[];
+  applicants_count?: number;
+  created_at: string;
+  profiles?: { full_name?: string };
+}
 
 export const useCommunity = () => {
   const { user } = useAuth();
@@ -23,14 +73,20 @@ export const useCommunity = () => {
         `)
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.log('Error fetching forum topics:', error);
+        return [];
+      }
+      return data || [];
     }
   });
 
-  // Combine real data with sample data
-  const forumTopics = forumTopicsData && forumTopicsData.length > 0 
-    ? forumTopicsData 
+  // Transform and combine real data with sample data
+  const forumTopics: ForumTopic[] = forumTopicsData && forumTopicsData.length > 0 
+    ? forumTopicsData.map(topic => ({
+        ...topic,
+        profiles: topic.profiles ? { full_name: topic.profiles.full_name } : undefined
+      }))
     : sampleData.forumTopics;
 
   // Q&A Questions
@@ -46,13 +102,19 @@ export const useCommunity = () => {
         `)
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.log('Error fetching QA questions:', error);
+        return [];
+      }
+      return data || [];
     }
   });
 
-  const qaQuestions = qaQuestionsData && qaQuestionsData.length > 0 
-    ? qaQuestionsData 
+  const qaQuestions: QAQuestion[] = qaQuestionsData && qaQuestionsData.length > 0 
+    ? qaQuestionsData.map(question => ({
+        ...question,
+        profiles: question.profiles ? { full_name: question.profiles.full_name } : undefined
+      }))
     : sampleData.qaQuestions;
 
   // Success Stories
@@ -67,13 +129,19 @@ export const useCommunity = () => {
         `)
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.log('Error fetching success stories:', error);
+        return [];
+      }
+      return data || [];
     }
   });
 
-  const successStories = successStoriesData && successStoriesData.length > 0 
-    ? successStoriesData 
+  const successStories: SuccessStory[] = successStoriesData && successStoriesData.length > 0 
+    ? successStoriesData.map(story => ({
+        ...story,
+        profiles: story.profiles ? { full_name: story.profiles.full_name } : undefined
+      }))
     : sampleData.successStories;
 
   // Job Listings
@@ -89,13 +157,19 @@ export const useCommunity = () => {
         .eq('is_active', true)
         .order('created_at', { ascending: false });
       
-      if (error) throw error;
-      return data;
+      if (error) {
+        console.log('Error fetching job listings:', error);
+        return [];
+      }
+      return data || [];
     }
   });
 
-  const jobListings = jobListingsData && jobListingsData.length > 0 
-    ? jobListingsData 
+  const jobListings: JobListing[] = jobListingsData && jobListingsData.length > 0 
+    ? jobListingsData.map(job => ({
+        ...job,
+        profiles: job.profiles ? { full_name: job.profiles.full_name } : undefined
+      }))
     : sampleData.jobListings;
 
   // Mutations
