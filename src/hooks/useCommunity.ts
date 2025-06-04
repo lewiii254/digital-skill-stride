@@ -67,10 +67,7 @@ export const useCommunity = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('forum_topics')
-        .select(`
-          *,
-          profiles!forum_topics_user_id_fkey (full_name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
       
       if (error) {
@@ -85,7 +82,7 @@ export const useCommunity = () => {
   const forumTopics: ForumTopic[] = forumTopicsData && forumTopicsData.length > 0 
     ? forumTopicsData.map(topic => ({
         ...topic,
-        profiles: topic.profiles ? { full_name: topic.profiles.full_name } : undefined
+        profiles: undefined // Will be populated later when we have proper user data
       }))
     : sampleData.forumTopics;
 
@@ -95,11 +92,7 @@ export const useCommunity = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('qa_questions')
-        .select(`
-          *,
-          profiles!qa_questions_user_id_fkey (full_name),
-          qa_answers (id)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
       
       if (error) {
@@ -113,7 +106,7 @@ export const useCommunity = () => {
   const qaQuestions: QAQuestion[] = qaQuestionsData && qaQuestionsData.length > 0 
     ? qaQuestionsData.map(question => ({
         ...question,
-        profiles: question.profiles ? { full_name: question.profiles.full_name } : undefined
+        profiles: undefined // Will be populated later when we have proper user data
       }))
     : sampleData.qaQuestions;
 
@@ -123,10 +116,7 @@ export const useCommunity = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('success_stories')
-        .select(`
-          *,
-          profiles!success_stories_user_id_fkey (full_name)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
       
       if (error) {
@@ -140,7 +130,7 @@ export const useCommunity = () => {
   const successStories: SuccessStory[] = successStoriesData && successStoriesData.length > 0 
     ? successStoriesData.map(story => ({
         ...story,
-        profiles: story.profiles ? { full_name: story.profiles.full_name } : undefined
+        profiles: undefined // Will be populated later when we have proper user data
       }))
     : sampleData.successStories;
 
@@ -150,10 +140,7 @@ export const useCommunity = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('job_listings')
-        .select(`
-          *,
-          profiles!job_listings_user_id_fkey (full_name)
-        `)
+        .select('*')
         .eq('is_active', true)
         .order('created_at', { ascending: false });
       
@@ -168,7 +155,7 @@ export const useCommunity = () => {
   const jobListings: JobListing[] = jobListingsData && jobListingsData.length > 0 
     ? jobListingsData.map(job => ({
         ...job,
-        profiles: job.profiles ? { full_name: job.profiles.full_name } : undefined
+        profiles: undefined // Will be populated later when we have proper user data
       }))
     : sampleData.jobListings;
 
