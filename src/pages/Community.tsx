@@ -1,33 +1,31 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { 
   MessageSquare, 
   ThumbsUp, 
   Clock, 
   Users, 
   Search,
-  TrendingUp,
   Heart,
   Briefcase,
   ExternalLink,
-  MapPin,
   DollarSign,
   Eye,
-  Smartphone,
-  Signal
+  Smartphone
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { CreateTopicModal } from "@/components/community/CreateTopicModal";
 import { CreateQuestionModal } from "@/components/community/CreateQuestionModal";
 import { CreateStoryModal } from "@/components/community/CreateStoryModal";
 import { USSDJobBoard } from "@/components/community/USSDJobBoard";
+import { CommunityStats } from "@/components/community/CommunityStats";
+import { ForumTopicsSection } from "@/components/community/ForumTopicsSection";
 import { useCommunity } from "@/hooks/useCommunity";
 import { useAuth } from "@/contexts/AuthContext";
 import { formatDistanceToNow } from "date-fns";
@@ -91,9 +89,9 @@ const Community = () => {
       <Card key={i}>
         <CardContent className="p-6">
           <div className="space-y-3">
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-3 w-1/2" />
-            <Skeleton className="h-16 w-full" />
+            <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4"></div>
+            <div className="h-3 bg-gray-200 rounded animate-pulse w-1/2"></div>
+            <div className="h-16 bg-gray-200 rounded animate-pulse w-full"></div>
           </div>
         </CardContent>
       </Card>
@@ -126,43 +124,12 @@ const Community = () => {
         </div>
 
         {/* Community Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          <Card>
-            <CardContent className="p-4 text-center">
-              <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold">{forumTopics?.length || 0}+</div>
-              <div className="text-sm text-gray-600">Forum Topics</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <MessageSquare className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold">{qaQuestions?.length || 0}+</div>
-              <div className="text-sm text-gray-600">Q&A Questions</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <Briefcase className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold">{jobListings?.length || 0}+</div>
-              <div className="text-sm text-gray-600">Job Opportunities</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4 text-center">
-              <TrendingUp className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold">{successStories?.length || 0}+</div>
-              <div className="text-sm text-gray-600">Success Stories</div>
-            </CardContent>
-          </Card>
-          <Card className="border-green-200 bg-green-50">
-            <CardContent className="p-4 text-center">
-              <Smartphone className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <div className="text-2xl font-bold text-green-700">📱</div>
-              <div className="text-sm text-green-700 font-medium">USSD Jobs</div>
-            </CardContent>
-          </Card>
-        </div>
+        <CommunityStats 
+          forumTopicsCount={forumTopics?.length || 0}
+          qaQuestionsCount={qaQuestions?.length || 0}
+          jobListingsCount={jobListings?.length || 0}
+          successStoriesCount={successStories?.length || 0}
+        />
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="ussd-jobs" className="space-y-6">
@@ -177,68 +144,21 @@ const Community = () => {
             <TabsTrigger value="stories">Success Stories</TabsTrigger>
           </TabsList>
 
-          {/* USSD Job Board Tab - NEW KEY FEATURE */}
+          {/* USSD Job Board Tab */}
           <TabsContent value="ussd-jobs">
             <USSDJobBoard />
           </TabsContent>
 
           {/* Forums Tab */}
           <TabsContent value="forums">
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h2 className="text-2xl font-bold">Discussion Forums</h2>
-                {user && (
-                  <CreateTopicModal
-                    onSubmit={handleCreateTopic}
-                    isLoading={createForumTopic.isPending}
-                  />
-                )}
-              </div>
-              
-              {loadingTopics ? (
-                renderLoadingCards(3)
-              ) : filteredTopics && filteredTopics.length > 0 ? (
-                filteredTopics.map((topic) => (
-                  <Card key={topic.id} className="hover:shadow-md transition-shadow cursor-pointer">
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2 mb-2">
-                            <h3 className="font-semibold text-lg">{topic.title}</h3>
-                            {topic.is_popular && (
-                              <Badge variant="secondary" className="bg-orange-100 text-orange-800">
-                                <TrendingUp className="mr-1 h-3 w-3" />
-                                Popular
-                              </Badge>
-                            )}
-                          </div>
-                          <p className="text-gray-600 mb-3">{topic.description}</p>
-                          <div className="flex items-center gap-4 text-sm text-gray-500">
-                            <div className="flex items-center gap-1">
-                              <MessageSquare className="h-4 w-4" />
-                              {topic.post_count || 0} posts
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="h-4 w-4" />
-                              {formatDistanceToNow(new Date(topic.created_at), { addSuffix: true })}
-                            </div>
-                            <Badge variant="outline">{topic.category}</Badge>
-                            <span>by {(topic as any).profiles?.full_name || 'Anonymous'}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))
-              ) : (
-                <Card>
-                  <CardContent className="p-8 text-center">
-                    <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-500">No forum topics found. Be the first to start a discussion!</p>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+            <ForumTopicsSection 
+              topics={forumTopics || []}
+              filteredTopics={filteredTopics || []}
+              loading={loadingTopics}
+              user={user}
+              onCreateTopic={handleCreateTopic}
+              isCreating={createForumTopic.isPending}
+            />
           </TabsContent>
 
           {/* Q&A Tab */}

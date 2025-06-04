@@ -1,17 +1,18 @@
-
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
 import { useToast } from '@/hooks/use-toast';
+import { useSampleCommunityData } from './useSampleCommunityData';
 
 export const useCommunity = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const sampleData = useSampleCommunityData();
 
   // Forum Topics
-  const { data: forumTopics, isLoading: loadingTopics } = useQuery({
+  const { data: forumTopicsData, isLoading: loadingTopics } = useQuery({
     queryKey: ['forum-topics'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -27,8 +28,13 @@ export const useCommunity = () => {
     }
   });
 
+  // Combine real data with sample data
+  const forumTopics = forumTopicsData && forumTopicsData.length > 0 
+    ? forumTopicsData 
+    : sampleData.forumTopics;
+
   // Q&A Questions
-  const { data: qaQuestions, isLoading: loadingQuestions } = useQuery({
+  const { data: qaQuestionsData, isLoading: loadingQuestions } = useQuery({
     queryKey: ['qa-questions'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -45,8 +51,12 @@ export const useCommunity = () => {
     }
   });
 
+  const qaQuestions = qaQuestionsData && qaQuestionsData.length > 0 
+    ? qaQuestionsData 
+    : sampleData.qaQuestions;
+
   // Success Stories
-  const { data: successStories, isLoading: loadingStories } = useQuery({
+  const { data: successStoriesData, isLoading: loadingStories } = useQuery({
     queryKey: ['success-stories'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -62,8 +72,12 @@ export const useCommunity = () => {
     }
   });
 
+  const successStories = successStoriesData && successStoriesData.length > 0 
+    ? successStoriesData 
+    : sampleData.successStories;
+
   // Job Listings
-  const { data: jobListings, isLoading: loadingJobs } = useQuery({
+  const { data: jobListingsData, isLoading: loadingJobs } = useQuery({
     queryKey: ['job-listings'],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -79,6 +93,10 @@ export const useCommunity = () => {
       return data;
     }
   });
+
+  const jobListings = jobListingsData && jobListingsData.length > 0 
+    ? jobListingsData 
+    : sampleData.jobListings;
 
   // Mutations
   const createForumTopic = useMutation({
