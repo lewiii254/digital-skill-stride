@@ -39,6 +39,44 @@ export type Database = {
         }
         Relationships: []
       }
+      course_purchases: {
+        Row: {
+          access_granted: boolean | null
+          course_id: number
+          created_at: string
+          id: string
+          payment_id: string
+          purchase_date: string
+          user_id: string
+        }
+        Insert: {
+          access_granted?: boolean | null
+          course_id: number
+          created_at?: string
+          id?: string
+          payment_id: string
+          purchase_date?: string
+          user_id: string
+        }
+        Update: {
+          access_granted?: boolean | null
+          course_id?: number
+          created_at?: string
+          id?: string
+          payment_id?: string
+          purchase_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_purchases_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       forum_posts: {
         Row: {
           content: string
@@ -150,6 +188,128 @@ export type Database = {
           platform?: string
           skills?: string[] | null
           title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      mentorship_bookings: {
+        Row: {
+          amount: number
+          created_at: string
+          duration_minutes: number
+          id: string
+          meeting_link: string | null
+          mentor_id: string
+          notes: string | null
+          payment_id: string | null
+          session_date: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          meeting_link?: string | null
+          mentor_id: string
+          notes?: string | null
+          payment_id?: string | null
+          session_date: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          duration_minutes?: number
+          id?: string
+          meeting_link?: string | null
+          mentor_id?: string
+          notes?: string | null
+          payment_id?: string | null
+          session_date?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "mentorship_bookings_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      payments: {
+        Row: {
+          amount: number
+          checkout_request_id: string | null
+          created_at: string
+          currency: string
+          id: string
+          merchant_request_id: string | null
+          mpesa_checkout_request_id: string | null
+          mpesa_receipt_number: string | null
+          mpesa_transaction_id: string | null
+          payment_description: string | null
+          payment_method: string
+          payment_type: string
+          phone_number: string
+          reference_id: string | null
+          result_code: number | null
+          result_desc: string | null
+          status: string
+          transaction_date: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          checkout_request_id?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          merchant_request_id?: string | null
+          mpesa_checkout_request_id?: string | null
+          mpesa_receipt_number?: string | null
+          mpesa_transaction_id?: string | null
+          payment_description?: string | null
+          payment_method?: string
+          payment_type: string
+          phone_number: string
+          reference_id?: string | null
+          result_code?: number | null
+          result_desc?: string | null
+          status?: string
+          transaction_date?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          checkout_request_id?: string | null
+          created_at?: string
+          currency?: string
+          id?: string
+          merchant_request_id?: string | null
+          mpesa_checkout_request_id?: string | null
+          mpesa_receipt_number?: string | null
+          mpesa_transaction_id?: string | null
+          payment_description?: string | null
+          payment_method?: string
+          payment_type?: string
+          phone_number?: string
+          reference_id?: string | null
+          result_code?: number | null
+          result_desc?: string | null
+          status?: string
+          transaction_date?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -273,6 +433,56 @@ export type Database = {
           votes?: number | null
         }
         Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          amount: number
+          billing_cycle: string
+          created_at: string
+          current_period_end: string
+          current_period_start: string
+          id: string
+          payment_id: string | null
+          plan_type: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          billing_cycle?: string
+          created_at?: string
+          current_period_end: string
+          current_period_start?: string
+          id?: string
+          payment_id?: string | null
+          plan_type: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          billing_cycle?: string
+          created_at?: string
+          current_period_end?: string
+          current_period_start?: string
+          id?: string
+          payment_id?: string | null
+          plan_type?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_payment_id_fkey"
+            columns: ["payment_id"]
+            isOneToOne: false
+            referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       success_stories: {
         Row: {
