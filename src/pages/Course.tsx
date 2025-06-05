@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,13 +6,59 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Header } from "@/components/Header";
+import { Certificate } from "@/components/Certificate";
+import CoursePaymentButton from "@/components/payments/CoursePaymentButton";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 import { BookOpen, Clock, Users, Star, Award, PlayCircle, CheckCircle, Lock, FileText, Video, HelpCircle, Code, Database, TestTube, Palette, Brain, Smartphone, Shield, TrendingUp } from "lucide-react";
 
 const Course = () => {
   const { id } = useParams();
+  const { toast } = useToast();
   const [currentLesson, setCurrentLesson] = useState(1);
   const [enrolledCourses, setEnrolledCourses] = useState<number[]>([]);
+  const [completedLessons, setCompletedLessons] = useState<Set<number>>(new Set());
+  const [purchasedCourses, setPurchasedCourses] = useState<number[]>([]);
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [userProfile, setUserProfile] = useState<any>(null);
   
+  // Load user data and course progress
+  useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Load user profile
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
+      
+      setUserProfile(profile);
+
+      // Load purchased courses
+      const { data: purchases } = await supabase
+        .from('course_purchases')
+        .select('course_id')
+        .eq('user_id', user.id)
+        .eq('access_granted', true);
+      
+      if (purchases) {
+        const courseIds = purchases.map(p => p.course_id);
+        setPurchasedCourses(courseIds);
+        setEnrolledCourses(courseIds);
+      }
+
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
+  };
+
   // Comprehensive course data with detailed modules
   const coursesData = {
     1: {
@@ -26,6 +72,7 @@ const Course = () => {
       students: 15420,
       rating: 4.9,
       reviews: 2856,
+      price: 2500,
       progress: 0,
       instructor: {
         name: "John Smith",
@@ -107,6 +154,7 @@ const Course = () => {
       students: 8934,
       rating: 4.8,
       reviews: 1234,
+      price: 3500,
       progress: 0,
       instructor: {
         name: "Sarah Chen",
@@ -166,13 +214,47 @@ const Course = () => {
   const courseId = Number(id) || 1;
   const course = coursesData[courseId as keyof typeof coursesData] || coursesData[1];
   const isEnrolled = enrolledCourses.includes(course.id);
+  const isPurchased = purchasedCourses.includes(course.id);
   
-  const completedLessons = course.modules.flatMap(module => module.lessons).filter(lesson => lesson.completed).length;
   const totalLessons = course.modules.flatMap(module => module.lessons).length;
-  const progressPercentage = Math.round((completedLessons / totalLessons) * 100);
+  const completedLessonsCount = completedLessons.size;
+  const progressPercentage = Math.round((completedLessonsCount / totalLessons) * 100);
 
-  const handleEnroll = () => {
-    setEnrolledCourses([...enrolledCourses, course.id]);
+  const handleLessonComplete = (lessonId: number) => {
+    const newCompletedLessons = new Set(completedLessons);
+    newCompletedLessons.add(lessonId);
+    setCompletedLessons(newCompletedLessons);
+
+    // Check if course is completed
+    if (newCompletedLessons.size === totalLessons) {
+      toast({
+        title: "🎉 Congratulations!",
+        description: "You've completed the course! Your certificate is ready.",
+      });
+      setShowCertificate(true);
+    } else {
+      toast({
+        title: "Lesson completed!",
+        description: `Progress: ${Math.round((newCompletedLessons.size / totalLessons) * 100)}%`,
+      });
+    }
+  };
+
+  const handleLessonStart = (lessonId: number) => {
+    setCurrentLesson(lessonId);
+    
+    // Simulate lesson completion after 2 seconds
+    setTimeout(() => {
+      handleLessonComplete(lessonId);
+    }, 2000);
+  };
+
+  const handlePurchaseSuccess = () => {
+    loadUserData();
+    toast({
+      title: "Purchase successful!",
+      description: "You now have access to this course.",
+    });
   };
 
   const getIcon = (type: string) => {
@@ -198,6 +280,34 @@ const Course = () => {
       default: return <BookOpen className="h-5 w-5" />;
     }
   };
+
+  // Show certificate if course is completed
+  if (showCertificate && progressPercentage === 100) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+        <Header />
+        
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          <div className="mb-6">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowCertificate(false)}
+            >
+              ← Back to Course
+            </Button>
+          </div>
+          
+          <Certificate
+            courseName={course.title}
+            studentName={userProfile?.full_name || "Student"}
+            completionDate={new Date().toLocaleDateString()}
+            instructorName={course.instructor.name}
+            certificateId={`CERT-${course.id}-${Date.now()}`}
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
@@ -249,16 +359,25 @@ const Course = () => {
                 </div>
 
                 {/* Progress */}
-                {isEnrolled && (
+                {isPurchased && (
                   <div className="mt-6">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm font-medium">Your Progress</span>
-                      <span className="text-sm text-gray-600">{completedLessons}/{totalLessons} lessons completed</span>
+                      <span className="text-sm text-gray-600">{completedLessonsCount}/{totalLessons} lessons completed</span>
                     </div>
                     <Progress value={progressPercentage} className="h-3" />
                     <div className="text-right mt-1">
                       <span className="text-sm font-medium text-blue-600">{progressPercentage}%</span>
                     </div>
+                    {progressPercentage === 100 && (
+                      <Button 
+                        onClick={() => setShowCertificate(true)}
+                        className="mt-4 w-full bg-yellow-600 hover:bg-yellow-700"
+                      >
+                        <Award className="mr-2 h-4 w-4" />
+                        View Your Certificate
+                      </Button>
+                    )}
                   </div>
                 )}
               </CardHeader>
@@ -283,46 +402,50 @@ const Course = () => {
                       </CardHeader>
                       <CardContent className="pt-0">
                         <div className="space-y-2">
-                          {module.lessons.map((lesson, lessonIndex) => (
-                            <div
-                              key={lesson.id}
-                              className={`flex items-center justify-between p-3 rounded-lg border transition-colors ${
-                                lesson.completed
-                                  ? "bg-green-50 border-green-200"
-                                  : isEnrolled
-                                  ? "bg-gray-50 border-gray-200 hover:bg-gray-100"
-                                  : "bg-gray-50 border-gray-200 opacity-60"
-                              }`}
-                            >
-                              <div className="flex items-center space-x-3">
-                                <div className={`flex-shrink-0 ${lesson.completed ? "text-green-600" : "text-gray-400"}`}>
-                                  {lesson.completed ? (
-                                    <CheckCircle className="h-5 w-5" />
-                                  ) : isEnrolled ? (
-                                    getIcon(lesson.type)
-                                  ) : (
-                                    <Lock className="h-5 w-5" />
-                                  )}
-                                </div>
-                                <div>
-                                  <h4 className="font-medium">{lesson.title}</h4>
-                                  <div className="flex items-center space-x-2 text-sm text-gray-600">
-                                    <Badge variant="outline" className="text-xs">
-                                      {lesson.type}
-                                    </Badge>
-                                    <span>{lesson.duration}</span>
+                          {module.lessons.map((lesson, lessonIndex) => {
+                            const isCompleted = completedLessons.has(lesson.id);
+                            return (
+                              <div
+                                key={lesson.id}
+                                className={`flex items-center justify-between p-3 rounded-lg border transition-colors ${
+                                  isCompleted
+                                    ? "bg-green-50 border-green-200"
+                                    : isPurchased
+                                    ? "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                                    : "bg-gray-50 border-gray-200 opacity-60"
+                                }`}
+                              >
+                                <div className="flex items-center space-x-3">
+                                  <div className={`flex-shrink-0 ${isCompleted ? "text-green-600" : "text-gray-400"}`}>
+                                    {isCompleted ? (
+                                      <CheckCircle className="h-5 w-5" />
+                                    ) : isPurchased ? (
+                                      getIcon(lesson.type)
+                                    ) : (
+                                      <Lock className="h-5 w-5" />
+                                    )}
+                                  </div>
+                                  <div>
+                                    <h4 className="font-medium">{lesson.title}</h4>
+                                    <div className="flex items-center space-x-2 text-sm text-gray-600">
+                                      <Badge variant="outline" className="text-xs">
+                                        {lesson.type}
+                                      </Badge>
+                                      <span>{lesson.duration}</span>
+                                    </div>
                                   </div>
                                 </div>
+                                <Button
+                                  size="sm"
+                                  variant={isCompleted ? "outline" : "default"}
+                                  disabled={!isPurchased}
+                                  onClick={() => !isCompleted && handleLessonStart(lesson.id)}
+                                >
+                                  {isCompleted ? "Completed" : isPurchased ? "Start" : "Purchase Course"}
+                                </Button>
                               </div>
-                              <Button
-                                size="sm"
-                                variant={lesson.completed ? "outline" : "default"}
-                                disabled={!isEnrolled}
-                              >
-                                {lesson.completed ? "Review" : isEnrolled ? "Start" : "Enroll"}
-                              </Button>
-                            </div>
-                          ))}
+                            );
+                          })}
                         </div>
                       </CardContent>
                     </Card>
@@ -394,11 +517,21 @@ const Course = () => {
             {/* Course Actions */}
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
-                {!isEnrolled ? (
-                  <Button className="w-full mb-4" size="lg" onClick={handleEnroll}>
-                    <BookOpen className="mr-2 h-5 w-5" />
-                    Enroll Now - Free
-                  </Button>
+                {!isPurchased ? (
+                  <>
+                    <div className="text-center mb-4">
+                      <div className="text-3xl font-bold text-green-600 mb-2">
+                        KES {course.price?.toLocaleString()}
+                      </div>
+                      <p className="text-sm text-gray-600">One-time purchase</p>
+                    </div>
+                    <CoursePaymentButton
+                      courseId={course.id}
+                      courseName={course.title}
+                      price={course.price || 0}
+                      onPurchaseSuccess={handlePurchaseSuccess}
+                    />
+                  </>
                 ) : (
                   <Button className="w-full mb-4" size="lg">
                     <PlayCircle className="mr-2 h-5 w-5" />
@@ -406,15 +539,19 @@ const Course = () => {
                   </Button>
                 )}
                 
-                {isEnrolled && progressPercentage === 100 && (
-                  <Button variant="outline" className="w-full mb-4">
+                {isPurchased && progressPercentage === 100 && (
+                  <Button 
+                    variant="outline" 
+                    className="w-full mb-4"
+                    onClick={() => setShowCertificate(true)}
+                  >
                     <Award className="mr-2 h-4 w-4" />
-                    Get Certificate
+                    View Certificate
                   </Button>
                 )}
                 
                 <div className="space-y-3 text-sm">
-                  {isEnrolled && (
+                  {isPurchased && (
                     <>
                       <div className="flex justify-between">
                         <span>Completion</span>
@@ -422,7 +559,7 @@ const Course = () => {
                       </div>
                       <div className="flex justify-between">
                         <span>Lessons</span>
-                        <span className="font-medium">{completedLessons}/{totalLessons}</span>
+                        <span className="font-medium">{completedLessonsCount}/{totalLessons}</span>
                       </div>
                       <div className="flex justify-between">
                         <span>Time spent</span>

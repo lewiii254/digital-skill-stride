@@ -96,19 +96,44 @@ serve(async (req) => {
       switch (payment.payment_type) {
         case 'course_purchase':
           if (payment.reference_id) {
-            await supabaseClient
+            // Create course purchase record
+            const { error: purchaseError } = await supabaseClient
               .from('course_purchases')
-              .update({ access_granted: true })
-              .eq('payment_id', payment.id)
+              .insert({
+                user_id: payment.user_id,
+                course_id: parseInt(payment.reference_id),
+                payment_id: payment.id,
+                access_granted: true
+              })
+            
+            if (purchaseError) {
+              console.error('Error creating course purchase:', purchaseError)
+            } else {
+              console.log('Course access granted for course:', payment.reference_id)
+            }
           }
           break
 
         case 'mentorship_booking':
           if (payment.reference_id) {
-            await supabaseClient
+            // Create mentorship booking
+            const { error: bookingError } = await supabaseClient
               .from('mentorship_bookings')
-              .update({ status: 'confirmed' })
-              .eq('payment_id', payment.id)
+              .insert({
+                user_id: payment.user_id,
+                mentor_id: payment.user_id, // For now
+                payment_id: payment.id,
+                status: 'confirmed',
+                amount: payment.amount,
+                session_date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
+                duration_minutes: 60
+              })
+            
+            if (bookingError) {
+              console.error('Error creating mentorship booking:', bookingError)
+            } else {
+              console.log('Mentorship booking confirmed')
+            }
           }
           break
 
@@ -117,7 +142,7 @@ serve(async (req) => {
           const endDate = new Date()
           endDate.setMonth(endDate.getMonth() + 1) // 1 month subscription
 
-          await supabaseClient
+          const { error: subError } = await supabaseClient
             .from('subscriptions')
             .upsert({
               user_id: payment.user_id,
@@ -127,6 +152,12 @@ serve(async (req) => {
               current_period_end: endDate.toISOString(),
               payment_id: payment.id
             })
+          
+          if (subError) {
+            console.error('Error creating subscription:', subError)
+          } else {
+            console.log('Subscription created/updated')
+          }
           break
       }
 
