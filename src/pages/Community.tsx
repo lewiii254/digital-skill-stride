@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,7 +18,8 @@ import {
   Eye,
   Smartphone,
   Star,
-  TrendingUp
+  TrendingUp,
+  Trash2
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -47,6 +47,8 @@ const Community = () => {
     createForumTopic,
     createQuestion,
     createSuccessStory,
+    deleteForumTopic,
+    deleteQuestion,
     toggleVote
   } = useCommunity();
 
@@ -60,6 +62,18 @@ const Community = () => {
 
   const handleCreateStory = (data: { title: string; content: string; excerpt: string; category: string }) => {
     createSuccessStory.mutate(data);
+  };
+
+  const handleDeleteTopic = (topicId: string) => {
+    if (window.confirm('Are you sure you want to delete this topic?')) {
+      deleteForumTopic.mutate(topicId);
+    }
+  };
+
+  const handleDeleteQuestion = (questionId: string) => {
+    if (window.confirm('Are you sure you want to delete this question?')) {
+      deleteQuestion.mutate(questionId);
+    }
   };
 
   const handleVote = (targetType: string, targetId: string, voteType: string) => {
@@ -174,7 +188,9 @@ const Community = () => {
               loading={loadingTopics}
               user={user}
               onCreateTopic={handleCreateTopic}
+              onDeleteTopic={handleDeleteTopic}
               isCreating={createForumTopic.isPending}
+              isDeleting={deleteForumTopic.isPending}
             />
           </TabsContent>
 
@@ -223,9 +239,25 @@ const Community = () => {
                         </div>
                         
                         <div className="flex-1">
-                          <h3 className="font-semibold text-lg mb-2 hover:text-blue-600">
-                            {question.title}
-                          </h3>
+                          <div className="flex items-start justify-between mb-2">
+                            <h3 className="font-semibold text-lg hover:text-blue-600">
+                              {question.title}
+                            </h3>
+                            {user && user.id === question.user_id && (
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleDeleteQuestion(question.id);
+                                }}
+                                disabled={deleteQuestion.isPending}
+                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            )}
+                          </div>
                           {question.tags && question.tags.length > 0 && (
                             <div className="flex flex-wrap gap-2 mb-3">
                               {question.tags.map((tag) => (

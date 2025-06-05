@@ -1,7 +1,8 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MessageSquare, Clock, TrendingUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { MessageSquare, Clock, TrendingUp, Trash2 } from "lucide-react";
 import { CreateTopicModal } from "./CreateTopicModal";
 import { formatDistanceToNow } from "date-fns";
 
@@ -13,6 +14,7 @@ interface ForumTopic {
   post_count?: number;
   is_popular?: boolean;
   created_at: string;
+  user_id?: string;
   profiles?: { full_name?: string };
 }
 
@@ -22,7 +24,9 @@ interface ForumTopicsSectionProps {
   loading: boolean;
   user: any;
   onCreateTopic: (data: { title: string; description: string; category: string }) => void;
+  onDeleteTopic: (topicId: string) => void;
   isCreating: boolean;
+  isDeleting: boolean;
 }
 
 export const ForumTopicsSection = ({
@@ -31,7 +35,9 @@ export const ForumTopicsSection = ({
   loading,
   user,
   onCreateTopic,
-  isCreating
+  onDeleteTopic,
+  isCreating,
+  isDeleting
 }: ForumTopicsSectionProps) => {
   const renderLoadingCards = (count: number) => (
     Array.from({ length: count }).map((_, i) => (
@@ -90,6 +96,20 @@ export const ForumTopicsSection = ({
                     <span>by {topic.profiles?.full_name || 'Anonymous'}</span>
                   </div>
                 </div>
+                {user && user.id === topic.user_id && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteTopic(topic.id);
+                    }}
+                    disabled={isDeleting}
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
