@@ -4,433 +4,386 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  Search, 
-  Star, 
-  Clock, 
-  DollarSign, 
-  Users, 
-  Video, 
-  MessageSquare, 
-  Calendar,
-  Filter,
-  MapPin,
-  Award,
-  Heart,
-  Share2
-} from "lucide-react";
-import { Link } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Header } from "@/components/Header";
+import { Users, Star, Search, Clock, MapPin, Calendar as CalendarIcon, Video, MessageCircle, Award, Filter } from "lucide-react";
+import { format } from "date-fns";
+import MentorshipPaymentButton from "@/components/payments/MentorshipPaymentButton";
 
 const Mentorship = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedSkill, setSelectedSkill] = useState("all");
   const [selectedExperience, setSelectedExperience] = useState("all");
-  const [selectedPrice, setSelectedPrice] = useState("all");
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date>();
+
+  const skills = [
+    "Web Development", "Mobile Development", "Digital Marketing", "Data Science",
+    "UI/UX Design", "Copywriting", "E-commerce", "Social Media", "Video Editing",
+    "Graphics Design", "Software Testing", "Cybersecurity", "Content Creation"
+  ];
 
   const mentors = [
     {
-      id: 1,
-      name: "Sarah Johnson",
-      title: "Freelance Writing Expert",
-      avatar: "/placeholder.svg",
+      id: "mentor-1",
+      name: "Sarah Chen",
+      title: "Senior Full-Stack Developer",
+      company: "Meta",
+      experience: "8 years",
       rating: 4.9,
-      reviews: 127,
-      hourlyRate: 45,
-      responseTime: "Within 2 hours",
-      location: "Nairobi, Kenya",
-      experience: "5+ years",
-      specialties: ["Content Writing", "Copywriting", "SEO Writing", "Technical Writing"],
-      platforms: ["Upwork", "Fiverr", "Contently"],
-      bio: "I've helped 200+ freelancers build successful writing careers on major platforms. From $0 to $50/hour in 6 months.",
-      languages: ["English", "Swahili"],
-      totalMentees: 89,
-      successRate: 95,
-      nextAvailable: "Today, 3:00 PM",
-      sessionTypes: ["1-on-1 Coaching", "Portfolio Review", "Platform Setup"],
-      achievements: ["Top Rated Plus on Upwork", "Fiverr Pro Seller", "Published Author"]
+      reviews: 156,
+      sessionsCompleted: 420,
+      pricePerHour: 3500,
+      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b1c5?w=100",
+      skills: ["React", "Node.js", "Python", "System Design", "Career Guidance"],
+      bio: "Former Facebook engineer with expertise in scalable web applications. Specialized in helping developers transition to FAANG companies.",
+      languages: ["English", "Mandarin"],
+      timezone: "UTC+3 (EAT)",
+      availableSlots: [
+        "2024-01-15T09:00:00",
+        "2024-01-15T14:00:00",
+        "2024-01-16T10:00:00",
+        "2024-01-17T15:00:00"
+      ],
+      specialties: ["Technical Interviews", "System Design", "Career Transition"],
+      verified: true
     },
     {
-      id: 2,
-      name: "David Mburu",
-      title: "Digital Marketing Strategist",
-      avatar: "/placeholder.svg",
+      id: "mentor-2",
+      name: "Michael Rodriguez",
+      title: "Digital Marketing Director",
+      company: "Google",
+      experience: "10 years",
       rating: 4.8,
-      reviews: 94,
-      hourlyRate: 55,
-      responseTime: "Within 1 hour",
-      location: "Lagos, Nigeria",
-      experience: "7+ years",
-      specialties: ["Social Media Marketing", "Facebook Ads", "Google Ads", "E-commerce"],
-      platforms: ["Facebook", "Google", "Shopify", "Jumia"],
-      bio: "Former Facebook Marketing Partner. I help businesses and freelancers master digital advertising for African markets.",
-      languages: ["English", "Yoruba"],
-      totalMentees: 156,
-      successRate: 92,
-      nextAvailable: "Tomorrow, 10:00 AM",
-      sessionTypes: ["Strategy Session", "Campaign Review", "Platform Training"],
-      achievements: ["Facebook Marketing Expert", "Google Ads Certified", "1M+ Ad Spend Managed"]
-    },
-    {
-      id: 3,
-      name: "Amina Hassan",
-      title: "Virtual Assistant Pro",
-      avatar: "/placeholder.svg",
-      rating: 4.9,
       reviews: 203,
-      hourlyRate: 35,
-      responseTime: "Within 30 minutes",
-      location: "Dar es Salaam, Tanzania",
-      experience: "4+ years",
-      specialties: ["Administrative Support", "Customer Service", "Data Entry", "Email Management"],
-      platforms: ["Upwork", "Belay", "Time Etc"],
-      bio: "From struggling job seeker to top-rated VA earning $3000/month. I'll show you the exact systems I use.",
-      languages: ["English", "Swahili", "Arabic"],
-      totalMentees: 134,
-      successRate: 97,
-      nextAvailable: "Today, 6:00 PM",
-      sessionTypes: ["Skills Assessment", "Client Communication", "Tool Training"],
-      achievements: ["Upwork Top Rated", "99% Client Satisfaction", "Certified VA"]
+      sessionsCompleted: 580,
+      pricePerHour: 4000,
+      avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100",
+      skills: ["Google Ads", "SEO", "Analytics", "Growth Marketing", "Strategy"],
+      bio: "Google Marketing expert helping businesses scale through digital channels. 10+ years experience in performance marketing.",
+      languages: ["English", "Spanish"],
+      timezone: "UTC+3 (EAT)",
+      availableSlots: [
+        "2024-01-15T11:00:00",
+        "2024-01-16T09:00:00",
+        "2024-01-16T16:00:00",
+        "2024-01-17T13:00:00"
+      ],
+      specialties: ["Growth Strategy", "Performance Marketing", "Analytics Setup"],
+      verified: true
     },
     {
-      id: 4,
-      name: "John Kimani",
-      title: "E-commerce Specialist",
-      avatar: "/placeholder.svg",
-      rating: 4.7,
-      reviews: 78,
-      hourlyRate: 60,
-      responseTime: "Within 4 hours",
-      location: "Accra, Ghana",
-      experience: "6+ years",
-      specialties: ["Shopify Development", "Product Sourcing", "Amazon FBA", "Dropshipping"],
-      platforms: ["Shopify", "Amazon", "eBay", "Jumia"],
-      bio: "Built and sold 3 successful e-commerce stores. Now I help others start their online businesses from scratch.",
-      languages: ["English", "Twi"],
-      totalMentees: 67,
-      successRate: 89,
-      nextAvailable: "This Weekend",
-      sessionTypes: ["Business Setup", "Store Optimization", "Marketing Strategy"],
-      achievements: ["Shopify Expert", "7-Figure Store Owner", "Amazon Best Seller"]
-    },
-    {
-      id: 5,
-      name: "Grace Wanjiku",
-      title: "Content Creator & Influencer",
-      avatar: "/placeholder.svg",
-      rating: 4.8,
-      reviews: 112,
-      hourlyRate: 40,
-      responseTime: "Within 2 hours",
-      location: "Kampala, Uganda",
-      experience: "3+ years",
-      specialties: ["Instagram Marketing", "TikTok Content", "Brand Partnerships", "Video Editing"],
-      platforms: ["Instagram", "TikTok", "YouTube", "LinkedIn"],
-      bio: "From 0 to 100K followers in 18 months. I teach authentic content creation and monetization strategies.",
-      languages: ["English", "Luganda"],
-      totalMentees: 198,
-      successRate: 94,
-      nextAvailable: "Today, 8:00 PM",
-      sessionTypes: ["Content Strategy", "Growth Hacking", "Monetization"],
-      achievements: ["100K+ Followers", "Brand Ambassador", "Viral Content Creator"]
-    },
-    {
-      id: 6,
-      name: "Michael Ochieng",
-      title: "Web Development Mentor",
-      avatar: "/placeholder.svg",
+      id: "mentor-3",
+      name: "Emily Johnson",
+      title: "Senior UI/UX Designer",
+      company: "Airbnb",
+      experience: "6 years",
       rating: 4.9,
-      reviews: 145,
-      hourlyRate: 75,
-      responseTime: "Within 1 hour",
-      location: "Cape Town, South Africa",
-      experience: "8+ years",
-      specialties: ["React Development", "Node.js", "WordPress", "Mobile Apps"],
-      platforms: ["Upwork", "Toptal", "Freelancer"],
-      bio: "Senior developer at tech startup. I help aspiring developers land their first freelance clients and build portfolios.",
-      languages: ["English", "Afrikaans"],
-      totalMentees: 87,
-      successRate: 98,
-      nextAvailable: "Tomorrow, 2:00 PM",
-      sessionTypes: ["Code Review", "Portfolio Building", "Interview Prep"],
-      achievements: ["Toptal Top 3%", "Open Source Contributor", "Tech Speaker"]
+      reviews: 124,
+      sessionsCompleted: 280,
+      pricePerHour: 3000,
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100",
+      skills: ["Figma", "User Research", "Design Systems", "Prototyping", "Product Design"],
+      bio: "Airbnb designer passionate about creating user-centered experiences. Mentoring designers to build amazing products.",
+      languages: ["English"],
+      timezone: "UTC+3 (EAT)",
+      availableSlots: [
+        "2024-01-15T08:00:00",
+        "2024-01-15T13:00:00",
+        "2024-01-16T11:00:00",
+        "2024-01-17T14:00:00"
+      ],
+      specialties: ["Portfolio Review", "Design Process", "User Research"],
+      verified: true
+    },
+    {
+      id: "mentor-4",
+      name: "David Kim",
+      title: "Data Science Manager",
+      company: "Netflix",
+      experience: "12 years",
+      rating: 4.8,
+      reviews: 167,
+      sessionsCompleted: 450,
+      pricePerHour: 4500,
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100",
+      skills: ["Python", "Machine Learning", "SQL", "Statistics", "Data Strategy"],
+      bio: "Netflix Data Science leader with expertise in ML at scale. Helping data professionals advance their careers.",
+      languages: ["English", "Korean"],
+      timezone: "UTC+3 (EAT)",
+      availableSlots: [
+        "2024-01-15T10:00:00",
+        "2024-01-16T08:00:00",
+        "2024-01-16T15:00:00",
+        "2024-01-17T12:00:00"
+      ],
+      specialties: ["Machine Learning", "Data Strategy", "Team Leadership"],
+      verified: true
+    },
+    {
+      id: "mentor-5",
+      name: "Lisa Wang",
+      title: "Mobile Development Lead",
+      company: "Uber",
+      experience: "7 years",
+      rating: 4.9,
+      reviews: 98,
+      sessionsCompleted: 220,
+      pricePerHour: 3800,
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100",
+      skills: ["React Native", "iOS", "Android", "Flutter", "App Architecture"],
+      bio: "Uber mobile engineer building apps used by millions. Specialized in mobile app architecture and performance.",
+      languages: ["English", "Mandarin"],
+      timezone: "UTC+3 (EAT)",
+      availableSlots: [
+        "2024-01-15T12:00:00",
+        "2024-01-16T09:00:00",
+        "2024-01-16T14:00:00",
+        "2024-01-17T16:00:00"
+      ],
+      specialties: ["Mobile Architecture", "Performance Optimization", "App Store Strategy"],
+      verified: true
+    },
+    {
+      id: "mentor-6",
+      name: "James Thompson",
+      title: "Freelance Business Consultant",
+      company: "Independent",
+      experience: "15 years",
+      rating: 4.7,
+      reviews: 234,
+      sessionsCompleted: 680,
+      pricePerHour: 2500,
+      avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100",
+      skills: ["Business Strategy", "Freelancing", "Client Acquisition", "Pricing", "Scaling"],
+      bio: "Successful freelancer helping others build sustainable freelance businesses. Expert in client acquisition and pricing strategies.",
+      languages: ["English"],
+      timezone: "UTC+3 (EAT)",
+      availableSlots: [
+        "2024-01-15T07:00:00",
+        "2024-01-15T15:00:00",
+        "2024-01-16T12:00:00",
+        "2024-01-17T10:00:00"
+      ],
+      specialties: ["Freelance Business", "Client Relations", "Pricing Strategy"],
+      verified: true
     }
-  ];
-
-  const categories = [
-    { value: "all", label: "All Categories" },
-    { value: "writing", label: "Writing & Content" },
-    { value: "marketing", label: "Digital Marketing" },
-    { value: "virtual-assistant", label: "Virtual Assistant" },
-    { value: "ecommerce", label: "E-commerce" },
-    { value: "social-media", label: "Social Media" },
-    { value: "development", label: "Web Development" }
   ];
 
   const filteredMentors = mentors.filter(mentor => {
     const matchesSearch = mentor.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          mentor.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         mentor.specialties.some(specialty => 
-                           specialty.toLowerCase().includes(searchTerm.toLowerCase())
-                         );
-    
-    const matchesCategory = selectedCategory === "all" || 
-                           mentor.specialties.some(specialty => 
-                             specialty.toLowerCase().includes(selectedCategory.toLowerCase())
-                           );
-    
-    return matchesSearch && matchesCategory;
-  });
-
-  const toggleFavorite = (mentorId: number) => {
-    setFavorites(prev => 
-      prev.includes(mentorId) 
-        ? prev.filter(id => id !== mentorId)
-        : [...prev, mentorId]
+                         mentor.skills.some(skill => skill.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesSkill = selectedSkill === "all" || mentor.skills.some(skill => 
+      skill.toLowerCase().includes(selectedSkill.toLowerCase())
     );
-  };
+    const matchesExperience = selectedExperience === "all" || 
+      (selectedExperience === "junior" && parseInt(mentor.experience) <= 3) ||
+      (selectedExperience === "mid" && parseInt(mentor.experience) > 3 && parseInt(mentor.experience) <= 7) ||
+      (selectedExperience === "senior" && parseInt(mentor.experience) > 7);
+    
+    return matchesSearch && matchesSkill && matchesExperience;
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <Header />
       
-      {/* Hero Section */}
-      <section className="py-16 px-4 bg-gradient-to-r from-blue-600 to-green-600 text-white">
-        <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Find Your Perfect Mentor
-          </h1>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Connect with successful professionals who've built thriving careers on digital platforms. 
-            Get personalized guidance and accelerate your journey to success.
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        {/* Header Section */}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">1-on-1 Mentorship</h1>
+          <p className="text-xl text-gray-600 mb-6">
+            Get personalized guidance from industry experts and accelerate your career growth
           </p>
           
-          {/* Search Bar */}
-          <div className="max-w-2xl mx-auto relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-            <Input
-              placeholder="Search by name, skill, or platform..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 h-14 text-lg bg-white/10 border-white/20 text-white placeholder:text-white/70"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Filters Section */}
-      <section className="py-8 px-4 bg-white border-b">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-wrap gap-4 items-center">
-            <div className="flex items-center space-x-2">
-              <Filter className="h-5 w-5 text-gray-600" />
-              <span className="font-medium text-gray-700">Filters:</span>
+          {/* Search and Filters */}
+          <div className="flex flex-col md:flex-row gap-4 mb-6">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Search mentors by name, title, or skills..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10"
+              />
             </div>
-            
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Category" />
+            <Select value={selectedSkill} onValueChange={setSelectedSkill}>
+              <SelectTrigger className="w-full md:w-48">
+                <SelectValue placeholder="Skill" />
               </SelectTrigger>
               <SelectContent>
-                {categories.map(category => (
-                  <SelectItem key={category.value} value={category.value}>
-                    {category.label}
-                  </SelectItem>
+                <SelectItem value="all">All Skills</SelectItem>
+                {skills.map(skill => (
+                  <SelectItem key={skill} value={skill.toLowerCase()}>{skill}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
-
             <Select value={selectedExperience} onValueChange={setSelectedExperience}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Experience Level" />
+              <SelectTrigger className="w-full md:w-48">
+                <SelectValue placeholder="Experience" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Experience</SelectItem>
-                <SelectItem value="beginner">1-2 years</SelectItem>
-                <SelectItem value="intermediate">3-5 years</SelectItem>
-                <SelectItem value="expert">5+ years</SelectItem>
+                <SelectItem value="all">All Levels</SelectItem>
+                <SelectItem value="junior">0-3 years</SelectItem>
+                <SelectItem value="mid">4-7 years</SelectItem>
+                <SelectItem value="senior">8+ years</SelectItem>
               </SelectContent>
             </Select>
-
-            <Select value={selectedPrice} onValueChange={setSelectedPrice}>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder="Price Range" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Prices</SelectItem>
-                <SelectItem value="budget">Under $40/hr</SelectItem>
-                <SelectItem value="medium">$40-60/hr</SelectItem>
-                <SelectItem value="premium">$60+ /hr</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <div className="text-sm text-gray-600">
-              {filteredMentors.length} mentors found
-            </div>
           </div>
         </div>
-      </section>
 
-      {/* Mentors Grid */}
-      <section className="py-12 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredMentors.map((mentor) => (
-              <Card key={mentor.id} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
-                <CardHeader className="pb-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center space-x-4">
-                      <Avatar className="h-16 w-16">
-                        <AvatarImage src={mentor.avatar} alt={mentor.name} />
-                        <AvatarFallback className="bg-gradient-to-r from-blue-600 to-green-600 text-white">
-                          {mentor.name.split(' ').map(n => n[0]).join('')}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <h3 className="font-bold text-lg">{mentor.name}</h3>
-                        <p className="text-gray-600 text-sm">{mentor.title}</p>
-                        <div className="flex items-center space-x-1 mt-1">
-                          <MapPin className="h-3 w-3 text-gray-400" />
-                          <span className="text-xs text-gray-500">{mentor.location}</span>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="flex space-x-2">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => toggleFavorite(mentor.id)}
-                        className={favorites.includes(mentor.id) ? "text-red-500" : "text-gray-400"}
-                      >
-                        <Heart className={`h-4 w-4 ${favorites.includes(mentor.id) ? "fill-current" : ""}`} />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="text-gray-400">
-                        <Share2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
+        {/* Results */}
+        <div className="mb-6">
+          <p className="text-gray-600">
+            Found {filteredMentors.length} mentors available for booking
+          </p>
+        </div>
 
-                  <div className="flex items-center justify-between mt-3">
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-500 fill-current" />
-                      <span className="font-semibold">{mentor.rating}</span>
-                      <span className="text-gray-500 text-sm">({mentor.reviews} reviews)</span>
-                    </div>
-                    <div className="flex items-center space-x-1 text-green-600">
-                      <DollarSign className="h-4 w-4" />
-                      <span className="font-semibold">${mentor.hourlyRate}/hr</span>
-                    </div>
-                  </div>
-                </CardHeader>
+        {/* Mentors Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {filteredMentors.map((mentor) => (
+            <MentorCard key={mentor.id} mentor={mentor} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
 
-                <CardContent className="space-y-4">
-                  <p className="text-gray-600 text-sm line-clamp-3">{mentor.bio}</p>
-                  
-                  <div className="space-y-3">
-                    <div className="flex items-center space-x-2 text-sm">
-                      <Clock className="h-4 w-4 text-blue-600" />
-                      <span>Responds {mentor.responseTime}</span>
-                    </div>
-                    
-                    <div className="flex items-center space-x-2 text-sm">
-                      <Users className="h-4 w-4 text-green-600" />
-                      <span>{mentor.totalMentees} mentees • {mentor.successRate}% success rate</span>
-                    </div>
+const MentorCard = ({ mentor }: { mentor: any }) => {
+  const [selectedSlot, setSelectedSlot] = useState<string>("");
 
-                    <div className="flex items-center space-x-2 text-sm">
-                      <Calendar className="h-4 w-4 text-purple-600" />
-                      <span>Next available: {mentor.nextAvailable}</span>
-                    </div>
-                  </div>
+  const handleBookingSuccess = () => {
+    console.log(`Mentorship session with ${mentor.name} booked successfully!`);
+  };
 
-                  <div className="space-y-2">
-                    <div className="text-sm font-medium text-gray-700">Specialties:</div>
-                    <div className="flex flex-wrap gap-1">
-                      {mentor.specialties.slice(0, 3).map((specialty, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {specialty}
-                        </Badge>
-                      ))}
-                      {mentor.specialties.length > 3 && (
-                        <Badge variant="outline" className="text-xs">
-                          +{mentor.specialties.length - 3} more
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
+  const formatSlotTime = (slot: string) => {
+    const date = new Date(slot);
+    return {
+      date: format(date, "MMM dd"),
+      time: format(date, "HH:mm")
+    };
+  };
 
-                  <div className="space-y-2">
-                    <div className="text-sm font-medium text-gray-700">Platforms:</div>
-                    <div className="flex flex-wrap gap-1">
-                      {mentor.platforms.map((platform, index) => (
-                        <Badge key={index} variant="outline" className="text-xs">
-                          {platform}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="pt-4 space-y-2">
-                    <Link to={`/mentorship/${mentor.id}`}>
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
-                        View Profile
-                      </Button>
-                    </Link>
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button variant="outline" size="sm">
-                        <MessageSquare className="mr-1 h-3 w-3" />
-                        Message
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        <Video className="mr-1 h-3 w-3" />
-                        Book Call
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+  return (
+    <Card className="overflow-hidden hover:shadow-lg transition-shadow border-0 shadow-md">
+      <CardHeader className="pb-4">
+        <div className="flex items-start space-x-4">
+          <div className="relative">
+            <img
+              src={mentor.avatar}
+              alt={mentor.name}
+              className="w-16 h-16 rounded-full object-cover"
+            />
+            {mentor.verified && (
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                <Award className="h-3 w-3 text-white" />
+              </div>
+            )}
+          </div>
+          <div className="flex-1">
+            <CardTitle className="text-xl mb-1">{mentor.name}</CardTitle>
+            <CardDescription className="text-base">{mentor.title}</CardDescription>
+            <p className="text-sm text-gray-600">{mentor.company} • {mentor.experience} experience</p>
+            
+            <div className="flex items-center space-x-4 mt-2 text-sm">
+              <div className="flex items-center">
+                <Star className="h-4 w-4 text-yellow-500 mr-1" />
+                {mentor.rating} ({mentor.reviews} reviews)
+              </div>
+              <div className="flex items-center">
+                <Users className="h-4 w-4 mr-1" />
+                {mentor.sessionsCompleted} sessions
+              </div>
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-green-600">
+              KES {mentor.pricePerHour.toLocaleString()}
+            </div>
+            <p className="text-sm text-gray-600">per hour</p>
+          </div>
+        </div>
+      </CardHeader>
+      
+      <CardContent className="space-y-4">
+        <p className="text-gray-700 text-sm">{mentor.bio}</p>
+        
+        <div>
+          <h4 className="font-semibold mb-2">Skills & Expertise</h4>
+          <div className="flex flex-wrap gap-1">
+            {mentor.skills.map((skill, index) => (
+              <Badge key={index} variant="secondary" className="text-xs">
+                {skill}
+              </Badge>
             ))}
           </div>
-
-          {filteredMentors.length === 0 && (
-            <div className="text-center py-16">
-              <div className="text-6xl mb-4">🔍</div>
-              <h3 className="text-2xl font-bold text-gray-700 mb-2">No mentors found</h3>
-              <p className="text-gray-600 mb-6">Try adjusting your search criteria or filters</p>
-              <Button onClick={() => {
-                setSearchTerm("");
-                setSelectedCategory("all");
-                setSelectedExperience("all");
-                setSelectedPrice("all");
-              }}>
-                Clear Filters
-              </Button>
-            </div>
+        </div>
+        
+        <div>
+          <h4 className="font-semibold mb-2">Specialties</h4>
+          <div className="flex flex-wrap gap-1">
+            {mentor.specialties.map((specialty, index) => (
+              <Badge key={index} variant="outline" className="text-xs">
+                {specialty}
+              </Badge>
+            ))}
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <span className="font-medium">Languages:</span>
+            <p className="text-gray-600">{mentor.languages.join(", ")}</p>
+          </div>
+          <div>
+            <span className="font-medium">Timezone:</span>
+            <p className="text-gray-600">{mentor.timezone}</p>
+          </div>
+        </div>
+        
+        <div>
+          <h4 className="font-semibold mb-2">Available Time Slots</h4>
+          <div className="grid grid-cols-2 gap-2">
+            {mentor.availableSlots.slice(0, 4).map((slot, index) => {
+              const { date, time } = formatSlotTime(slot);
+              return (
+                <Button
+                  key={index}
+                  variant={selectedSlot === slot ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedSlot(slot)}
+                  className="text-xs justify-start"
+                >
+                  <CalendarIcon className="h-3 w-3 mr-1" />
+                  {date} {time}
+                </Button>
+              );
+            })}
+          </div>
+        </div>
+        
+        <div className="pt-4">
+          {selectedSlot ? (
+            <MentorshipPaymentButton
+              mentorId={mentor.id}
+              mentorName={mentor.name}
+              sessionPrice={mentor.pricePerHour}
+              sessionDate={selectedSlot}
+              onBookingSuccess={handleBookingSuccess}
+            />
+          ) : (
+            <Button disabled className="w-full">
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              Select a time slot to book
+            </Button>
           )}
         </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Want to Become a Mentor?</h2>
-          <p className="text-xl text-gray-600 mb-8">
-            Share your expertise and help others succeed while earning extra income
-          </p>
-          <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
-            Apply to be a Mentor
-          </Button>
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
