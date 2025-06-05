@@ -17,7 +17,9 @@ import {
   ExternalLink,
   DollarSign,
   Eye,
-  Smartphone
+  Smartphone,
+  Star,
+  TrendingUp
 } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -103,12 +105,26 @@ const Community = () => {
       <Header />
       
       <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Hero Section */}
+        {/* Enhanced Hero Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-4">Community Hub</h1>
-          <p className="text-xl text-gray-600 mb-6">
+          <div className="flex items-center justify-center mb-4">
+            <Smartphone className="h-12 w-12 text-green-600 mr-3" />
+            <h1 className="text-5xl font-bold mb-2">Community Hub</h1>
+            <TrendingUp className="h-10 w-10 text-blue-600 ml-3" />
+          </div>
+          <p className="text-xl text-gray-600 mb-4">
             Connect, learn, and find opportunities with fellow digital entrepreneurs
           </p>
+          <div className="bg-gradient-to-r from-green-100 to-blue-100 p-4 rounded-lg mb-6">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Star className="h-5 w-5 text-yellow-500" />
+              <span className="font-semibold text-lg">Featured: USSD Job Board</span>
+              <Star className="h-5 w-5 text-yellow-500" />
+            </div>
+            <p className="text-gray-700">
+              📱 Discover job opportunities accessible via USSD codes - no internet required!
+            </p>
+          </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
             <div className="relative flex-1">
@@ -131,12 +147,13 @@ const Community = () => {
           successStoriesCount={successStories?.length || 0}
         />
 
-        {/* Main Content Tabs */}
+        {/* Main Content Tabs - USSD Jobs as default */}
         <Tabs defaultValue="ussd-jobs" className="space-y-6">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="ussd-jobs" className="flex items-center gap-1">
+            <TabsTrigger value="ussd-jobs" className="flex items-center gap-1 font-semibold">
               <Smartphone className="h-4 w-4" />
               📱 USSD Jobs
+              <Badge variant="secondary" className="ml-1 bg-green-100 text-green-800">Hot</Badge>
             </TabsTrigger>
             <TabsTrigger value="forums">Forums</TabsTrigger>
             <TabsTrigger value="qa">Q&A</TabsTrigger>
@@ -144,7 +161,7 @@ const Community = () => {
             <TabsTrigger value="stories">Success Stories</TabsTrigger>
           </TabsList>
 
-          {/* USSD Job Board Tab */}
+          {/* USSD Job Board Tab - Enhanced */}
           <TabsContent value="ussd-jobs">
             <USSDJobBoard />
           </TabsContent>
