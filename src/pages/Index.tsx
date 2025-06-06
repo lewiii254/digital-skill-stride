@@ -1,74 +1,87 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Users, BookOpen, Trophy, Star, Smartphone, Globe, Zap, Shield, Award, TrendingUp, MessageSquare, Phone, Mail, Play } from "lucide-react";
+import { ArrowRight, Users, BookOpen, Trophy, Star, Smartphone, Globe, Zap, Shield, Award, TrendingUp, MessageSquare, Phone, Mail, Briefcase, MapPin, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 
 const Index = () => {
+  const featuredJobs = [
+    {
+      title: "Content Writer",
+      company: "Digital Marketing Agency",
+      location: "Remote",
+      salary: "$1,500 - $2,500/month",
+      type: "Full-time",
+      urgent: true
+    },
+    {
+      title: "Virtual Assistant",
+      company: "E-commerce Startup",
+      location: "Remote",
+      salary: "$800 - $1,200/month",
+      type: "Part-time",
+      urgent: false
+    },
+    {
+      title: "Social Media Manager",
+      company: "Tourism Company",
+      location: "Nairobi, Kenya",
+      salary: "$1,000 - $1,800/month",
+      type: "Full-time",
+      urgent: true
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <Header />
       
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20 px-4">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-green-600/10"></div>
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className="animate-fade-in">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
-              Grow Your Digital Skills.<br />Shape Your Future.
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Join thousands learning in-demand digital skills through expert mentorship and hands-on training. 
-              Start earning on platforms like Upwork, Fiverr, and Jumia today with our innovative USSD-based learning system.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Link to="/onboarding">
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all">
-                  Start Learning Free <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/mentorship">
-                <Button size="lg" variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all">
-                  Find a Mentor
-                </Button>
-              </Link>
-            </div>
-            <div className="flex items-center justify-center space-x-6 text-sm text-gray-500">
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
-                <span>Free courses available</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
-                <span>USSD learning - no internet needed</span>
-              </div>
-            </div>
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+            Grow Your Digital Skills.<br />Shape Your Future.
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Join thousands learning in-demand digital skills through expert mentorship and hands-on training. 
+            Start earning on platforms like Upwork, Fiverr, and Jumia today with our USSD-based learning system.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/onboarding">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-3 text-lg">
+                Start Learning Free <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link to="/mentorship">
+              <Button size="lg" variant="outline" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 text-lg">
+                Find a Mentor
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-white/80 backdrop-blur-sm shadow-sm">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div className="group hover:scale-105 transition-transform">
-              <div className="text-4xl font-bold text-blue-600 mb-2">10,000+</div>
-              <div className="text-gray-600 font-medium">Active Learners</div>
-            </div>
-            <div className="group hover:scale-105 transition-transform">
-              <div className="text-4xl font-bold text-green-600 mb-2">500+</div>
-              <div className="text-gray-600 font-medium">Expert Mentors</div>
-            </div>
-            <div className="group hover:scale-105 transition-transform">
-              <div className="text-4xl font-bold text-purple-600 mb-2">50+</div>
-              <div className="text-gray-600 font-medium">Skill Courses</div>
-            </div>
-            <div className="group hover:scale-105 transition-transform">
-              <div className="text-4xl font-bold text-orange-600 mb-2">85%</div>
-              <div className="text-gray-600 font-medium">Success Rate</div>
-            </div>
+      <section className="py-16 px-4 bg-white/80 backdrop-blur-sm">
+        <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+          <div>
+            <div className="text-3xl font-bold text-blue-600 mb-2">10,000+</div>
+            <div className="text-gray-600">Active Learners</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-green-600 mb-2">500+</div>
+            <div className="text-gray-600">Expert Mentors</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-purple-600 mb-2">50+</div>
+            <div className="text-gray-600">Skill Courses</div>
+          </div>
+          <div>
+            <div className="text-3xl font-bold text-orange-600 mb-2">85%</div>
+            <div className="text-gray-600">Success Rate</div>
           </div>
         </div>
       </section>
@@ -76,128 +89,143 @@ const Index = () => {
       {/* Key Services Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-gray-50 to-blue-50">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Revolutionary Learning Platform</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Experience digital skills training like never before - accessible through multiple channels including our groundbreaking USSD technology
-            </p>
-          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Our Key Services</h2>
+          <p className="text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+            Comprehensive digital skills training accessible through multiple channels including USSD, web, and mobile.
+          </p>
           
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white group hover:scale-105">
-              <CardHeader className="text-center pb-4">
-                <div className="w-20 h-20 bg-gradient-to-r from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Smartphone className="h-10 w-10 text-blue-600" />
-                </div>
-                <CardTitle className="text-xl mb-3">USSD Learning Platform</CardTitle>
-                <CardDescription className="text-base">
-                  Revolutionary learning system that works on any mobile phone. Just dial <strong>*123#</strong> to access courses without internet.
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader className="text-center">
+                <Smartphone className="h-16 w-16 text-blue-600 mx-auto mb-4" />
+                <CardTitle className="text-xl">USSD Learning Platform</CardTitle>
+                <CardDescription>
+                  Learn on any phone with our innovative USSD-based system. No internet required - just dial *123# to access courses.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-3 text-sm">
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                    <span>Works on any mobile phone</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                    <span>No internet connection needed</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                    <span>Progress tracking via SMS</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                    <span>Affordable per-session pricing</span>
-                  </li>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>• Works on any mobile phone</li>
+                  <li>• No internet connection needed</li>
+                  <li>• Progress tracking via SMS</li>
+                  <li>• Affordable per-session pricing</li>
                 </ul>
-                <Button variant="outline" className="w-full mt-6 border-blue-600 text-blue-600 hover:bg-blue-50">
-                  Try USSD Demo
-                </Button>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white group hover:scale-105">
-              <CardHeader className="text-center pb-4">
-                <div className="w-20 h-20 bg-gradient-to-r from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Globe className="h-10 w-10 text-green-600" />
-                </div>
-                <CardTitle className="text-xl mb-3">Web & Mobile Platform</CardTitle>
-                <CardDescription className="text-base">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader className="text-center">
+                <Globe className="h-16 w-16 text-green-600 mx-auto mb-4" />
+                <CardTitle className="text-xl">Web & Mobile Platform</CardTitle>
+                <CardDescription>
                   Full-featured online learning experience with interactive content, live sessions, and community features.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-3 text-sm">
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
-                    <span>HD video lessons & tutorials</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
-                    <span>Live mentorship sessions</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
-                    <span>Interactive community forums</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
-                    <span>Detailed progress analytics</span>
-                  </li>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>• Interactive video lessons</li>
+                  <li>• Live mentorship sessions</li>
+                  <li>• Community forums</li>
+                  <li>• Progress analytics</li>
                 </ul>
-                <Link to="/courses">
-                  <Button variant="outline" className="w-full mt-6 border-green-600 text-green-600 hover:bg-green-50">
-                    Browse Courses
-                  </Button>
-                </Link>
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white group hover:scale-105">
-              <CardHeader className="text-center pb-4">
-                <div className="w-20 h-20 bg-gradient-to-r from-purple-100 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <MessageSquare className="h-10 w-10 text-purple-600" />
-                </div>
-                <CardTitle className="text-xl mb-3">AI-Powered Coaching</CardTitle>
-                <CardDescription className="text-base">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader className="text-center">
+                <MessageSquare className="h-16 w-16 text-purple-600 mx-auto mb-4" />
+                <CardTitle className="text-xl">AI-Powered Coaching</CardTitle>
+                <CardDescription>
                   Get personalized guidance from our AI coach, available 24/7 to answer questions and provide career advice.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-3 text-sm">
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-purple-600 rounded-full mr-3"></div>
-                    <span>24/7 AI assistance</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-purple-600 rounded-full mr-3"></div>
-                    <span>Personalized learning paths</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-purple-600 rounded-full mr-3"></div>
-                    <span>Career guidance & tips</span>
-                  </li>
-                  <li className="flex items-center">
-                    <div className="w-2 h-2 bg-purple-600 rounded-full mr-3"></div>
-                    <span>Smart skill assessments</span>
-                  </li>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>• 24/7 AI assistance</li>
+                  <li>• Personalized learning paths</li>
+                  <li>• Career guidance</li>
+                  <li>• Skill assessments</li>
                 </ul>
-                <Link to="/ai-coach">
-                  <Button variant="outline" className="w-full mt-6 border-purple-600 text-purple-600 hover:bg-purple-50">
-                    Try AI Coach
-                  </Button>
-                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader className="text-center">
+                <Briefcase className="h-16 w-16 text-orange-600 mx-auto mb-4" />
+                <CardTitle className="text-xl">Digital Jobs Board</CardTitle>
+                <CardDescription>
+                  Access exclusive job opportunities from our partner companies and connect directly with employers.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-2 text-sm text-gray-600">
+                  <li>• Curated job opportunities</li>
+                  <li>• Direct employer connections</li>
+                  <li>• Skills-matched positions</li>
+                  <li>• Career placement support</li>
+                </ul>
               </CardContent>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Jobs Board Preview Section */}
       <section className="py-20 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Latest Job Opportunities</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Get hired by top companies looking for digital skills talent. Our job board connects you with opportunities that match your training.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            {featuredJobs.map((job, index) => (
+              <Card key={index} className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 relative">
+                {job.urgent && (
+                  <Badge className="absolute top-4 right-4 bg-red-500 text-white">
+                    Urgent Hiring
+                  </Badge>
+                )}
+                <CardHeader>
+                  <CardTitle className="text-lg">{job.title}</CardTitle>
+                  <CardDescription className="font-medium text-gray-700">{job.company}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <MapPin className="h-4 w-4 mr-2" />
+                      {job.location}
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <Clock className="h-4 w-4 mr-2" />
+                      {job.type}
+                    </div>
+                    <div className="font-semibold text-green-600">
+                      {job.salary}
+                    </div>
+                  </div>
+                  <Button variant="outline" className="w-full mt-4 hover:bg-blue-50 hover:text-blue-600">
+                    View Details
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link to="/community">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
+                View All Jobs <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Everything You Need to Succeed</h2>
           <p className="text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
@@ -260,64 +288,34 @@ const Index = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Why Choose Us?</h2>
-          <p className="text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
-            Our platform offers a wide range of courses, expert mentorship, and innovative learning technologies to help you achieve your digital goals.
-          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Why Choose KuzaSkills?</h2>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-blue-100">
-              <CardHeader>
-                <Shield className="h-12 w-12 text-blue-600 mb-4" />
-                <CardTitle className="text-xl">Secure & Reliable</CardTitle>
-                <CardDescription>
-                  We prioritize your privacy and security, ensuring that your personal information is protected.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">24/7 Support</Badge>
-                  <Badge variant="secondary">Secure Payment</Badge>
-                  <Badge variant="secondary">Data Privacy</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-green-50 to-green-100">
-              <CardHeader>
-                <Award className="h-12 w-12 text-green-600 mb-4" />
-                <CardTitle className="text-xl">Certified Mentors</CardTitle>
-                <CardDescription>
-                  Our mentors are industry experts with proven track records of success.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">Certified</Badge>
-                  <Badge variant="secondary">Verified</Badge>
-                  <Badge variant="secondary">Experience</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-50 to-purple-100">
-              <CardHeader>
-                <TrendingUp className="h-12 w-12 text-purple-600 mb-4" />
-                <CardTitle className="text-xl">Continuous Improvement</CardTitle>
-                <CardDescription>
-                  Our platform is constantly evolving to provide the latest digital skills training and support.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">Regular Updates</Badge>
-                  <Badge variant="secondary">New Courses</Badge>
-                  <Badge variant="secondary">Feedback Loop</Badge>
-                </div>
-              </CardContent>
-            </Card>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <Zap className="h-12 w-12 text-yellow-600 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Fast Track Learning</h3>
+              <p className="text-gray-600 text-sm">Get job-ready in weeks, not years with our accelerated programs.</p>
+            </div>
+            
+            <div className="text-center">
+              <Shield className="h-12 w-12 text-green-600 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Trusted Platform</h3>
+              <p className="text-gray-600 text-sm">Secure, reliable, and used by thousands of successful freelancers.</p>
+            </div>
+            
+            <div className="text-center">
+              <Award className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Industry Recognition</h3>
+              <p className="text-gray-600 text-sm">Certificates recognized by top employers and platforms.</p>
+            </div>
+            
+            <div className="text-center">
+              <TrendingUp className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Proven Results</h3>
+              <p className="text-gray-600 text-sm">85% of our students land their first gig within 30 days.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -368,54 +366,45 @@ const Index = () => {
       {/* Contact Section */}
       <section className="py-20 px-4 bg-white">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Get Started Today</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Get In Touch</h2>
           <p className="text-xl text-gray-600 text-center mb-12">
-            Ready to transform your career? Choose how you want to learn and start your journey.
+            Have questions? We're here to help you start your digital career journey.
           </p>
           
-          <div className="grid md:grid-cols-3 gap-8 text-center mb-12">
-            <div className="group hover:scale-105 transition-transform">
-              <Phone className="h-12 w-12 text-blue-600 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div>
+              <Phone className="h-8 w-8 text-blue-600 mx-auto mb-4" />
               <h3 className="font-semibold mb-2">Call Us</h3>
-              <p className="text-gray-600 mb-2">+254 700 123 456</p>
-              <p className="text-sm text-gray-500">Available 24/7</p>
+              <p className="text-gray-600">+254 700 123 456</p>
             </div>
             
-            <div className="group hover:scale-105 transition-transform">
-              <Mail className="h-12 w-12 text-green-600 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+            <div>
+              <Mail className="h-8 w-8 text-green-600 mx-auto mb-4" />
               <h3 className="font-semibold mb-2">Email Us</h3>
-              <p className="text-gray-600 mb-2">hello@kuzaskills.com</p>
-              <p className="text-sm text-gray-500">Response within 24hrs</p>
+              <p className="text-gray-600">hello@kuzaskills.com</p>
             </div>
             
-            <div className="group hover:scale-105 transition-transform">
-              <Smartphone className="h-12 w-12 text-purple-600 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+            <div>
+              <Smartphone className="h-8 w-8 text-purple-600 mx-auto mb-4" />
               <h3 className="font-semibold mb-2">USSD Code</h3>
-              <p className="text-gray-600 mb-2">Dial *123#</p>
-              <p className="text-sm text-gray-500">Start learning instantly</p>
+              <p className="text-gray-600">Dial *123# to start learning</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-green-600 text-white">
+      <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Career?</h2>
-          <p className="text-xl opacity-90 mb-8">
+          <p className="text-xl text-gray-600 mb-8">
             Join thousands of learners who are already building successful digital careers.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/onboarding">
-              <Button size="lg" variant="secondary" className="bg-white text-blue-600 hover:bg-gray-100 px-12 py-4 text-lg shadow-lg hover:shadow-xl transition-all">
-                Get Started Today - It's Free!
-              </Button>
-            </Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 px-8 py-4 text-lg">
-              <Play className="mr-2 h-5 w-5" />
-              Watch Demo
+          <Link to="/onboarding">
+            <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-12 py-4 text-lg">
+              Get Started Today - It's Free!
             </Button>
-          </div>
+          </Link>
         </div>
       </section>
 

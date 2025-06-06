@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -21,6 +20,13 @@ import ResumeBuilder from "./pages/ResumeBuilder";
 import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
+import SuccessStories from "./pages/SuccessStories";
+import HelpCenter from "./pages/HelpCenter";
+import ApiDocs from "./pages/ApiDocs";
+import About from "./pages/About";
+import Careers from "./pages/Careers";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 
 const App = () => {
   // Create QueryClient inside the component to avoid SSR issues
@@ -66,15 +72,13 @@ const App = () => {
               <Route path="/mentorship/:id" element={<MentorProfile />} />
               <Route path="/community" element={<Community />} />
               <Route path="/blog" element={<Blog />} />
-              {/* TODO: Add remaining pages when they are created:
-                  - /success-stories
-                  - /help-center  
-                  - /api-docs
-                  - /about
-                  - /careers
-                  - /privacy
-                  - /terms
-              */}
+              <Route path="/success-stories" element={<SuccessStories />} />
+              <Route path="/help-center" element={<HelpCenter />} />
+              <Route path="/api-docs" element={<ApiDocs />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/careers" element={<Careers />} />
+              <Route path="/privacy" element={<Privacy />} />
+              <Route path="/terms" element={<Terms />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
