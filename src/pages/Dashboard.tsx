@@ -5,11 +5,17 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Header } from "@/components/Header";
-import { BookOpen, Users, Trophy, Clock, ArrowRight, Star, Play } from "lucide-react";
+import { BookOpen, Users, Trophy, Clock, ArrowRight, Star, Play, Bell, MessageSquare } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { LearningProgress } from "@/components/dashboard/LearningProgress";
+import { GoalTracker } from "@/components/dashboard/GoalTracker";
+import { SkillsRadar } from "@/components/dashboard/SkillsRadar";
+import { EarningsTracker } from "@/components/dashboard/EarningsTracker";
+import { NetworkingHub } from "@/components/dashboard/NetworkingHub";
+import { JobOpportunities } from "@/components/dashboard/JobOpportunities";
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -66,16 +72,6 @@ const Dashboard = () => {
       category: "Writing",
       duration: "6h 15m",
       nextLesson: "Creating Compelling Headlines"
-    },
-    {
-      id: 3,
-      title: "Virtual Assistant Skills",
-      progress: 90,
-      totalLessons: 10,
-      completedLessons: 9,
-      category: "Administrative",
-      duration: "3h 45m",
-      nextLesson: "Client Communication"
     }
   ];
 
@@ -96,15 +92,6 @@ const Dashboard = () => {
       avatar: "/placeholder.svg",
       expertise: "Marketing Expert"
     }
-  ];
-
-  const achievements = [
-    { icon: "🎯", title: "First Course Completed", earned: true },
-    { icon: "🔥", title: "7-Day Streak", earned: true },
-    { icon: "📚", title: "Knowledge Seeker", earned: true },
-    { icon: "🤝", title: "Mentor Meeting", earned: true },
-    { icon: "⭐", title: "Top Learner", earned: false },
-    { icon: "🏆", title: "Course Master", earned: false }
   ];
 
   return (
@@ -135,9 +122,15 @@ const Dashboard = () => {
                 </div>
               </div>
             </div>
-            <div className="text-right">
-              <div className="text-sm text-gray-600">Total Points</div>
-              <div className="text-3xl font-bold text-blue-600">{userStats.points}</div>
+            <div className="flex items-center space-x-4">
+              <Button variant="outline" size="sm">
+                <Bell className="h-4 w-4 mr-2" />
+                Notifications
+              </Button>
+              <Button variant="outline" size="sm">
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Messages
+              </Button>
             </div>
           </div>
         </div>
@@ -177,8 +170,9 @@ const Dashboard = () => {
           </Card>
         </div>
 
+        {/* Main Dashboard Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Content Area */}
+          {/* Left Column */}
           <div className="lg:col-span-2 space-y-8">
             {/* Continue Learning */}
             <Card className="border-0 shadow-lg">
@@ -220,59 +214,25 @@ const Dashboard = () => {
               </CardContent>
             </Card>
 
-            {/* Achievements */}
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Trophy className="h-5 w-5 mr-2 text-purple-600" />
-                  Your Achievements
-                </CardTitle>
-                <CardDescription>Track your learning milestones</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-4">
-                  {achievements.map((achievement, index) => (
-                    <div
-                      key={index}
-                      className={`p-4 rounded-lg text-center transition-all ${
-                        achievement.earned
-                          ? "bg-gradient-to-br from-yellow-50 to-yellow-100 border-2 border-yellow-200"
-                          : "bg-gray-50 border-2 border-gray-200 opacity-60"
-                      }`}
-                    >
-                      <div className="text-2xl mb-2">{achievement.icon}</div>
-                      <div className="text-xs font-medium">{achievement.title}</div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            {/* Learning Progress */}
+            <LearningProgress 
+              totalCourses={15}
+              completedCourses={userStats.completedCourses}
+              totalHours={userStats.learningTime}
+              currentStreak={7}
+            />
+
+            {/* Job Opportunities */}
+            <JobOpportunities />
           </div>
 
-          {/* Sidebar */}
+          {/* Right Column */}
           <div className="space-y-6">
-            {/* User Profile Summary */}
-            <Card className="border-0 shadow-lg">
-              <CardHeader>
-                <CardTitle>Profile Summary</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Experience Level</span>
-                  <Badge variant="outline" className="capitalize">{userLevel}</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Role</span>
-                  <Badge variant="secondary" className="capitalize">{userRole}</Badge>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Member Since</span>
-                  <span className="text-sm font-medium">
-                    {user?.created_at ? new Date(user.created_at).toLocaleDateString() : 'Recently'}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
+            {/* Goals & Milestones */}
+            <GoalTracker />
+
+            {/* Skills Assessment */}
+            <SkillsRadar />
 
             {/* Upcoming Mentorships */}
             <Card className="border-0 shadow-lg">
@@ -333,6 +293,12 @@ const Dashboard = () => {
               </CardContent>
             </Card>
           </div>
+        </div>
+
+        {/* Bottom Section - Additional Features */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+          <EarningsTracker />
+          <NetworkingHub />
         </div>
       </div>
     </div>

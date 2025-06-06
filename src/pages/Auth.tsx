@@ -16,8 +16,9 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showResendConfirmation, setShowResendConfirmation] = useState(false);
   
-  const { signUp, signIn } = useAuth();
+  const { signUp, signIn, resendConfirmation } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -29,14 +30,23 @@ const Auth = () => {
       if (isLogin) {
         const { error } = await signIn(email, password);
         if (error) {
-          toast({
-            title: "Login Error",
-            description: error.message,
-            variant: "destructive",
-          });
+          if (error.message.includes('Email not confirmed')) {
+            setShowResendConfirmation(true);
+            toast({
+              title: "Email Confirmation Required",
+              description: "Please check your email and click the confirmation link, or request a new one below.",
+              variant: "destructive",
+            });
+          } else {
+            toast({
+              title: "Login Error",
+              description: error.message,
+              variant: "destructive",
+            });
+          }
         } else {
           toast({
-            title: "Welcome back!",
+            title: "Welcome back! 🎉",
             description: "You've been successfully logged in.",
           });
           navigate("/dashboard");
@@ -51,10 +61,10 @@ const Auth = () => {
           });
         } else {
           toast({
-            title: "Account Created!",
-            description: "Please check your email to verify your account, then complete your profile setup.",
+            title: "Account Created! 🎉",
+            description: "Please check your email to verify your account. We've sent you a beautiful confirmation email!",
           });
-          navigate("/onboarding");
+          setShowResendConfirmation(true);
         }
       }
     } catch (error) {
@@ -68,6 +78,39 @@ const Auth = () => {
     }
   };
 
+  const handleResendConfirmation = async () => {
+    if (!email) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const { error } = await resendConfirmation(email);
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Confirmation Email Sent! 📧",
+          description: "We've sent a new confirmation email. Please check your inbox.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to resend confirmation email.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       <Header />
@@ -77,7 +120,7 @@ const Auth = () => {
           <CardHeader className="text-center">
             <User className="h-12 w-12 text-blue-600 mx-auto mb-4" />
             <CardTitle className="text-2xl">
-              {isLogin ? "Welcome Back" : "Join DigitalStride"}
+              {isLogin ? "Welcome Back" : "Join KuzaSkills"}
             </CardTitle>
             <CardDescription>
               {isLogin 
@@ -143,13 +186,32 @@ const Auth = () => {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </form>
+
+            {showResendConfirmation && (
+              <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p className="text-sm text-blue-800 mb-2">
+                  Didn't receive the confirmation email?
+                </p>
+                <Button
+                  onClick={handleResendConfirmation}
+                  size="sm"
+                  variant="outline"
+                  className="w-full"
+                >
+                  Resend Confirmation Email
+                </Button>
+              </div>
+            )}
             
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
                 {isLogin ? "Don't have an account?" : "Already have an account?"}
                 <button
                   type="button"
-                  onClick={() => setIsLogin(!isLogin)}
+                  onClick={() => {
+                    setIsLogin(!isLogin);
+                    setShowResendConfirmation(false);
+                  }}
                   className="ml-1 text-blue-600 hover:text-blue-700 font-medium"
                 >
                   {isLogin ? "Sign up" : "Sign in"}

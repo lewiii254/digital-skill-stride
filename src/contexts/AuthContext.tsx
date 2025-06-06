@@ -10,6 +10,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
+  resendConfirmation: (email: string) => Promise<{ error: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -49,15 +50,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   const signUp = async (email: string, password: string, fullName: string) => {
+    const redirectUrl = `${window.location.origin}/dashboard`;
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
+        emailRedirectTo: redirectUrl,
         data: {
           full_name: fullName,
         },
       },
     });
+
+    // Send custom confirmation email
+    if (data.user && !data.user.email_confirmed_at) {
+      try {
+        await supabase.functions.invoke('send-confirmation-email', {
+          body: {
+            email: email,
+            name: fullName,
+            confirmationUrl: `${window.location.origin}/auth?confirm=true&token=${data.user.id}`
+          }
+        });
+      } catch (emailError) {
+        console.error('Error sending confirmation email:', emailError);
+      }
+    }
+
     return { error };
   };
 
@@ -73,6 +93,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await supabase.auth.signOut();
   };
 
+  const resendConfirmation = async (email: string) => {
+    const { error } = await supabase.auth.resend({
+      type: 'signup',
+      email: email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`
+      }
+    });
+    return { error };
+  };
+
   const value = {
     user,
     session,
@@ -80,6 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signUp,
     signIn,
     signOut,
+    resendConfirmation,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
