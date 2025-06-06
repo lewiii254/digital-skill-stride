@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Smartphone } from 'lucide-react';
+import { Loader2, Smartphone, CheckCircle } from 'lucide-react';
 
 interface MpesaPaymentProps {
   amount: number;
@@ -27,6 +27,7 @@ const MpesaPayment = ({
 }: MpesaPaymentProps) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [paymentInitiated, setPaymentInitiated] = useState(false);
   const { toast } = useToast();
 
   const formatPhoneNumber = (phone: string) => {
@@ -67,6 +68,7 @@ const MpesaPayment = ({
     }
 
     setIsProcessing(true);
+    setPaymentInitiated(false);
 
     try {
       console.log('Initiating M-Pesa payment:', {
@@ -92,8 +94,9 @@ const MpesaPayment = ({
       }
 
       if (data?.success) {
+        setPaymentInitiated(true);
         toast({
-          title: "Payment initiated",
+          title: "Payment initiated successfully!",
           description: "Please check your phone for the M-Pesa prompt and enter your PIN to complete the payment.",
           duration: 10000
         });
@@ -143,8 +146,8 @@ const MpesaPayment = ({
 
         if (payment.status === 'completed') {
           toast({
-            title: "Payment successful!",
-            description: "Your payment has been confirmed.",
+            title: "🎉 Payment successful!",
+            description: "Your payment has been confirmed and access has been granted.",
           });
           onSuccess?.(paymentId);
           return;
@@ -163,8 +166,8 @@ const MpesaPayment = ({
           setTimeout(poll, 5000); // Check again in 5 seconds
         } else if (attempts >= maxAttempts) {
           toast({
-            title: "Payment timeout",
-            description: "Payment status check timed out. Please contact support if you completed the payment.",
+            title: "Payment status unknown",
+            description: "Please check your M-Pesa messages. If you completed the payment, access will be granted shortly.",
             variant: "destructive"
           });
         }
@@ -190,41 +193,62 @@ const MpesaPayment = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="phone">M-Pesa Phone Number</Label>
-          <Input
-            id="phone"
-            type="tel"
-            placeholder="0712345678"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            disabled={isProcessing}
-          />
-          <p className="text-sm text-gray-500">
-            Enter your Safaricom M-Pesa number
-          </p>
-        </div>
+        {!paymentInitiated && (
+          <>
+            <div className="space-y-2">
+              <Label htmlFor="phone">M-Pesa Phone Number</Label>
+              <Input
+                id="phone"
+                type="tel"
+                placeholder="0712345678"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                disabled={isProcessing}
+              />
+              <p className="text-sm text-gray-500">
+                Enter your Safaricom M-Pesa number
+              </p>
+            </div>
 
-        <div className="bg-green-50 p-3 rounded-lg border border-green-200">
-          <p className="text-sm text-green-800">
-            You will receive an M-Pesa prompt on your phone. Enter your M-Pesa PIN to complete the payment.
-          </p>
-        </div>
+            <div className="bg-green-50 p-3 rounded-lg border border-green-200">
+              <p className="text-sm text-green-800">
+                You will receive an M-Pesa prompt on your phone. Enter your M-Pesa PIN to complete the payment.
+              </p>
+            </div>
 
-        <Button 
-          onClick={handlePayment}
-          disabled={isProcessing || !phoneNumber}
-          className="w-full bg-green-600 hover:bg-green-700"
-        >
-          {isProcessing ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Processing Payment...
-            </>
-          ) : (
-            `Pay KES ${amount.toLocaleString()}`
-          )}
-        </Button>
+            <Button 
+              onClick={handlePayment}
+              disabled={isProcessing || !phoneNumber}
+              className="w-full bg-green-600 hover:bg-green-700"
+            >
+              {isProcessing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Initiating Payment...
+                </>
+              ) : (
+                `Pay KES ${amount.toLocaleString()}`
+              )}
+            </Button>
+          </>
+        )}
+
+        {paymentInitiated && (
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <CheckCircle className="h-12 w-12 text-green-600" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-semibold text-green-800">Payment Request Sent!</h3>
+              <p className="text-sm text-gray-600">
+                Check your phone for the M-Pesa prompt and enter your PIN to complete the payment.
+              </p>
+              <p className="text-xs text-gray-500">
+                We're monitoring your payment status and will notify you once it's confirmed.
+              </p>
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

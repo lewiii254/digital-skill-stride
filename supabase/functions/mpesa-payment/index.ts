@@ -40,7 +40,7 @@ serve(async (req) => {
 
     console.log('Processing M-Pesa payment:', { amount, phoneNumber, paymentType, userId: user.id, referenceId })
 
-    // Create payment record in database - store referenceId as text, not UUID
+    // Create payment record in database - store referenceId as text
     const { data: payment, error: paymentError } = await supabaseClient
       .from('payments')
       .insert({
@@ -48,7 +48,7 @@ serve(async (req) => {
         amount,
         phone_number: phoneNumber,
         payment_type: paymentType,
-        reference_id: referenceId, // This can be null or a string
+        reference_id: referenceId || null, // This will be stored as text
         payment_description: description || `Payment for ${paymentType}`,
         status: 'pending'
       })
@@ -62,77 +62,108 @@ serve(async (req) => {
 
     console.log('Payment record created:', payment.id)
 
-    // For testing purposes with only consumer key and secret, simulate STK push
-    // In production, you would make actual M-Pesa API calls
+    // Get M-Pesa access token
+    const authResponse = await fetch('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Basic ${btoa('PlgevRmSCgabGO9tnlHi4GiuO0PSMeDWJi0TGAlLdcxppXvA:V1DsubbESuhZxAHeuQ1fctZojlaoHVVFnwCll7CYICOvqcB0zo7appwePDJ52Yzn')}`
+      }
+    })
+
+    if (!authResponse.ok) {
+      console.error('M-Pesa auth failed:', await authResponse.text())
+      throw new Error('Failed to authenticate with M-Pesa')
+    }
+
+    const authData = await authResponse.json()
+    const accessToken = authData.access_token
+
+    console.log('M-Pesa access token obtained')
+
+    // Format phone number for M-Pesa (ensure it starts with 254)
+    let formattedPhone = phoneNumber.replace(/\D/g, '')
+    if (formattedPhone.startsWith('0')) {
+      formattedPhone = '254' + formattedPhone.slice(1)
+    } else if (!formattedPhone.startsWith('254')) {
+      formattedPhone = '254' + formattedPhone
+    }
+
+    // Generate timestamp
+    const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)
     
-    // Simulate successful payment after 3 seconds
-    setTimeout(async () => {
-      try {
-        console.log('Simulating payment completion for:', payment.id)
-        
-        const { error: updateError } = await supabaseClient
-          .from('payments')
-          .update({
-            status: 'completed',
-            result_code: 0,
-            result_desc: 'Payment completed successfully',
-            mpesa_receipt_number: `TEST${Date.now()}`,
-            transaction_date: new Date().toISOString()
-          })
-          .eq('id', payment.id)
+    // For sandbox, use test shortcode 174379
+    const businessShortCode = '174379'
+    const passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+    
+    // Generate password
+    const password = btoa(businessShortCode + passkey + timestamp)
 
-        if (updateError) {
-          console.error('Error updating payment:', updateError)
-          return
+    // Prepare STK Push request
+    const stkPushPayload = {
+      BusinessShortCode: businessShortCode,
+      Password: password,
+      Timestamp: timestamp,
+      TransactionType: 'CustomerPayBillOnline',
+      Amount: amount,
+      PartyA: formattedPhone,
+      PartyB: businessShortCode,
+      PhoneNumber: formattedPhone,
+      CallBackURL: `https://qrjwrbbngvxlvcczxxss.supabase.co/functions/v1/mpesa-callback?payment_id=${payment.id}`,
+      AccountReference: `PAY-${payment.id}`,
+      TransactionDesc: description || `Payment for ${paymentType}`
+    }
+
+    console.log('Initiating STK Push:', stkPushPayload)
+
+    // Send STK Push request
+    const stkResponse = await fetch('https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(stkPushPayload)
+    })
+
+    const stkData = await stkResponse.json()
+    console.log('STK Push response:', stkData)
+
+    if (stkData.ResponseCode === '0') {
+      // Update payment with checkout request ID
+      await supabaseClient
+        .from('payments')
+        .update({
+          checkout_request_id: stkData.CheckoutRequestID,
+          merchant_request_id: stkData.MerchantRequestID
+        })
+        .eq('id', payment.id)
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: 'Payment initiated successfully',
+          paymentId: payment.id,
+          checkoutRequestId: stkData.CheckoutRequestID
+        }),
+        { 
+          headers: { 
+            ...corsHeaders, 
+            'Content-Type': 'application/json' 
+          } 
         }
+      )
+    } else {
+      // Update payment status to failed
+      await supabaseClient
+        .from('payments')
+        .update({
+          status: 'failed',
+          result_desc: stkData.errorMessage || 'STK Push failed'
+        })
+        .eq('id', payment.id)
 
-        // Grant access based on payment type
-        if (paymentType === 'course_purchase' && referenceId) {
-          await supabaseClient
-            .from('course_purchases')
-            .insert({
-              user_id: user.id,
-              course_id: parseInt(referenceId),
-              payment_id: payment.id,
-              access_granted: true
-            })
-          console.log('Course access granted for course:', referenceId)
-        } else if (paymentType === 'mentorship_booking' && referenceId) {
-          // Create mentorship booking record
-          await supabaseClient
-            .from('mentorship_bookings')
-            .insert({
-              user_id: user.id,
-              mentor_id: user.id, // For now, use same user
-              payment_id: payment.id,
-              status: 'confirmed',
-              amount: amount,
-              session_date: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(), // Tomorrow
-              duration_minutes: 60
-            })
-          console.log('Mentorship booking confirmed')
-        }
-
-        console.log('Payment processing completed successfully')
-      } catch (error) {
-        console.error('Error in simulated payment completion:', error)
-      }
-    }, 3000)
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        message: 'Payment initiated successfully (Test Mode)',
-        paymentId: payment.id,
-        checkoutRequestId: `TEST_${payment.id}`
-      }),
-      { 
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json' 
-        } 
-      }
-    )
+      throw new Error(stkData.errorMessage || 'Failed to initiate payment')
+    }
 
   } catch (error) {
     console.error('Payment processing error:', error)

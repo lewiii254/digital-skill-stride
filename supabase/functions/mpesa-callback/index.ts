@@ -121,7 +121,7 @@ serve(async (req) => {
               .from('mentorship_bookings')
               .insert({
                 user_id: payment.user_id,
-                mentor_id: payment.user_id, // For now
+                mentor_id: payment.reference_id,
                 payment_id: payment.id,
                 status: 'confirmed',
                 amount: payment.amount,
