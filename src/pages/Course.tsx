@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,7 +26,7 @@ const Course = () => {
   // Load user data and course progress
   useEffect(() => {
     loadUserData();
-  }, []);
+  }, [id]);
 
   const loadUserData = async () => {
     try {
@@ -72,7 +73,7 @@ const Course = () => {
       students: 15420,
       rating: 4.9,
       reviews: 2856,
-      price: 2500,
+      price: 0, // Free course
       progress: 0,
       instructor: {
         name: "John Smith",
@@ -145,76 +146,142 @@ const Course = () => {
     },
     2: {
       id: 2,
-      title: "MERN Stack Full-Stack Development",
-      description: "Master MongoDB, Express.js, React, and Node.js to build modern web applications. Learn to create scalable full-stack applications.",
-      category: "Web Development",
-      level: "Advanced",
-      duration: "60 hours",
-      lessons: 180,
-      students: 8934,
+      title: "Digital Marketing Fundamentals",
+      description: "Master the basics of digital marketing including SEO, social media, and email marketing",
+      category: "Digital Marketing",
+      level: "Beginner",
+      duration: "6 hours",
+      lessons: 24,
+      students: 1247,
       rating: 4.8,
-      reviews: 1234,
-      price: 3500,
+      reviews: 456,
+      price: 0, // Free course
       progress: 0,
       instructor: {
-        name: "Sarah Chen",
-        bio: "Full-Stack MERN Developer and Tech Lead at Meta",
+        name: "Sarah Johnson",
+        bio: "Digital Marketing Expert with 8+ years experience helping businesses grow online",
         avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b1c5?w=100",
-        rating: 4.9,
-        students: 18934
+        rating: 4.8,
+        students: 8420
       },
-      skills: ["MongoDB", "Express.js", "React", "Node.js", "RESTful APIs", "Authentication", "Deployment"],
+      skills: ["SEO", "Social Media", "Email Marketing", "Analytics", "Content Marketing"],
       learningOutcomes: [
-        "Build full-stack web applications",
-        "Master the MERN stack technologies",
-        "Create RESTful APIs with Express.js",
-        "Build dynamic UIs with React",
-        "Work with MongoDB databases",
-        "Deploy applications to cloud platforms"
+        "Understand digital marketing fundamentals",
+        "Create effective SEO strategies",
+        "Master social media marketing",
+        "Build successful email campaigns",
+        "Analyze marketing performance"
       ],
       modules: [
         {
           id: 1,
-          title: "Node.js Backend Development",
+          title: "Introduction to Digital Marketing",
           lessons: [
-            { id: 1, title: "Node.js Fundamentals", type: "video", duration: "20 min", completed: false },
-            { id: 2, title: "NPM and Package Management", type: "video", duration: "15 min", completed: false },
-            { id: 3, title: "Express.js Framework", type: "video", duration: "25 min", completed: false },
-            { id: 4, title: "Middleware and Routing", type: "video", duration: "22 min", completed: false },
-            { id: 5, title: "Error Handling", type: "video", duration: "18 min", completed: false }
+            { id: 1, title: "What is Digital Marketing?", type: "video", duration: "10 min", completed: false },
+            { id: 2, title: "Digital Marketing Channels Overview", type: "video", duration: "15 min", completed: false },
+            { id: 3, title: "Setting Marketing Goals", type: "text", duration: "12 min", completed: false },
+            { id: 4, title: "Understanding Your Audience", type: "video", duration: "18 min", completed: false }
           ]
         },
         {
           id: 2,
-          title: "MongoDB and Database Design",
+          title: "Search Engine Optimization (SEO)",
           lessons: [
-            { id: 6, title: "MongoDB Basics", type: "video", duration: "20 min", completed: false },
-            { id: 7, title: "Mongoose ODM", type: "video", duration: "25 min", completed: false },
-            { id: 8, title: "Database Schema Design", type: "video", duration: "22 min", completed: false },
-            { id: 9, title: "CRUD Operations", type: "video", duration: "28 min", completed: false }
+            { id: 5, title: "SEO Basics", type: "video", duration: "20 min", completed: false },
+            { id: 6, title: "Keyword Research", type: "video", duration: "25 min", completed: false },
+            { id: 7, title: "On-Page SEO", type: "video", duration: "22 min", completed: false },
+            { id: 8, title: "Link Building Strategies", type: "text", duration: "18 min", completed: false }
           ]
         },
         {
           id: 3,
-          title: "React Frontend Development",
+          title: "Social Media Marketing",
           lessons: [
-            { id: 10, title: "React Fundamentals", type: "video", duration: "25 min", completed: false },
-            { id: 11, title: "Components and Props", type: "video", duration: "20 min", completed: false },
-            { id: 12, title: "State Management with Hooks", type: "video", duration: "30 min", completed: false },
-            { id: 13, title: "React Router", type: "video", duration: "22 min", completed: false },
-            { id: 14, title: "API Integration", type: "video", duration: "25 min", completed: false }
+            { id: 9, title: "Social Media Strategy", type: "video", duration: "16 min", completed: false },
+            { id: 10, title: "Content Creation for Social Media", type: "video", duration: "20 min", completed: false },
+            { id: 11, title: "Facebook & Instagram Marketing", type: "video", duration: "25 min", completed: false },
+            { id: 12, title: "Twitter & LinkedIn Marketing", type: "video", duration: "18 min", completed: false }
+          ]
+        }
+      ]
+    },
+    3: {
+      id: 3,
+      title: "Advanced React & Node.js Development",
+      description: "Build full-stack applications with React, Node.js, Express, and MongoDB. Industry-level project included.",
+      category: "Web Development",
+      level: "Advanced",
+      duration: "80 hours",
+      lessons: 240,
+      students: 3420,
+      rating: 4.9,
+      reviews: 890,
+      price: 15000,
+      progress: 0,
+      instructor: {
+        name: "Michael Chen",
+        bio: "Full-Stack Developer and Tech Lead with expertise in modern web technologies",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100",
+        rating: 4.9,
+        students: 12340
+      },
+      skills: ["React", "Node.js", "Express", "MongoDB", "REST APIs", "JWT Authentication"],
+      learningOutcomes: [
+        "Build full-stack web applications",
+        "Master React advanced concepts",
+        "Create RESTful APIs with Node.js",
+        "Implement authentication systems",
+        "Deploy applications to production"
+      ],
+      modules: [
+        {
+          id: 1,
+          title: "Advanced React Concepts",
+          lessons: [
+            { id: 1, title: "React Hooks Deep Dive", type: "video", duration: "30 min", completed: false },
+            { id: 2, title: "Context API and State Management", type: "video", duration: "25 min", completed: false },
+            { id: 3, title: "React Performance Optimization", type: "video", duration: "35 min", completed: false }
+          ]
+        },
+        {
+          id: 2,
+          title: "Node.js Backend Development",
+          lessons: [
+            { id: 4, title: "Express.js Advanced Features", type: "video", duration: "28 min", completed: false },
+            { id: 5, title: "Database Integration with MongoDB", type: "video", duration: "32 min", completed: false },
+            { id: 6, title: "Authentication with JWT", type: "video", duration: "30 min", completed: false }
           ]
         }
       ]
     }
-    // Add more course data as needed...
   };
 
-  // Fix the type conversion issue
+  // Fix the type conversion issue and get the correct course
   const courseId = Number(id) || 1;
-  const course = coursesData[courseId as keyof typeof coursesData] || coursesData[1];
-  const isEnrolled = enrolledCourses.includes(course.id);
+  const course = coursesData[courseId as keyof typeof coursesData];
+  
+  // If course doesn't exist, show error
+  if (!course) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+        <Header />
+        <div className="max-w-7xl mx-auto px-4 py-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Course Not Found</h1>
+            <p className="text-gray-600 mb-6">The course you're looking for doesn't exist.</p>
+            <Link to="/courses">
+              <Button>← Back to Courses</Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Check if course is free or purchased
+  const isFree = course.price === 0;
   const isPurchased = purchasedCourses.includes(course.id);
+  const hasAccess = isFree || isPurchased;
   
   const totalLessons = course.modules.flatMap(module => module.lessons).length;
   const completedLessonsCount = completedLessons.size;
@@ -277,6 +344,7 @@ const Course = () => {
       case "Mobile Development": return <Smartphone className="h-5 w-5" />;
       case "Cybersecurity": return <Shield className="h-5 w-5" />;
       case "Data Science": return <TrendingUp className="h-5 w-5" />;
+      case "Digital Marketing": return <TrendingUp className="h-5 w-5" />;
       default: return <BookOpen className="h-5 w-5" />;
     }
   };
@@ -333,6 +401,7 @@ const Course = () => {
                       {getCategoryIcon(course.category)}
                       <Badge variant="secondary">{course.level}</Badge>
                       <Badge variant="outline">{course.category}</Badge>
+                      {isFree && <Badge className="bg-green-500">Free</Badge>}
                     </div>
                     <CardTitle className="text-2xl mb-2">{course.title}</CardTitle>
                     <CardDescription className="text-base">{course.description}</CardDescription>
@@ -359,7 +428,7 @@ const Course = () => {
                 </div>
 
                 {/* Progress */}
-                {isPurchased && (
+                {hasAccess && (
                   <div className="mt-6">
                     <div className="flex justify-between items-center mb-2">
                       <span className="text-sm font-medium">Your Progress</span>
@@ -410,7 +479,7 @@ const Course = () => {
                                 className={`flex items-center justify-between p-3 rounded-lg border transition-colors ${
                                   isCompleted
                                     ? "bg-green-50 border-green-200"
-                                    : isPurchased
+                                    : hasAccess
                                     ? "bg-gray-50 border-gray-200 hover:bg-gray-100"
                                     : "bg-gray-50 border-gray-200 opacity-60"
                                 }`}
@@ -419,7 +488,7 @@ const Course = () => {
                                   <div className={`flex-shrink-0 ${isCompleted ? "text-green-600" : "text-gray-400"}`}>
                                     {isCompleted ? (
                                       <CheckCircle className="h-5 w-5" />
-                                    ) : isPurchased ? (
+                                    ) : hasAccess ? (
                                       getIcon(lesson.type)
                                     ) : (
                                       <Lock className="h-5 w-5" />
@@ -438,10 +507,10 @@ const Course = () => {
                                 <Button
                                   size="sm"
                                   variant={isCompleted ? "outline" : "default"}
-                                  disabled={!isPurchased}
+                                  disabled={!hasAccess}
                                   onClick={() => !isCompleted && handleLessonStart(lesson.id)}
                                 >
-                                  {isCompleted ? "Completed" : isPurchased ? "Start" : "Purchase Course"}
+                                  {isCompleted ? "Completed" : hasAccess ? "Start" : "Locked"}
                                 </Button>
                               </div>
                             );
@@ -517,7 +586,7 @@ const Course = () => {
             {/* Course Actions */}
             <Card className="border-0 shadow-lg">
               <CardContent className="p-6">
-                {!isPurchased ? (
+                {!hasAccess ? (
                   <>
                     <div className="text-center mb-4">
                       <div className="text-3xl font-bold text-green-600 mb-2">
@@ -539,7 +608,7 @@ const Course = () => {
                   </Button>
                 )}
                 
-                {isPurchased && progressPercentage === 100 && (
+                {hasAccess && progressPercentage === 100 && (
                   <Button 
                     variant="outline" 
                     className="w-full mb-4"
@@ -551,7 +620,7 @@ const Course = () => {
                 )}
                 
                 <div className="space-y-3 text-sm">
-                  {isPurchased && (
+                  {hasAccess && (
                     <>
                       <div className="flex justify-between">
                         <span>Completion</span>
