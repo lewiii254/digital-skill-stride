@@ -351,16 +351,11 @@ POST /payments/mpesa/callback
 ## 📞 Support & Community
 
 ### **🆘 Getting Help**
-- 📧 **Email**: support@digitalhub.africa
+- 📧 **Email**: ngondimarklewis@gmail.com
 - 💬 **Discord**: [Join our community](https://discord.gg/digitalhub)
-- 📱 **WhatsApp**: +254700000000
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/yourusername/repo/issues)
+- 📱 **WhatsApp**: +254790767347
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/lewiii254/digital-skill-stride/issues)
 
-### **🌍 Community Channels**
-- 📘 **Facebook**: Digital Entrepreneurs Africa
-- 🐦 **Twitter**: @DigitalHubAfrica
-- 📸 **Instagram**: @digitalhub_africa
-- 📺 **YouTube**: Digital Hub Africa
 
 ---
 
