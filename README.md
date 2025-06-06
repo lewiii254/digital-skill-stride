@@ -7,11 +7,13 @@
 
 ### 🎯 Bridging the Digital Divide Through Innovation and Education
 
+[![Safaricom](https://img.shields.io/badge/Safaricom-00A651?style=for-the-badge&logo=safaricom)](https://www.safaricom.co.ke/)
+[![M-Pesa](https://img.shields.io/badge/M--Pesa-00A651?style=for-the-badge&logo=safaricom)](https://www.safaricom.co.ke/personal/m-pesa)
 [![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase)](https://supabase.io/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
-[![M-Pesa](https://img.shields.io/badge/M--Pesa-00A651?style=for-the-badge&logo=safaricom)](https://www.safaricom.co.ke/personal/m-pesa)
+
 
 </div>
 
