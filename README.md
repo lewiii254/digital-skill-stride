@@ -374,7 +374,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - 🌍 **African Developer Community** - Inspiration and support
 
 ### **💡 Inspiration**
-Built with ❤️ for African youth, by African developers, to bridge the digital divide and create opportunities in the digital economy.
+Built with ❤️ for African youth, by African developer Marklewis, to bridge the digital divide and create opportunities in the digital economy.
 
 ---
 
