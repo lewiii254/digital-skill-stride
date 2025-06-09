@@ -15,6 +15,9 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 
 
+## [LIVE DEMO](https://digital-skill-stride.vercel.app/)
+
+## [PitchDeck Link](https://www.canva.com/design/DAGbveGXJnY/55m9qXseYamV03SZASmnzg/edit?utm_content=DAGbveGXJnY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 </div>
 
 ---
