@@ -36,7 +36,7 @@ Our platform combines **cutting-edge technology** with **local payment solutions
 - 📄 **Resume Builder** - Professional CV creation tools
 - 🧪 **Interactive Quizzes** - Skill assessment and testing
 
-### 💼 **Career Opportunities**
+### 💼 **Career Opportunities**(Some Of These Services are in the Community page)
 - 📱 **USSD Job Board** - Access jobs via simple phone codes (no internet required!)
 - 🤝 **1-on-1 Mentorship** - Connect with industry experts
 - 💰 **Freelance Opportunities** - Discover remote work possibilities
