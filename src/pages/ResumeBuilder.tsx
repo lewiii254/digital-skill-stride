@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Header } from "@/components/Header";
+import { useResumeDownload } from "@/hooks/useResumeDownload";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FileText, Download, Sparkles, Plus, X, GraduationCap, Award, Code, Eye } from "lucide-react";
 
 const ResumeBuilder = () => {
+  const { generatePDF, isGenerating } = useResumeDownload();
   const [personalInfo, setPersonalInfo] = useState({
     fullName: "",
     email: "",
@@ -638,9 +640,23 @@ const ResumeBuilder = () => {
                           <SelectItem value="creative">Creative</SelectItem>
                         </SelectContent>
                       </Select>
-                      <Button className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
+                      <Button 
+                        onClick={async () => {
+                          await generatePDF({
+                            personalInfo,
+                            skills,
+                            experience,
+                            education,
+                            projects,
+                            certifications,
+                            selectedTemplate
+                          });
+                        }}
+                        disabled={isGenerating}
+                        className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
+                      >
                         <Download className="mr-2 h-4 w-4" />
-                        Download
+                        {isGenerating ? 'Generating...' : 'Download PDF'}
                       </Button>
                     </div>
                   </div>

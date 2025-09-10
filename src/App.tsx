@@ -27,6 +27,8 @@ import About from "./pages/About";
 import Careers from "./pages/Careers";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import SkillAssessmentPage from "./pages/SkillAssessmentPage";
+import AICareerAdvisorPage from "./pages/AICareerAdvisorPage";
 
 const App = () => {
   // Create QueryClient inside the component to avoid SSR issues
@@ -79,6 +81,16 @@ const App = () => {
               <Route path="/careers" element={<Careers />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/skill-assessment" element={
+                <ProtectedRoute>
+                  <SkillAssessmentPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/ai-career-advisor" element={
+                <ProtectedRoute>
+                  <AICareerAdvisorPage />
+                </ProtectedRoute>
+              } />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>

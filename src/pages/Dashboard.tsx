@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Header } from "@/components/Header";
-import { BookOpen, Users, Trophy, Clock, ArrowRight, Star, Play, Bell, MessageSquare } from "lucide-react";
+import { BookOpen, Users, Trophy, Clock, ArrowRight, Star, Play, Bell, MessageSquare, FileText, Brain, Bot } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
@@ -296,9 +296,60 @@ const Dashboard = () => {
         </div>
 
         {/* Bottom Section - Additional Features */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mt-8">
           <EarningsTracker />
           <NetworkingHub />
+        </div>
+        
+        {/* New Features Section */}
+        <div className="mt-8 space-y-8">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Enhance Your Career</h2>
+            <p className="text-gray-600">Explore our advanced tools to accelerate your professional growth</p>
+          </div>
+          
+          <div className="grid grid-cols-1 gap-8">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">Quick Tools</h3>
+                <Badge variant="outline">New Features</Badge>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Link to="/resume-builder">
+                  <Card className="border-0 shadow-lg hover:shadow-xl transition-shadow cursor-pointer">
+                    <CardContent className="p-6 text-center">
+                      <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <FileText className="h-6 w-6 text-blue-600" />
+                      </div>
+                      <h4 className="font-semibold mb-2">Resume Builder</h4>
+                      <p className="text-sm text-gray-600">Create professional resumes with AI assistance</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+                
+                <Card className="border-0 shadow-lg cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Brain className="h-6 w-6 text-green-600" />
+                    </div>
+                    <h4 className="font-semibold mb-2">Skill Assessment</h4>
+                    <p className="text-sm text-gray-600">Test your skills and get personalized recommendations</p>
+                  </CardContent>
+                </Card>
+                
+                <Card className="border-0 shadow-lg cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Bot className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <h4 className="font-semibold mb-2">AI Career Advisor</h4>
+                    <p className="text-sm text-gray-600">Get intelligent career guidance and planning</p>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
