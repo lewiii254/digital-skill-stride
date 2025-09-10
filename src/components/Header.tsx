@@ -65,6 +65,12 @@ export const Header = () => {
           <Link to="/community" className="text-gray-600 hover:text-blue-600 transition-colors">
             Community
           </Link>
+          <Link to="/skill-assessment" className="text-gray-600 hover:text-blue-600 transition-colors">
+            Skills Assessment
+          </Link>
+          <Link to="/ai-career-advisor" className="text-gray-600 hover:text-blue-600 transition-colors">
+            AI Career Advisor
+          </Link>
           <Link to="/ai-coach" className="text-gray-600 hover:text-blue-600 transition-colors flex items-center">
             <Bot className="mr-1 h-4 w-4" />
             AI Coach
@@ -155,6 +161,12 @@ export const Header = () => {
             </Link>
             <Link to="/community" className="block text-gray-600 hover:text-blue-600 transition-colors">
               Community
+            </Link>
+            <Link to="/skill-assessment" className="block text-gray-600 hover:text-blue-600 transition-colors">
+              Skills Assessment
+            </Link>
+            <Link to="/ai-career-advisor" className="block text-gray-600 hover:text-blue-600 transition-colors">
+              AI Career Advisor
             </Link>
             <Link to="/ai-coach" className="block text-gray-600 hover:text-blue-600 transition-colors flex items-center">
               <Bot className="mr-1 h-4 w-4" />

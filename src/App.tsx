@@ -81,16 +81,8 @@ const App = () => {
               <Route path="/careers" element={<Careers />} />
               <Route path="/privacy" element={<Privacy />} />
               <Route path="/terms" element={<Terms />} />
-              <Route path="/skill-assessment" element={
-                <ProtectedRoute>
-                  <SkillAssessmentPage />
-                </ProtectedRoute>
-              } />
-              <Route path="/ai-career-advisor" element={
-                <ProtectedRoute>
-                  <AICareerAdvisorPage />
-                </ProtectedRoute>
-              } />
+              <Route path="/skill-assessment" element={<SkillAssessmentPage />} />
+              <Route path="/ai-career-advisor" element={<AICareerAdvisorPage />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
