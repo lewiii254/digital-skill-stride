@@ -28,12 +28,22 @@ export const Footer = () => {
           </div>
 
           <div>
+            <h3 className="font-semibold mb-4">AI Tools</h3>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li><Link to="/ai-career-advisor" className="hover:text-white">AI Career Advisor</Link></li>
+              <li><Link to="/skill-assessment" className="hover:text-white">Skills Assessment</Link></li>
+              <li><Link to="/ai-coach" className="hover:text-white">AI Coach</Link></li>
+              <li><Link to="/resume-builder" className="hover:text-white">Resume Builder</Link></li>
+            </ul>
+          </div>
+
+          <div>
             <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
               <li><Link to="/success-stories" className="hover:text-white">Success Stories</Link></li>
-              <li><Link to="/help" className="hover:text-white">Help Center</Link></li>
-              <li><Link to="/api" className="hover:text-white">API Docs</Link></li>
+              <li><Link to="/help-center" className="hover:text-white">Help Center</Link></li>
+              <li><Link to="/api-docs" className="hover:text-white">API Docs</Link></li>
             </ul>
           </div>
 

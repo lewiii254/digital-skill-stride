@@ -86,6 +86,57 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Enhanced About Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">About KuzaSkills</h2>
+          <p className="text-xl text-gray-600 text-center mb-16 max-w-4xl mx-auto">
+            KuzaSkills is East Africa's premier digital skills learning platform, designed to bridge the gap between traditional education and the digital economy. 
+            We make professional digital skills training accessible to everyone, whether you have high-speed internet or just a basic mobile phone.
+          </p>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white text-center">
+              <CardHeader>
+                <Globe className="h-12 w-12 text-blue-600 mx-auto mb-4" />
+                <CardTitle className="text-xl">Universal Access</CardTitle>
+                <CardDescription>
+                  Learn anywhere, anytime with our multi-platform approach. From USSD codes on basic phones to full web applications.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white text-center">
+              <CardHeader>
+                <Trophy className="h-12 w-12 text-green-600 mx-auto mb-4" />
+                <CardTitle className="text-xl">Industry-Relevant Skills</CardTitle>
+                <CardDescription>
+                  Master in-demand skills like digital marketing, content writing, virtual assistance, and web development.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white text-center">
+              <CardHeader>
+                <Users className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+                <CardTitle className="text-xl">Expert Community</CardTitle>
+                <CardDescription>
+                  Connect with successful professionals, get mentored by industry experts, and join a thriving community of learners.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+
+          <div className="text-center">
+            <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+              To democratize access to digital skills education across Africa, empowering individuals to build sustainable careers 
+              in the global digital economy through innovative, accessible, and practical learning solutions.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Key Services Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-gray-50 to-blue-50">
         <div className="max-w-6xl mx-auto">
@@ -170,6 +221,88 @@ const Index = () => {
         </div>
       </section>
 
+      {/* AI-Powered Tools Section */}
+      <section className="py-20 px-4 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">AI-Powered Career Tools</h2>
+          <p className="text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+            Get personalized guidance and assessment with our cutting-edge AI tools designed to accelerate your career growth.
+          </p>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-blue-100">
+              <CardHeader className="text-center pb-6">
+                <MessageSquare className="h-16 w-16 text-blue-600 mx-auto mb-4" />
+                <CardTitle className="text-2xl mb-2">AI Career Advisor</CardTitle>
+                <CardDescription className="text-base">
+                  Get personalized career guidance, skill recommendations, and job market insights from our intelligent AI advisor.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4 mb-6">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                    <span className="text-gray-700">Personalized career path recommendations</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                    <span className="text-gray-700">Job market analysis and trends</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                    <span className="text-gray-700">Skills gap analysis and improvement plans</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                    <span className="text-gray-700">24/7 career counseling support</span>
+                  </div>
+                </div>
+                <Link to="/ai-career-advisor">
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                    Try AI Career Advisor <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-gradient-to-br from-green-50 to-green-100">
+              <CardHeader className="text-center pb-6">
+                <Award className="h-16 w-16 text-green-600 mx-auto mb-4" />
+                <CardTitle className="text-2xl mb-2">Skills Assessment</CardTitle>
+                <CardDescription className="text-base">
+                  Evaluate your current skill level and get customized learning recommendations to reach your career goals.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4 mb-6">
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
+                    <span className="text-gray-700">Comprehensive skill evaluation tests</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
+                    <span className="text-gray-700">Personalized learning path creation</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
+                    <span className="text-gray-700">Progress tracking and benchmarking</span>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
+                    <span className="text-gray-700">Industry-standard certification preparation</span>
+                  </div>
+                </div>
+                <Link to="/skill-assessment">
+                  <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+                    Take Skills Assessment <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Jobs Board Preview Section */}
       <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
@@ -218,6 +351,128 @@ const Index = () => {
             <Link to="/community">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
                 View All Jobs <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Learning Paths Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-purple-50 to-pink-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Popular Learning Paths</h2>
+          <p className="text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+            Choose from our most successful career tracks, each designed to get you earning income within 30-90 days.
+          </p>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader>
+                <div className="flex items-center justify-between mb-4">
+                  <Badge className="bg-blue-100 text-blue-800">Most Popular</Badge>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-green-600">$500-2500</div>
+                    <div className="text-sm text-gray-500">Monthly Potential</div>
+                  </div>
+                </div>
+                <CardTitle className="text-xl">Digital Marketing</CardTitle>
+                <CardDescription>
+                  Master social media marketing, content creation, and paid advertising to help businesses grow online.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center text-sm">
+                    <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                    <span>6-8 weeks to complete</span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <Users className="h-4 w-4 mr-2 text-gray-500" />
+                    <span>2,500+ successful graduates</span>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  <Badge variant="outline" className="text-xs">Facebook Ads</Badge>
+                  <Badge variant="outline" className="text-xs">Google Ads</Badge>
+                  <Badge variant="outline" className="text-xs">SEO</Badge>
+                  <Badge variant="outline" className="text-xs">Analytics</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader>
+                <div className="flex items-center justify-between mb-4">
+                  <Badge className="bg-purple-100 text-purple-800">High Demand</Badge>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-green-600">$300-1500</div>
+                    <div className="text-sm text-gray-500">Monthly Potential</div>
+                  </div>
+                </div>
+                <CardTitle className="text-xl">Virtual Assistant</CardTitle>
+                <CardDescription>
+                  Provide administrative, technical, and creative support to businesses and entrepreneurs remotely.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center text-sm">
+                    <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                    <span>4-6 weeks to complete</span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <Users className="h-4 w-4 mr-2 text-gray-500" />
+                    <span>1,800+ successful graduates</span>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  <Badge variant="outline" className="text-xs">Admin Support</Badge>
+                  <Badge variant="outline" className="text-xs">Data Entry</Badge>
+                  <Badge variant="outline" className="text-xs">Email Management</Badge>
+                  <Badge variant="outline" className="text-xs">Research</Badge>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader>
+                <div className="flex items-center justify-between mb-4">
+                  <Badge className="bg-green-100 text-green-800">Quick Start</Badge>
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-green-600">$400-2000</div>
+                    <div className="text-sm text-gray-500">Monthly Potential</div>
+                  </div>
+                </div>
+                <CardTitle className="text-xl">Content Writing</CardTitle>
+                <CardDescription>
+                  Create compelling articles, blogs, and marketing copy for websites and businesses worldwide.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 mb-4">
+                  <div className="flex items-center text-sm">
+                    <Clock className="h-4 w-4 mr-2 text-gray-500" />
+                    <span>3-5 weeks to complete</span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <Users className="h-4 w-4 mr-2 text-gray-500" />
+                    <span>3,200+ successful graduates</span>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  <Badge variant="outline" className="text-xs">Blog Writing</Badge>
+                  <Badge variant="outline" className="text-xs">Copywriting</Badge>
+                  <Badge variant="outline" className="text-xs">SEO Writing</Badge>
+                  <Badge variant="outline" className="text-xs">Technical Writing</Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/courses">
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3">
+                Explore All Learning Paths <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
           </div>
