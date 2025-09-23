@@ -24,16 +24,23 @@ serve(async (req) => {
   try {
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     )
 
-    // Get user from request
-    const authHeader = req.headers.get('Authorization')!
-    const token = authHeader.replace('Bearer ', '')
-    const { data: { user } } = await supabaseClient.auth.getUser(token)
+    // Get user from request - handle both service role and anon key scenarios
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) {
+      throw new Error('No authorization header provided')
+    }
     
-    if (!user) {
-      throw new Error('Unauthorized')
+    const token = authHeader.replace('Bearer ', '')
+    
+    // Try to get user with the provided token
+    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(token)
+    
+    if (authError || !user) {
+      console.error('Authentication error:', authError)
+      throw new Error('Unauthorized - please sign in to make payments')
     }
 
     const { amount, phoneNumber, paymentType, referenceId, description }: PaymentRequest = await req.json()

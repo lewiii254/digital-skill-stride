@@ -6,7 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Loader2, Smartphone, CheckCircle } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Loader2, Smartphone, CheckCircle, AlertCircle } from 'lucide-react';
 
 interface MpesaPaymentProps {
   amount: number;
@@ -29,6 +30,7 @@ const MpesaPayment = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentInitiated, setPaymentInitiated] = useState(false);
   const { toast } = useToast();
+  const { user, session } = useAuth();
 
   const formatPhoneNumber = (phone: string) => {
     // Remove any non-digit characters
@@ -47,6 +49,15 @@ const MpesaPayment = ({
   };
 
   const handlePayment = async () => {
+    if (!user || !session) {
+      toast({
+        title: "Authentication required",
+        description: "Please sign in to make payments",
+        variant: "destructive"
+      });
+      return;
+    }
+
     if (!phoneNumber) {
       toast({
         title: "Phone number required",
@@ -193,7 +204,19 @@ const MpesaPayment = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        {!paymentInitiated && (
+        {!user ? (
+          <div className="text-center space-y-4">
+            <div className="flex justify-center">
+              <AlertCircle className="h-12 w-12 text-amber-500" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-semibold text-amber-800">Authentication Required</h3>
+              <p className="text-sm text-gray-600">
+                Please sign in to your account to make payments.
+              </p>
+            </div>
+          </div>
+        ) : !paymentInitiated ? (
           <>
             <div className="space-y-2">
               <Label htmlFor="phone">M-Pesa Phone Number</Label>
@@ -231,9 +254,7 @@ const MpesaPayment = ({
               )}
             </Button>
           </>
-        )}
-
-        {paymentInitiated && (
+        ) : paymentInitiated ? (
           <div className="text-center space-y-4">
             <div className="flex justify-center">
               <CheckCircle className="h-12 w-12 text-green-600" />
@@ -248,7 +269,7 @@ const MpesaPayment = ({
               </p>
             </div>
           </div>
-        )}
+        ) : null}
       </CardContent>
     </Card>
   );
