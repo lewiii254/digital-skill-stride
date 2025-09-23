@@ -40,15 +40,17 @@ serve(async (req) => {
 
     console.log('Processing M-Pesa payment:', { amount, phoneNumber, paymentType, userId: user.id, referenceId })
 
-    // Create payment record in database - store referenceId as text
+    // Create payment record in database
     const { data: payment, error: paymentError } = await supabaseClient
       .from('payments')
       .insert({
         user_id: user.id,
         amount,
+        currency: 'KES',
+        payment_method: 'mpesa',
         phone_number: phoneNumber,
         payment_type: paymentType,
-        reference_id: referenceId || null, // This will be stored as text
+        reference_id: referenceId || null,
         payment_description: description || `Payment for ${paymentType}`,
         status: 'pending'
       })
@@ -62,11 +64,20 @@ serve(async (req) => {
 
     console.log('Payment record created:', payment.id)
 
+    // Get M-Pesa credentials from environment
+    const consumerKey = Deno.env.get('MPESA_CONSUMER_KEY')
+    const consumerSecret = Deno.env.get('MPESA_CONSUMER_SECRET')
+    
+    if (!consumerKey || !consumerSecret) {
+      console.error('M-Pesa credentials not configured')
+      throw new Error('M-Pesa credentials not configured')
+    }
+    
     // Get M-Pesa access token
     const authResponse = await fetch('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials', {
       method: 'GET',
       headers: {
-        'Authorization': `Basic ${btoa('PlgevRmSCgabGO9tnlHi4GiuO0PSMeDWJi0TGAlLdcxppXvA:V1DsubbESuhZxAHeuQ1fctZojlaoHVVFnwCll7CYICOvqcB0zo7appwePDJ52Yzn')}`
+        'Authorization': `Basic ${btoa(`${consumerKey}:${consumerSecret}`)}`
       }
     })
 
@@ -91,9 +102,14 @@ serve(async (req) => {
     // Generate timestamp
     const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14)
     
-    // For sandbox, use test shortcode 174379
-    const businessShortCode = '174379'
-    const passkey = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
+    // Get M-Pesa configuration from environment
+    const businessShortCode = Deno.env.get('MPESA_BUSINESS_SHORT_CODE') || '174379'
+    const passkey = Deno.env.get('MPESA_PASSKEY')
+    
+    if (!passkey) {
+      console.error('M-Pesa passkey not configured')
+      throw new Error('M-Pesa passkey not configured')
+    }
     
     // Generate password
     const password = btoa(businessShortCode + passkey + timestamp)
@@ -108,7 +124,7 @@ serve(async (req) => {
       PartyA: formattedPhone,
       PartyB: businessShortCode,
       PhoneNumber: formattedPhone,
-      CallBackURL: `https://qrjwrbbngvxlvcczxxss.supabase.co/functions/v1/mpesa-callback?payment_id=${payment.id}`,
+      CallBackURL: `${Deno.env.get('SUPABASE_URL')}/functions/v1/mpesa-callback?payment_id=${payment.id}`,
       AccountReference: `PAY-${payment.id}`,
       TransactionDesc: description || `Payment for ${paymentType}`
     }
