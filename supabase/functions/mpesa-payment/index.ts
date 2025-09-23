@@ -27,23 +27,53 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     )
 
-    // Get user from request - handle both service role and anon key scenarios
+    // Get user from request - try multiple auth methods
     const authHeader = req.headers.get('Authorization')
     if (!authHeader) {
-      throw new Error('No authorization header provided')
+      console.error('No authorization header provided')
+      throw new Error('Authentication required - please sign in to make payments')
     }
     
     const token = authHeader.replace('Bearer ', '')
     
     // Try to get user with the provided token
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(token)
+    const { data: { user: initialUser }, error: authError } = await supabaseClient.auth.getUser(token)
+    let user = initialUser
     
     if (authError || !user) {
       console.error('Authentication error:', authError)
-      throw new Error('Unauthorized - please sign in to make payments')
+      // Try with the anon key to verify the token
+      const supabaseAuth = createClient(
+        Deno.env.get('SUPABASE_URL') ?? '',
+        Deno.env.get('SUPABASE_ANON_KEY') ?? '',
+      )
+      
+      const authResult = await supabaseAuth.auth.getUser(token)
+      
+      if (authResult.error || !authResult.data.user) {
+        console.error('Retry authentication failed:', authResult.error)
+        throw new Error('Unauthorized - please sign in to make payments')
+      }
+      
+      // Use the authenticated user
+      user = authResult.data.user
     }
 
-    const { amount, phoneNumber, paymentType, referenceId, description }: PaymentRequest = await req.json()
+    const requestBody = await req.json()
+    const { amount, phoneNumber, paymentType, referenceId, description }: PaymentRequest = requestBody
+
+    // Validate required fields
+    if (!amount || amount <= 0) {
+      throw new Error('Invalid amount - must be greater than 0')
+    }
+    
+    if (!phoneNumber) {
+      throw new Error('Phone number is required')
+    }
+    
+    if (!paymentType || !['course_purchase', 'mentorship_booking', 'subscription'].includes(paymentType)) {
+      throw new Error('Invalid payment type')
+    }
 
     console.log('Processing M-Pesa payment:', { amount, phoneNumber, paymentType, userId: user.id, referenceId })
 
@@ -121,6 +151,10 @@ serve(async (req) => {
     // Generate password
     const password = btoa(businessShortCode + passkey + timestamp)
 
+    // Get callback URL - use environment variable or fallback to Supabase URL
+    const baseUrl = Deno.env.get('SUPABASE_URL') || 'https://qrjwrbbngvxlvcczxxss.supabase.co'
+    const callbackUrl = `${baseUrl}/functions/v1/mpesa-callback?payment_id=${payment.id}`
+
     // Prepare STK Push request
     const stkPushPayload = {
       BusinessShortCode: businessShortCode,
@@ -131,7 +165,7 @@ serve(async (req) => {
       PartyA: formattedPhone,
       PartyB: businessShortCode,
       PhoneNumber: formattedPhone,
-      CallBackURL: `${Deno.env.get('SUPABASE_URL')}/functions/v1/mpesa-callback?payment_id=${payment.id}`,
+      CallBackURL: callbackUrl,
       AccountReference: `PAY-${payment.id}`,
       TransactionDesc: description || `Payment for ${paymentType}`
     }

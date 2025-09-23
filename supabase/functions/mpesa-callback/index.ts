@@ -39,7 +39,16 @@ serve(async (req) => {
     const resultDesc = stkCallback.ResultDesc
     const checkoutRequestId = stkCallback.CheckoutRequestID
 
-    let updateData: any = {
+    const updateData: {
+      result_code: number;
+      result_desc: string;
+      checkout_request_id: string;
+      status?: string;
+      transaction_date?: string;
+      amount?: number;
+      mpesa_receipt_number?: string;
+      phone_number?: string;
+    } = {
       result_code: resultCode,
       result_desc: resultDesc,
       checkout_request_id: checkoutRequestId,
@@ -114,7 +123,7 @@ serve(async (req) => {
           }
           break
 
-        case 'mentorship_booking':
+        case 'mentorship_booking': {
           if (payment.reference_id) {
             // Create mentorship booking
             const { error: bookingError } = await supabaseClient
@@ -136,8 +145,9 @@ serve(async (req) => {
             }
           }
           break
+        }
 
-        case 'subscription':
+        case 'subscription': {
           // Create or update subscription
           const endDate = new Date()
           endDate.setMonth(endDate.getMonth() + 1) // 1 month subscription
@@ -159,6 +169,7 @@ serve(async (req) => {
             console.log('Subscription created/updated')
           }
           break
+        }
       }
 
       console.log('Access granted for payment type:', payment.payment_type)
