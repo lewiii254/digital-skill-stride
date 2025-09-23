@@ -97,7 +97,10 @@ const MpesaPayment = ({
           paymentType,
           referenceId,
           description
-        }
+        },
+        headers: session?.access_token ? {
+          Authorization: `Bearer ${session.access_token}`
+        } : undefined
       });
 
       if (error) {
@@ -120,9 +123,17 @@ const MpesaPayment = ({
         throw new Error(data?.error || 'Payment initiation failed');
       }
 
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Payment error:', error);
-      const errorMessage = error.message || 'Payment failed. Please try again.';
+      let errorMessage = 'Payment failed. Please try again.';
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      } else if (error && typeof error === 'object' && 'error' in error) {
+        errorMessage = String((error as { error: unknown }).error);
+      }
       
       toast({
         title: "Payment failed",
