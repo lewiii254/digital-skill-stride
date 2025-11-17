@@ -32,6 +32,10 @@ import AICareerAdvisorPage from "./pages/AICareerAdvisorPage";
 import MessagesPage from "./pages/MessagesPage";
 import ProgressPage from "./pages/ProgressPage";
 import TestMpesaPayment from "./pages/TestMpesaPayment";
+import Achievements from "./pages/Achievements";
+import Certifications from "./pages/Certifications";
+import Schedule from "./pages/Schedule";
+import Analytics from "./pages/Analytics";
 
 const App = () => {
   // Create QueryClient inside the component to avoid SSR issues
@@ -88,6 +92,10 @@ const App = () => {
               <Route path="/ai-career-advisor" element={<ProtectedRoute><AICareerAdvisorPage /></ProtectedRoute>} />
               <Route path="/messages" element={<ProtectedRoute><MessagesPage /></ProtectedRoute>} />
               <Route path="/progress" element={<ProtectedRoute><ProgressPage /></ProtectedRoute>} />
+              <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
+              <Route path="/certifications" element={<ProtectedRoute><Certifications /></ProtectedRoute>} />
+              <Route path="/schedule" element={<ProtectedRoute><Schedule /></ProtectedRoute>} />
+              <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
               <Route path="/test-mpesa" element={<TestMpesaPayment />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

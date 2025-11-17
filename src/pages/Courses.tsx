@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Header } from "@/components/Header";
+import { LMSLayout } from "@/components/layouts/LMSLayout";
 import { BookOpen, Clock, Users, Star, Search, Award, PlayCircle, Code, Database, TestTube, Video, Palette, Brain, Smartphone, Shield, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import CoursePaymentButton from "@/components/payments/CoursePaymentButton";
@@ -344,10 +344,8 @@ const Courses = () => {
   const completedCourses = courses.filter(course => course.progress === 100);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      <Header />
-      
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <LMSLayout>
+      <div className="space-y-6">
         {/* Header Section */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Digital Skills Training</h1>
@@ -424,7 +422,7 @@ const Courses = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </LMSLayout>
   );
 };
 
