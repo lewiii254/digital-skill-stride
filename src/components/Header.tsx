@@ -9,6 +9,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useTheme } from "next-themes";
+import { NotificationBell } from "@/components/NotificationBell";
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -88,11 +89,12 @@ export const Header = () => {
 
         {/* Auth Buttons */}
         <div className="hidden md:flex items-center space-x-4">
+          {user && <NotificationBell />}
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="text-gray-600 hover:text-blue-600"
+            className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
             aria-label="Toggle theme"
           >
             {theme === "dark" ? (

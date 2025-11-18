@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertCircle, CheckCircle, Clock, Ticket, Send } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 const SupportTickets = () => {
   const { user } = useAuth();
@@ -142,6 +143,7 @@ const SupportTickets = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header />
+      <Breadcrumbs />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16 px-4">

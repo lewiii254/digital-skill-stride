@@ -38,6 +38,7 @@ import Certifications from "./pages/Certifications";
 import Schedule from "./pages/Schedule";
 import Analytics from "./pages/Analytics";
 import SupportTickets from "./pages/SupportTickets";
+import { KeyboardShortcuts } from "./components/KeyboardShortcuts";
 
 const App = () => {
   // Create QueryClient inside the component to avoid SSR issues
@@ -57,6 +58,7 @@ const App = () => {
           <TooltipProvider>
             <Toaster />
             <Sonner />
+            <KeyboardShortcuts />
             <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />

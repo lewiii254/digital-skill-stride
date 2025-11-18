@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Search, BookOpen, MessageCircle, Phone, Mail, HelpCircle, Users, CreditCard, Settings, Ticket } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 const HelpCenter = () => {
   const categories = [
@@ -66,6 +67,7 @@ const HelpCenter = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header />
+      <Breadcrumbs />
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-20 px-4">
