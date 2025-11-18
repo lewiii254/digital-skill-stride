@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Header } from "@/components/Header";
+import { LMSLayout } from "@/components/layouts/LMSLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -83,10 +83,8 @@ const AICoach = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      <div className="max-w-4xl mx-auto px-4 py-8">
+    <LMSLayout>
+      <div className="space-y-6 max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2 flex items-center">
             <Bot className="mr-3 h-8 w-8 text-blue-600" />
@@ -222,7 +220,7 @@ const AICoach = () => {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </LMSLayout>
   );
 };
 

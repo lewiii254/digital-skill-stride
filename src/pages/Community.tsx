@@ -21,7 +21,7 @@ import {
   TrendingUp,
   Trash2
 } from "lucide-react";
-import { Header } from "@/components/Header";
+import { LMSLayout } from "@/components/layouts/LMSLayout";
 import { Footer } from "@/components/Footer";
 import { CreateQuestionModal } from "@/components/community/CreateQuestionModal";
 import { CreateStoryModal } from "@/components/community/CreateStoryModal";
@@ -115,10 +115,8 @@ const Community = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      <div className="max-w-6xl mx-auto px-4 py-8">
+    <LMSLayout>
+      <div className="space-y-6">
         {/* Enhanced Hero Section */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
@@ -429,9 +427,7 @@ const Community = () => {
           </TabsContent>
         </Tabs>
       </div>
-
-      <Footer />
-    </div>
+    </LMSLayout>
   );
 };
 

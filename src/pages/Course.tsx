@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Header } from "@/components/Header";
+import { LMSLayout } from "@/components/layouts/LMSLayout";
 import { Certificate } from "@/components/Certificate";
 import CoursePaymentButton from "@/components/payments/CoursePaymentButton";
 import { supabase } from "@/integrations/supabase/client";
@@ -378,10 +378,8 @@ const Course = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      <Header />
-      
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <LMSLayout>
+      <div className="space-y-6">
         {/* Breadcrumb */}
         <div className="mb-6">
           <Link to="/courses" className="text-blue-600 hover:underline">Courses</Link>
@@ -679,7 +677,7 @@ const Course = () => {
           </div>
         </div>
       </div>
-    </div>
+    </LMSLayout>
   );
 };
 

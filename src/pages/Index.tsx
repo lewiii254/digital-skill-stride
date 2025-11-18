@@ -575,33 +575,105 @@ const Index = () => {
         </div>
       </section>
 
+      {/* How It Works Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-purple-50 to-blue-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">How It Works</h2>
+          <p className="text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+            Start your journey to digital success in 4 simple steps
+          </p>
+          
+          <div className="grid md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                1
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Sign Up Free</h3>
+              <p className="text-gray-600">
+                Create your account in under 2 minutes. No credit card required.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                2
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Choose Your Path</h3>
+              <p className="text-gray-600">
+                Select a learning path based on your interests and career goals.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                3
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Learn & Practice</h3>
+              <p className="text-gray-600">
+                Complete courses, work on projects, and get feedback from mentors.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white text-2xl font-bold">
+                4
+              </div>
+              <h3 className="text-xl font-semibold mb-3">Start Earning</h3>
+              <p className="text-gray-600">
+                Apply for jobs, build your portfolio, and land your first clients.
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/onboarding">
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-3">
+                Start Your Journey Today <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Testimonials Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-green-600 text-white">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-16">Success Stories</h2>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Success Stories</h2>
+            <p className="text-xl text-white/90 max-w-2xl mx-auto">
+              Join thousands of learners who've transformed their careers with KuzaSkills
+            </p>
+          </div>
           
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 transition-all">
               <CardHeader>
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-3">
                     <Star className="h-6 w-6" />
                   </div>
                   <div>
                     <div className="font-semibold">Sarah M.</div>
-                    <div className="text-sm opacity-80">Freelance Writer</div>
+                    <div className="text-sm opacity-80">Content Writer</div>
                   </div>
                 </div>
-                <CardDescription className="text-white/90">
+                <CardDescription className="text-white/90 text-base">
                   "I went from zero experience to earning $2,000/month on Upwork in just 3 months. The mentorship was game-changing!"
                 </CardDescription>
+                <div className="mt-4 flex items-center text-yellow-300">
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                </div>
               </CardHeader>
             </Card>
 
-            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white">
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 transition-all">
               <CardHeader>
                 <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-3">
                     <Star className="h-6 w-6" />
                   </div>
                   <div>
@@ -609,11 +681,274 @@ const Index = () => {
                     <div className="text-sm opacity-80">Digital Marketer</div>
                   </div>
                 </div>
-                <CardDescription className="text-white/90">
-                  "The platform-specific training helped me understand exactly what clients want. Now I'm booked solid!"
+                <CardDescription className="text-white/90 text-base">
+                  "The platform-specific training helped me understand exactly what clients want. Now I'm running campaigns for 5 businesses!"
                 </CardDescription>
+                <div className="mt-4 flex items-center text-yellow-300">
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                </div>
               </CardHeader>
             </Card>
+
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 transition-all">
+              <CardHeader>
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                    <Star className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">Lucy W.</div>
+                    <div className="text-sm opacity-80">Virtual Assistant</div>
+                  </div>
+                </div>
+                <CardDescription className="text-white/90 text-base">
+                  "Started learning during my maternity leave. Now I work from home and earn enough to support my family. Life-changing!"
+                </CardDescription>
+                <div className="mt-4 flex items-center text-yellow-300">
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                </div>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 transition-all">
+              <CardHeader>
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                    <Star className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">Peter O.</div>
+                    <div className="text-sm opacity-80">Web Developer</div>
+                  </div>
+                </div>
+                <CardDescription className="text-white/90 text-base">
+                  "Transitioned from construction work to web development. The AI coach guided me every step. Best decision ever!"
+                </CardDescription>
+                <div className="mt-4 flex items-center text-yellow-300">
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                </div>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 transition-all">
+              <CardHeader>
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                    <Star className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">Grace N.</div>
+                    <div className="text-sm opacity-80">Social Media Manager</div>
+                  </div>
+                </div>
+                <CardDescription className="text-white/90 text-base">
+                  "Landed my dream job at a startup after completing the digital marketing course. The certificate was recognized instantly!"
+                </CardDescription>
+                <div className="mt-4 flex items-center text-yellow-300">
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                </div>
+              </CardHeader>
+            </Card>
+
+            <Card className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/15 transition-all">
+              <CardHeader>
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                    <Star className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="font-semibold">David M.</div>
+                    <div className="text-sm opacity-80">Graphic Designer</div>
+                  </div>
+                </div>
+                <CardDescription className="text-white/90 text-base">
+                  "The practical projects in my portfolio got me my first 10 clients. Now I have a waiting list. Thank you KuzaSkills!"
+                </CardDescription>
+                <div className="mt-4 flex items-center text-yellow-300">
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                  <Star className="h-4 w-4 fill-current" />
+                </div>
+              </CardHeader>
+            </Card>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link to="/success-stories">
+              <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 text-white border-white/30 backdrop-blur-sm">
+                Read More Success Stories <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-gray-50 to-blue-50">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Simple, Transparent Pricing</h2>
+          <p className="text-xl text-gray-600 text-center mb-16 max-w-2xl mx-auto">
+            Choose the plan that fits your learning goals. All plans include access to our core features.
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Free Plan */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader className="text-center pb-8">
+                <Badge className="mx-auto mb-4 bg-gray-200 text-gray-700">Free</Badge>
+                <CardTitle className="text-2xl mb-2">Starter</CardTitle>
+                <div className="text-4xl font-bold mb-2">KES 0</div>
+                <CardDescription>Perfect for getting started</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Access to 20+ free courses</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Community forum access</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Basic progress tracking</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-green-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">AI Career Advisor (limited)</span>
+                  </li>
+                </ul>
+                <Link to="/auth">
+                  <Button variant="outline" className="w-full">Get Started Free</Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Premium Plan */}
+            <Card className="border-2 border-blue-500 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white relative">
+              <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500">Most Popular</Badge>
+              <CardHeader className="text-center pb-8 pt-8">
+                <Badge className="mx-auto mb-4 bg-blue-500">Premium</Badge>
+                <CardTitle className="text-2xl mb-2">Professional</CardTitle>
+                <div className="text-4xl font-bold mb-2">
+                  KES 2,500
+                  <span className="text-lg font-normal text-gray-600">/month</span>
+                </div>
+                <CardDescription>For serious learners</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm font-medium">Everything in Starter</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Access to ALL 100+ courses</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">2 mentorship sessions/month</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Industry certificates</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Priority support</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-blue-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Job placement assistance</span>
+                  </li>
+                </ul>
+                <Link to="/auth">
+                  <Button className="w-full bg-gradient-to-r from-blue-600 to-green-600">Start Premium Trial</Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            {/* Pro Plan */}
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-white">
+              <CardHeader className="text-center pb-8">
+                <Badge className="mx-auto mb-4 bg-purple-500">Pro</Badge>
+                <CardTitle className="text-2xl mb-2">Enterprise</CardTitle>
+                <div className="text-4xl font-bold mb-2">
+                  KES 5,000
+                  <span className="text-lg font-normal text-gray-600">/month</span>
+                </div>
+                <CardDescription>For professionals & teams</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3 mb-6">
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-purple-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm font-medium">Everything in Professional</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-purple-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Unlimited mentorship sessions</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-purple-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">1-on-1 career coaching</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-purple-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Custom learning paths</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-purple-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Portfolio review service</span>
+                  </li>
+                  <li className="flex items-center">
+                    <Star className="h-5 w-5 text-purple-600 mr-2 flex-shrink-0" />
+                    <span className="text-sm">Direct employer connections</span>
+                  </li>
+                </ul>
+                <Link to="/auth">
+                  <Button variant="outline" className="w-full border-2 border-purple-600 text-purple-600 hover:bg-purple-50">Contact Sales</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-gray-600 mb-4">All plans include 14-day money-back guarantee</p>
+            <div className="flex items-center justify-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center">
+                <Shield className="h-4 w-4 mr-1 text-green-600" />
+                <span>Secure Payment</span>
+              </div>
+              <div className="flex items-center">
+                <Smartphone className="h-4 w-4 mr-1 text-blue-600" />
+                <span>M-Pesa Accepted</span>
+              </div>
+              <div className="flex items-center">
+                <Award className="h-4 w-4 mr-1 text-purple-600" />
+                <span>Cancel Anytime</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>

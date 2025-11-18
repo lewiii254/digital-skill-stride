@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Header } from "@/components/Header";
+import { LMSLayout } from "@/components/layouts/LMSLayout";
 import { BookOpen, Users, Trophy, Clock, ArrowRight, Star, Play, Bell, MessageSquare, FileText, Brain, Bot } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -95,10 +95,8 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      <Header />
-      
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <LMSLayout>
+      <div className="space-y-6">
         {/* Welcome Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
@@ -352,7 +350,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </LMSLayout>
   );
 };
 

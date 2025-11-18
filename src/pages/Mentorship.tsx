@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Header } from "@/components/Header";
+import { LMSLayout } from "@/components/layouts/LMSLayout";
 import { Users, Star, Search, Clock, MapPin, Calendar as CalendarIcon, Video, MessageCircle, Award, Filter } from "lucide-react";
 import { format } from "date-fns";
 import MentorshipPaymentButton from "@/components/payments/MentorshipPaymentButton";
@@ -188,10 +188,8 @@ const Mentorship = () => {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      <Header />
-      
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <LMSLayout>
+      <div className="space-y-6">
         {/* Header Section */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">1-on-1 Mentorship</h1>
@@ -249,7 +247,7 @@ const Mentorship = () => {
           ))}
         </div>
       </div>
-    </div>
+    </LMSLayout>
   );
 };
 
