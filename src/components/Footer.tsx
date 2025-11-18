@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
-    <footer className="bg-gray-900 dark:bg-black text-white py-12 px-4 border-t dark:border-gray-800">
+    <footer className="bg-gray-900 dark:bg-black text-white py-12 px-4 border-t dark:border-gray-800" role="contentinfo">
       <div className="max-w-6xl mx-auto">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
@@ -17,7 +17,7 @@ export const Footer = () => {
             </p>
           </div>
 
-          <div>
+          <nav aria-label="Platform links">
             <h3 className="font-semibold mb-4">Platform</h3>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><Link to="/courses" className="hover:text-white">Courses</Link></li>
@@ -25,9 +25,9 @@ export const Footer = () => {
               <li><Link to="/community" className="hover:text-white">Community</Link></li>
               <li><Link to="/dashboard" className="hover:text-white">Dashboard</Link></li>
             </ul>
-          </div>
+          </nav>
 
-          <div>
+          <nav aria-label="AI Tools links">
             <h3 className="font-semibold mb-4">AI Tools</h3>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><Link to="/ai-career-advisor" className="hover:text-white">AI Career Advisor</Link></li>
@@ -35,9 +35,9 @@ export const Footer = () => {
               <li><Link to="/ai-coach" className="hover:text-white">AI Coach</Link></li>
               <li><Link to="/resume-builder" className="hover:text-white">Resume Builder</Link></li>
             </ul>
-          </div>
+          </nav>
 
-          <div>
+          <nav aria-label="Resources links">
             <h3 className="font-semibold mb-4">Resources</h3>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><Link to="/blog" className="hover:text-white">Blog</Link></li>
@@ -45,9 +45,9 @@ export const Footer = () => {
               <li><Link to="/help-center" className="hover:text-white">Help Center</Link></li>
               <li><Link to="/api-docs" className="hover:text-white">API Docs</Link></li>
             </ul>
-          </div>
+          </nav>
 
-          <div>
+          <nav aria-label="Company links">
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-sm text-gray-400">
               <li><Link to="/about" className="hover:text-white">About</Link></li>
@@ -55,7 +55,7 @@ export const Footer = () => {
               <li><Link to="/privacy" className="hover:text-white">Privacy</Link></li>
               <li><Link to="/terms" className="hover:text-white">Terms</Link></li>
             </ul>
-          </div>
+          </nav>
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">

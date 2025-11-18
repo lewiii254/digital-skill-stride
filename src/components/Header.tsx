@@ -44,9 +44,18 @@ export const Header = () => {
   const firstName = displayName.split(' ')[0];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center space-x-2">
+    <>
+      {/* Skip to main content link for accessibility */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded-md focus:shadow-lg"
+      >
+        Skip to main content
+      </a>
+      
+      <header className="sticky top-0 z-50 w-full border-b bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60" role="banner">
+        <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        <Link to="/" className="flex items-center space-x-2" aria-label="KuzaSkills Home">
           <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">KS</span>
           </div>
@@ -57,7 +66,7 @@ export const Header = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-8" role="navigation" aria-label="Main navigation">
           <Link to="/courses" className="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
             Courses
           </Link>
@@ -133,6 +142,9 @@ export const Header = () => {
           size="icon"
           className="md:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMenuOpen}
+          aria-controls="mobile-menu"
         >
           <Menu className="h-5 w-5" />
         </Button>
@@ -140,7 +152,7 @@ export const Header = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden border-t bg-white/95 dark:bg-gray-900/95 backdrop-blur">
+        <div id="mobile-menu" className="md:hidden border-t bg-white/95 dark:bg-gray-900/95 backdrop-blur" role="navigation" aria-label="Mobile navigation">
           <div className="px-4 py-4 space-y-4">
             {user && (
               <div className="flex items-center space-x-3 pb-4 border-b">
@@ -218,6 +230,7 @@ export const Header = () => {
           </div>
         </div>
       )}
-    </header>
+      </header>
+    </>
   );
 };

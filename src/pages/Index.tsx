@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Users, BookOpen, Trophy, Star, Smartphone, Globe, Zap, Shield, Award, TrendingUp, MessageSquare, Phone, Mail, Briefcase, MapPin, Clock } from "lucide-react";
+import { ArrowRight, Users, BookOpen, Trophy, Star, Smartphone, Globe, Zap, Shield, Award, TrendingUp, MessageSquare, Phone, Mail, Briefcase, MapPin, Clock, Bot } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -39,10 +39,11 @@ const Index = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Header />
       
+      <main id="main-content">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-4">
+      <section className="relative overflow-hidden py-20 px-4" aria-labelledby="hero-heading">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+          <h1 id="hero-heading" className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
             Grow Your Digital Skills.<br />Shape Your Future.
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
@@ -86,11 +87,86 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Enhanced About Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-gray-50 to-blue-50">
+      {/* What We Offer - Prominent Section */}
+      <section className="py-20 px-4 bg-white dark:bg-gray-800">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">About KuzaSkills</h2>
-          <p className="text-xl text-gray-600 text-center mb-16 max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">What We Offer</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 dark:text-white">Everything You Need to Launch Your Digital Career</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              From learning to earning - we provide comprehensive tools and support for your journey in the digital economy.
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900 dark:to-blue-800">
+              <CardHeader className="text-center">
+                <BookOpen className="h-12 w-12 text-blue-600 dark:text-blue-300 mx-auto mb-4" />
+                <CardTitle className="text-xl dark:text-white">50+ Skill Courses</CardTitle>
+                <CardDescription className="dark:text-gray-200">
+                  Master in-demand skills with our comprehensive course library covering digital marketing, web development, content creation, and more.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900 dark:to-green-800">
+              <CardHeader className="text-center">
+                <Users className="h-12 w-12 text-green-600 dark:text-green-300 mx-auto mb-4" />
+                <CardTitle className="text-xl dark:text-white">500+ Expert Mentors</CardTitle>
+                <CardDescription className="dark:text-gray-200">
+                  Connect with successful professionals for 1-on-1 guidance, portfolio reviews, and career advice tailored to your goals.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900 dark:to-purple-800">
+              <CardHeader className="text-center">
+                <Smartphone className="h-12 w-12 text-purple-600 dark:text-purple-300 mx-auto mb-4" />
+                <CardTitle className="text-xl dark:text-white">USSD Learning</CardTitle>
+                <CardDescription className="dark:text-gray-200">
+                  Learn from any phone, even without internet. Our USSD platform makes education accessible to everyone across Africa.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-900 dark:to-orange-800">
+              <CardHeader className="text-center">
+                <MessageSquare className="h-12 w-12 text-orange-600 dark:text-orange-300 mx-auto mb-4" />
+                <CardTitle className="text-xl dark:text-white">AI Career Coach</CardTitle>
+                <CardDescription className="dark:text-gray-200">
+                  Get 24/7 personalized guidance from our AI-powered coach for skill development, career planning, and job preparation.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-pink-50 to-pink-100 dark:from-pink-900 dark:to-pink-800">
+              <CardHeader className="text-center">
+                <Trophy className="h-12 w-12 text-pink-600 dark:text-pink-300 mx-auto mb-4" />
+                <CardTitle className="text-xl dark:text-white">Certifications</CardTitle>
+                <CardDescription className="dark:text-gray-200">
+                  Earn industry-recognized certificates that prove your skills and help you stand out to employers and clients.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+
+            <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-900 dark:to-teal-800">
+              <CardHeader className="text-center">
+                <Briefcase className="h-12 w-12 text-teal-600 dark:text-teal-300 mx-auto mb-4" />
+                <CardTitle className="text-xl dark:text-white">Job Opportunities</CardTitle>
+                <CardDescription className="dark:text-gray-200">
+                  Access exclusive job listings and connect directly with employers looking for digital talent like you.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Enhanced About Section */}
+      <section className="py-20 px-4 bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 dark:text-white">About KuzaSkills</h2>
+          <p className="text-xl text-gray-600 dark:text-gray-300 text-center mb-16 max-w-4xl mx-auto">
             KuzaSkills is East Africa's premier digital skills learning platform, designed to bridge the gap between traditional education and the digital economy. 
             We make professional digital skills training accessible to everyone, whether you have high-speed internet or just a basic mobile phone.
           </p>
@@ -997,6 +1073,7 @@ const Index = () => {
           </Link>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>
