@@ -36,7 +36,7 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Header />
       
       {/* Hero Section */}
@@ -45,7 +45,7 @@ const Index = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
             Grow Your Digital Skills.<br />Shape Your Future.
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
             Join thousands learning in-demand digital skills through expert mentorship and hands-on training. 
             Start earning on platforms like Upwork, Fiverr, and Jumia today with our USSD-based learning system.
           </p>
@@ -65,23 +65,23 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-white/80 backdrop-blur-sm">
+      <section className="py-16 px-4 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
         <div className="max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           <div>
-            <div className="text-3xl font-bold text-blue-600 mb-2">10,000+</div>
-            <div className="text-gray-600">Active Learners</div>
+            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">10,000+</div>
+            <div className="text-gray-600 dark:text-gray-300">Active Learners</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-green-600 mb-2">500+</div>
-            <div className="text-gray-600">Expert Mentors</div>
+            <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">500+</div>
+            <div className="text-gray-600 dark:text-gray-300">Expert Mentors</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-purple-600 mb-2">50+</div>
-            <div className="text-gray-600">Skill Courses</div>
+            <div className="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">50+</div>
+            <div className="text-gray-600 dark:text-gray-300">Skill Courses</div>
           </div>
           <div>
-            <div className="text-3xl font-bold text-orange-600 mb-2">85%</div>
-            <div className="text-gray-600">Success Rate</div>
+            <div className="text-3xl font-bold text-orange-600 dark:text-orange-400 mb-2">85%</div>
+            <div className="text-gray-600 dark:text-gray-300">Success Rate</div>
           </div>
         </div>
       </section>

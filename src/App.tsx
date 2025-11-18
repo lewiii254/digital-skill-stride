@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Onboarding from "./pages/Onboarding";
@@ -36,6 +37,7 @@ import Achievements from "./pages/Achievements";
 import Certifications from "./pages/Certifications";
 import Schedule from "./pages/Schedule";
 import Analytics from "./pages/Analytics";
+import SupportTickets from "./pages/SupportTickets";
 
 const App = () => {
   // Create QueryClient inside the component to avoid SSR issues
@@ -50,11 +52,12 @@ const App = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <AuthProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/auth" element={<Auth />} />
@@ -96,6 +99,7 @@ const App = () => {
               <Route path="/certifications" element={<ProtectedRoute><Certifications /></ProtectedRoute>} />
               <Route path="/schedule" element={<ProtectedRoute><Schedule /></ProtectedRoute>} />
               <Route path="/analytics" element={<ProtectedRoute><Analytics /></ProtectedRoute>} />
+              <Route path="/support-tickets" element={<SupportTickets />} />
               <Route path="/test-mpesa" element={<TestMpesaPayment />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
@@ -103,6 +107,7 @@ const App = () => {
           </BrowserRouter>
         </TooltipProvider>
       </AuthProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 };

@@ -5,7 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Search, BookOpen, MessageCircle, Phone, Mail, HelpCircle, Users, CreditCard, Settings } from "lucide-react";
+import { Search, BookOpen, MessageCircle, Phone, Mail, HelpCircle, Users, CreditCard, Settings, Ticket } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HelpCenter = () => {
   const categories = [
@@ -63,7 +64,7 @@ const HelpCenter = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <Header />
       
       {/* Hero Section */}
@@ -129,19 +130,37 @@ const HelpCenter = () => {
       </section>
 
       {/* Contact Support */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-16 px-4 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-8">Still Need Help?</h2>
-          <p className="text-lg text-gray-600 mb-12">
+          <h2 className="text-3xl font-bold mb-8 dark:text-white">Still Need Help?</h2>
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-12">
             Can't find what you're looking for? Our support team is here to help you succeed.
           </p>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <Card className="hover:shadow-lg transition-shadow">
+          <div className="grid md:grid-cols-4 gap-8">
+            <Card className="hover:shadow-lg transition-shadow dark:bg-gray-800 dark:border-gray-700">
+              <CardHeader className="text-center">
+                <Ticket className="h-12 w-12 text-purple-600 mx-auto mb-4" />
+                <CardTitle className="dark:text-white">Support Ticket</CardTitle>
+                <CardDescription className="dark:text-gray-300">
+                  Submit and track your support requests
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Link to="/support-tickets">
+                  <Button className="w-full bg-purple-600 hover:bg-purple-700">
+                    Open Ticket
+                  </Button>
+                </Link>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Response within 24 hours</p>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow dark:bg-gray-800 dark:border-gray-700">
               <CardHeader className="text-center">
                 <MessageCircle className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-                <CardTitle>Live Chat</CardTitle>
-                <CardDescription>
+                <CardTitle className="dark:text-white">Live Chat</CardTitle>
+                <CardDescription className="dark:text-gray-300">
                   Get instant help from our support team
                 </CardDescription>
               </CardHeader>
@@ -149,39 +168,39 @@ const HelpCenter = () => {
                 <Button className="w-full bg-blue-600 hover:bg-blue-700">
                   Start Chat
                 </Button>
-                <p className="text-sm text-gray-500 mt-2">Available 24/7</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Available 24/7</p>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow dark:bg-gray-800 dark:border-gray-700">
               <CardHeader className="text-center">
                 <Mail className="h-12 w-12 text-green-600 mx-auto mb-4" />
-                <CardTitle>Email Support</CardTitle>
-                <CardDescription>
+                <CardTitle className="dark:text-white">Email Support</CardTitle>
+                <CardDescription className="dark:text-gray-300">
                   Send us a detailed message about your issue
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-50">
+                <Button variant="outline" className="w-full border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900">
                   Send Email
                 </Button>
-                <p className="text-sm text-gray-500 mt-2">Response within 24 hours</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">hello@kuzaskills.com</p>
               </CardContent>
             </Card>
 
-            <Card className="hover:shadow-lg transition-shadow">
+            <Card className="hover:shadow-lg transition-shadow dark:bg-gray-800 dark:border-gray-700">
               <CardHeader className="text-center">
-                <Phone className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-                <CardTitle>Phone Support</CardTitle>
-                <CardDescription>
+                <Phone className="h-12 w-12 text-orange-600 mx-auto mb-4" />
+                <CardTitle className="dark:text-white">Phone Support</CardTitle>
+                <CardDescription className="dark:text-gray-300">
                   Speak directly with our support team
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button variant="outline" className="w-full border-purple-600 text-purple-600 hover:bg-purple-50">
+                <Button variant="outline" className="w-full border-orange-600 text-orange-600 hover:bg-orange-50 dark:hover:bg-orange-900">
                   Call Now
                 </Button>
-                <p className="text-sm text-gray-500 mt-2">+254 700 123 456</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">+254 700 123 456</p>
               </CardContent>
             </Card>
           </div>
